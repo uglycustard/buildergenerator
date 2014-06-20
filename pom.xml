@@ -30,6 +30,11 @@
         </license>
     </licenses>
 
+    <issueManagement>
+        <url>https://github.com/uglycustard/buildergenerator/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
+
     <developers>
         <developer>
             <id>uglycustard</id>
