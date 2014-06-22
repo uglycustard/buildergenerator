@@ -1,3 +1,0 @@
-from pi
-Added from eclipse
-edit 2
