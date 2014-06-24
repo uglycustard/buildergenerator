@@ -40,7 +40,7 @@ public class BuilderGenerator {
     }
     
     public BuilderGenerator(Class<?> root, String builderPackage) {
-        this(root, builderPackage, "");
+        this(root, builderPackage, ".");
     }
 
     public BuilderGenerator(Class<?> root, String builderPackage, String outputDirectory) {
