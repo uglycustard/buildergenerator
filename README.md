@@ -9,6 +9,8 @@ consistent pattern for each JavaBean in the entire object graph.
 ##Features
 
 - Consistent pattern followed for all generated builders
+- Non intrusive, no need to annotate you code or write interfaces for the generated builders to implement
+- Generate a complete set of builders for an entire object graph with a single line of code
 - All builder methods follow the withXXX naming standard, e.g.: 
   - withCustomer(Customer customer)
 - Generates a static factory method for each builder following the aXXX naming standard e.g.: 
