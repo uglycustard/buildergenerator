@@ -29,6 +29,24 @@ consistent pattern for each JavaBean in the entire object graph.
 - Ability to override the the package for the generated builders (default behaviour is to append "builder" to the package of the root class)
 - Ability to specify the output folder for the generated builder source files
 
+##Usage
+
+To generate builders using the default builder package and output folder chosen by BuilderGenerator call one of the following static utility methods:
+
+```
+BuilderGenerator.generateBuilders(MyObjectGraphRoot.class);
+BuilderGenerator.generateBuilders("com.example.MyObjectGraphRoot");
+```
+
+To generate builders in either a package and/or output folder other than those chosen by BuilderGenerator:
+
+```
+BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
+bg.setBuilderPackage("com.example.mypackage");
+bg.setOutputDirectory("/my/output/folder");    
+bg.generateBuilders();
+```
+
 ##Issues
 
 Please log all issues at https://github.com/uglycustard/buildergenerator/issues including a sample object graph that demonstrates the defect.
