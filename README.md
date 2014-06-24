@@ -9,7 +9,10 @@ consistent pattern for each JavaBean in the entire object graph.
 ##Features
 
 - Consistent pattern followed for all generated builders
-- Non intrusive, no need to annotate you code or write interfaces for the generated builders to implement
+- Non intrusive and time saving 
+  - no need to annotate your code
+  - no need to write interfaces
+  - no boiler plate coding 
 - Generate a complete set of builders for an entire object graph with a single line of code
 - All builder methods follow the withXXX naming standard, e.g.: 
   - withCustomer(Customer customer)
@@ -26,7 +29,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Handles arrays and all other Java types and primitives
 - Handles inherited properties in a class hierarchy
 - Handles cyclic object graphs
-- Ability to override the the package for the generated builders (default behaviour is to append "builder" to the package of the root class)
+- Ability to override the the package for the generated builders
 - Ability to specify the output folder for the generated builder source files
 
 ##Usage
