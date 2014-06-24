@@ -29,4 +29,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Ability to override the the package for the generated builders (default behaviour is to append "builder" to the package of the root class)
 - Ability to specify the output folder for the generated builder source files
 
+##Issues
+
+Please log all issues at https://github.com/uglycustard/buildergenerator/issues including a sample object graph that demonstrates the defect.
 
