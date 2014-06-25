@@ -46,8 +46,8 @@ To generate builders in either a package and/or output folder other than those c
 
 ```
     BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
-    bg.setBuilderPackage("com.example.mypackage");
-    bg.setOutputDirectory("/my/output/folder");    
+    bg.setBuilderPackage("com.example.mypackage");  // optional operation
+    bg.setOutputDirectory("/my/output/folder");     // optional operation
     bg.generateBuilders();
 ```
 
