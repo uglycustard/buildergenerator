@@ -92,8 +92,6 @@ public class BuilderGenerator {
 	 * @param rootClass
 	 *            the object graph root class
 	 * @throws ClassNotFoundException
-	 * 
-	 * @param rootClass
 	 */
 	public static void generateBuilders(Class<?> rootClass) {
 		new BuilderGenerator(rootClass).generateBuilders();
