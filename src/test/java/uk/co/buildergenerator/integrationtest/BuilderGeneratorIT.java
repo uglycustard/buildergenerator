@@ -56,10 +56,17 @@ public class BuilderGeneratorIT {
         assertEquals(expected, actual);
     }
     
+    private BuilderGenerator createBuilderGenerator(Class<?> root, String builderPackage, String outputDirectory) {
+    	BuilderGenerator bg = new BuilderGenerator(root);
+    	bg.setBuilderPackage(builderPackage);
+    	bg.setOutputDirectory(outputDirectory);
+    	return bg;
+    }
+    
     @Test
     public void stringProperty() throws Exception {
         
-        new BuilderGenerator(StringPropertyBean.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(StringPropertyBean.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         String generatedBuilderFilename = "integrationtest/generatedbuilder/StringPropertyBeanBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/StringPropertyBeanBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
@@ -68,7 +75,7 @@ public class BuilderGeneratorIT {
     @Test
     public void primitiveBooleanProperty() throws Exception {
         
-        new BuilderGenerator(BooleanPropertyBean.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(BooleanPropertyBean.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BooleanPropertyBeanBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BooleanPropertyBeanBuilder.java";
@@ -78,7 +85,7 @@ public class BuilderGeneratorIT {
     @Test
     public void primitiveBooleanPropertyWithIsMethod() throws Exception {
         
-        new BuilderGenerator(BooleanPropertyBeanWithIsMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(BooleanPropertyBeanWithIsMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BooleanPropertyBeanWithIsMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BooleanPropertyBeanWithIsMethodBuilder.java";
@@ -88,7 +95,7 @@ public class BuilderGeneratorIT {
     @Test
     public void primitiveBooleanPropertyWithIsAndGetMethods() throws Exception {
         
-        new BuilderGenerator(BooleanPropertyBeanWithIsAndGetMethods.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(BooleanPropertyBeanWithIsAndGetMethods.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BooleanPropertyBeanWithIsAndGetMethodsBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BooleanPropertyBeanWithIsAndGetMethodsBuilder.java";
@@ -98,7 +105,7 @@ public class BuilderGeneratorIT {
     @Test
     public void beanGraphBuilderGeneration() throws Exception {
 
-        new BuilderGenerator(Root.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(Root.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
 
         String generatedBuilderFilename = "integrationtest/generatedbuilder/RootBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/RootBuilder.java";
@@ -120,7 +127,7 @@ public class BuilderGeneratorIT {
     @Test
     public void cyclicBeanDependency() throws Exception {
         
-        new BuilderGenerator(CyclicDependencyBeanLeft.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(CyclicDependencyBeanLeft.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/CyclicDependencyBeanLeftBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/CyclicDependencyBeanLeftBuilder.java";
@@ -134,7 +141,7 @@ public class BuilderGeneratorIT {
     @Test
     public void selfReferencingBean() throws Exception {
 
-        new BuilderGenerator(SelfReferencingBean.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(SelfReferencingBean.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/SelfReferencingBeanBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/SelfReferencingBeanBuilder.java";
@@ -144,7 +151,7 @@ public class BuilderGeneratorIT {
     @Test
     public void listPropertyWithAddMethod() throws Exception {
         
-        new BuilderGenerator(InitialisedListPropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(InitialisedListPropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/InitialisedListPropertyWithAddMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/InitialisedListPropertyWithAddMethodBuilder.java";
@@ -154,7 +161,7 @@ public class BuilderGeneratorIT {
     @Test
     public void listPropertyWithAddMethodAndSetListMethod() throws Exception {
         
-        new BuilderGenerator(InitialisedListPropertyWithAddMethodAndSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(InitialisedListPropertyWithAddMethodAndSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/InitialisedListPropertyWithAddMethodAndSetListMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/InitialisedListPropertyWithAddMethodAndSetListMethodBuilder.java";
@@ -164,7 +171,7 @@ public class BuilderGeneratorIT {
     @Test
     public void initialisedListPropertyWithSetListMethod() throws Exception {
         
-        new BuilderGenerator(InitialisedListPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(InitialisedListPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/InitialisedListPropertyWithSetListMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/InitialisedListPropertyWithSetListMethodBuilder.java";
@@ -174,7 +181,7 @@ public class BuilderGeneratorIT {
     @Test
     public void subClassOfnitialisedListPropertyWithSetListMethod() throws Exception {
         
-        new BuilderGenerator(SubClassOfInitialisedListPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(SubClassOfInitialisedListPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/SubClassOfInitialisedListPropertyWithSetListMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/SubClassOfInitialisedListPropertyWithSetListMethodBuilder.java";
@@ -184,7 +191,7 @@ public class BuilderGeneratorIT {
     @Test
     public void subClassOfListPropertyWithAddMethod() throws Exception {
         
-        new BuilderGenerator(SubClassOfInitialisedListPropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(SubClassOfInitialisedListPropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/SubClassOfInitialisedListPropertyWithAddMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/SubClassOfInitialisedListPropertyWithAddMethodBuilder.java";
@@ -194,7 +201,7 @@ public class BuilderGeneratorIT {
     @Test
     public void nullListPropertyWithSetListMethod() throws Exception {
         
-        new BuilderGenerator(NullListPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(NullListPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/NullListPropertyWithSetListMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/NullListPropertyWithSetListMethodBuilder.java";
@@ -204,7 +211,7 @@ public class BuilderGeneratorIT {
     @Test
     public void setPropertyWithAddMethod() throws Exception {
         
-        new BuilderGenerator(InitialisedSetPropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(InitialisedSetPropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/InitialisedSetPropertyWithAddMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/InitialisedSetPropertyWithAddMethodBuilder.java";
@@ -214,7 +221,7 @@ public class BuilderGeneratorIT {
     @Test
     public void initialisedSetPropertyWithSetSetMethod() throws Exception {
         
-        new BuilderGenerator(InitialisedSetPropertyWithSetSetMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(InitialisedSetPropertyWithSetSetMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/InitialisedSetPropertyWithSetSetMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/InitialisedSetPropertyWithSetSetMethodBuilder.java";
@@ -224,7 +231,7 @@ public class BuilderGeneratorIT {
     @Test
     public void nullSetPropertyWithSetSetMethod() throws Exception {
         
-        new BuilderGenerator(NullSetPropertyWithSetSetMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(NullSetPropertyWithSetSetMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/NullSetPropertyWithSetSetMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/NullSetPropertyWithSetSetMethodBuilder.java";
@@ -234,7 +241,7 @@ public class BuilderGeneratorIT {
     @Test
     public void initialisedQueuePropertyWithSetQueueMethod() throws Exception {
         
-        new BuilderGenerator(InitialisedQueuePropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(InitialisedQueuePropertyWithAddMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/InitialisedQueuePropertyWithAddMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/InitialisedQueuePropertyWithAddMethodBuilder.java";
@@ -244,7 +251,7 @@ public class BuilderGeneratorIT {
     @Test
     public void nullQueuePropertyWithSetQueueMethod() throws Exception {
         
-        new BuilderGenerator(NullQueuePropertyWithSetQueueMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(NullQueuePropertyWithSetQueueMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/NullQueuePropertyWithSetQueueMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/NullQueuePropertyWithSetQueueMethodBuilder.java";
@@ -254,7 +261,7 @@ public class BuilderGeneratorIT {
     @Test
     public void arrayOfStringsPropertyWithSetArrayMethod() throws Exception {
         
-        new BuilderGenerator(ArrayOfStringsPropertyWithSetArrayMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(ArrayOfStringsPropertyWithSetArrayMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/ArrayOfStringsPropertyWithSetArrayMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/ArrayOfStringsPropertyWithSetArrayMethodBuilder.java";
@@ -264,7 +271,7 @@ public class BuilderGeneratorIT {
     @Test
     public void arrayOfPrimitiveIntsPropertyWithSetArrayMethod() throws Exception {
         
-        new BuilderGenerator(ArrayOfPrimitiveIntsPropertyWithSetArrayMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(ArrayOfPrimitiveIntsPropertyWithSetArrayMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder.java";
@@ -274,7 +281,7 @@ public class BuilderGeneratorIT {
     @Test
     public void arrayOfNonJavaTypesPropertyWithSetArrayMethod() throws Exception {
         
-        new BuilderGenerator(ArrayOfNonJavaTypesPropertyWithSetArrayMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        createBuilderGenerator(ArrayOfNonJavaTypesPropertyWithSetArrayMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder.java";
