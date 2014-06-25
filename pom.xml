@@ -19,7 +19,7 @@
 
     <scm>
         <connection>scm:git:git@github.com:uglycustard/buildergenerator.git</connection>
-        <developerConnection>scm:git:https://git@github.com:uglycustard/buildergenerator.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/uglycustard/buildergenerator.git</developerConnection>
         <url>https://github.com/uglycustard/buildergenerator</url>
     </scm>
 
