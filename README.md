@@ -30,7 +30,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Handles arrays and all other Java types and primitives
 - Handles inherited properties in a class hierarchy
 - Handles cyclic/bi-directional object graphs
-- Ability to override the the package for the generated builders
+- Ability to override the package for the generated builders
 - Ability to specify the output folder for the generated builder source files
 
 ##Usage
