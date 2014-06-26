@@ -1,6 +1,6 @@
 package uk.co.buildergenerator;
 
-import java.lang.reflect.Field;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -17,41 +17,41 @@ class WithMethodFactory {
     
     private WithMethodFactory() {}
     
-    WithMethod createWithMethod(String propertyName, Class<?> targetClass, String builderPackage) {
-
-        Field field = getFieldFromHierarchy(targetClass, propertyName);
-        return new WithMethod(getPropertyName(field), 
-                              getParameterType(field, builderPackage), 
-                              getParameterName(field), 
-                              isCollection(field),
-                              isCollectionNeedsInitialising(targetClass, field),
-                              getCollectionGetterMethodName(field), 
-                              getCollectionSetterMethodName(field),
-                              getCollectionTypeWhenCollectionNeedsInitialising(targetClass, field), 
-                              getCollectionMethodSettingInvocation(field, targetClass), 
-                              isBuilder(field), 
-                              getBuilderTargetType(field));
-
-    }
-
-    private String getCollectionTypeWhenCollectionNeedsInitialising(Class<?> targetClass, Field field) {
+    WithMethod createWithMethod(PropertyDescriptor propertyDescriptor, Class<?> targetClass, String builderPackage) {
         
-        if (isList(field)) {
+        String propertyName = getPropertyName(propertyDescriptor);
+        String parameterType = getParameterType(propertyDescriptor, builderPackage);
+        String parameterName = getParameterName(propertyDescriptor);
+        boolean collection = isCollection(propertyDescriptor);
+        boolean collectionNeedsInitialising = isCollectionNeedsInitialising(targetClass, propertyDescriptor);
+        String collectionGetterMethodName = getCollectionGetterMethodName(propertyDescriptor);
+        String collectionSetterMethodName = getCollectionSetterMethodName(propertyDescriptor);
+        String collectionTypeWhenCollectionNeedsInitialising = getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor);
+        String collectionMethodSettingInvocation = getCollectionMethodSettingInvocation(propertyDescriptor, targetClass);
+        boolean builder = isBuilder(propertyDescriptor);
+        String builderTargetType = getBuilderTargetType(propertyDescriptor);
+        
+        return new WithMethod(propertyName, parameterType, parameterName, collection, collectionNeedsInitialising, collectionGetterMethodName, collectionSetterMethodName, collectionTypeWhenCollectionNeedsInitialising, collectionMethodSettingInvocation, builder, builderTargetType);
+    }
+    
+    private String getCollectionTypeWhenCollectionNeedsInitialising(PropertyDescriptor propertyDescriptor) {
+        
+        if (isList(propertyDescriptor.getPropertyType())) {
             return "java.util.ArrayList";
-        } else if (isSet(field)) {
+        } else if (isSet(propertyDescriptor.getPropertyType())) {
             return "java.util.HashSet";
-        } else if (isQueue(field)) {
+        } else if (isQueue(propertyDescriptor.getPropertyType())) {
             return "java.util.PriorityQueue";
         }
         
         return null;
     }
 
-    private boolean isCollectionNeedsInitialising(Class<?> targetClass, Field field) {
+    private boolean isCollectionNeedsInitialising(Class<?> targetClass, PropertyDescriptor propertyDescriptor) {
         
-        if (isCollection(field)) {
+        if (isCollection(propertyDescriptor)) {
             try {
-                Method collectionGetterMethod = targetClass.getMethod(getCollectionGetterMethodName(field));
+                Method collectionGetterMethod = propertyDescriptor.getReadMethod();
                 if (collectionGetterMethod.invoke(targetClass.newInstance()) == null) {
                     return true;
                 }
@@ -63,28 +63,28 @@ class WithMethodFactory {
         return false;
     }
 
-    private boolean isCollectionAddMethod(Field field, Class<?> targetClass) {
+    private boolean isCollectionAddMethod(PropertyDescriptor propertyDescriptor, Class<?> targetClass) {
         
         try {
-            targetClass.getMethod(getAddMethodName(field), getTargetTypeClass(field));
+            targetClass.getMethod(getAddMethodName(propertyDescriptor), getTargetTypeClass(propertyDescriptor));
             return true;
         } catch (NoSuchMethodException e) {
             return false;
         }
     }
 
-    private String getAddMethodName(Field field) {
-        return "add" + getPropertyName(field);
+    private String getAddMethodName(PropertyDescriptor propertyDescriptor) {
+        return "add" + getPropertyName(propertyDescriptor);
     }
 
-    private String getCollectionMethodSettingInvocation(Field field, Class<?> targetClass) {
+    private String getCollectionMethodSettingInvocation(PropertyDescriptor propertyDescriptor, Class<?> targetClass) {
         
-        if (isCollection(field)) {
+        if (isCollection(propertyDescriptor)) {
             
-            if (isCollectionAddMethod(field, targetClass)) {
-                return getAddMethodName(field);
+            if (isCollectionAddMethod(propertyDescriptor, targetClass)) {
+                return getAddMethodName(propertyDescriptor);
             } else {
-                return getCollectionGetterMethodName(field) + "().add";
+                return getCollectionGetterMethodName(propertyDescriptor) + "().add";
             }
         }
         
@@ -92,82 +92,71 @@ class WithMethodFactory {
         
     }
 
-    private String getCollectionGetterMethodName(Field field) {
+    private String getCollectionGetterMethodName(PropertyDescriptor propertyDescriptor) {
         
-        if (isCollection(field)) {
-            return "get" + capitaliseFirstLetter(field.getName());
+        if (isCollection(propertyDescriptor)) {
+            return propertyDescriptor.getReadMethod().getName();
         }
         
         return null;
     }
 
-    private String getCollectionSetterMethodName(Field field) {
-        if (isCollection(field)) {
-            return "set" + capitaliseFirstLetter(field.getName());
+    private String getCollectionSetterMethodName(PropertyDescriptor propertyDescriptor) {
+        if (isCollection(propertyDescriptor)) {
+            return "set" + capitaliseFirstLetter(propertyDescriptor.getName());
         }
         
         return null;
     }
 
-    private String getBuilderTargetType(Field field) {
+    private String getBuilderTargetType(PropertyDescriptor propertyDescriptor) {
         
-        if (isBuilder(field)) {
-            return getTargetType(field);
+        if (isBuilder(propertyDescriptor)) {
+            return getTargetType(propertyDescriptor);
         }
         
         return null;
     }
 
-    private String getParameterName(Field field) {
+    private String getParameterName(PropertyDescriptor propertyDescriptor) {
         
-        if (isCollection(field)) {
-            return makeSingular(field.getName());
+        if (isCollection(propertyDescriptor)) {
+            return makeSingular(propertyDescriptor.getName());
         } else {
-            return field.getName();
+            return propertyDescriptor.getName();
         }
     }
 
-    private boolean isBuilder(Field field) {
+    private boolean isBuilder(PropertyDescriptor propertyDescriptor) {
 
-        return !field.getType().isPrimitive() && !getTargetType(field).startsWith("java") && !isArray(field);
+        Class<?> propertyType = propertyDescriptor.getPropertyType();
+        
+        return !propertyType.isPrimitive() && !getTargetType(propertyDescriptor).startsWith("java") && !isArray(propertyDescriptor);
+
     }
 
-    private boolean isCollection(Field field) {
+    private boolean isCollection(PropertyDescriptor propertyDescriptor) {
         
-        return Collection.class.isAssignableFrom(field.getType());
+        return Collection.class.isAssignableFrom(propertyDescriptor.getPropertyType());
     }
 
-    private boolean isList(Field field) {
-        
-        return List.class.isAssignableFrom(field.getType());
+    private boolean isList(Class<?> type) {
+        return List.class.isAssignableFrom(type);
     }
 
-    private boolean isSet(Field field) {
-        
-        return Set.class.isAssignableFrom(field.getType());
+    private boolean isSet(Class<?> type) {
+        return Set.class.isAssignableFrom(type);
     }
 
-    private boolean isQueue(Field field) {
-        
-        return Queue.class.isAssignableFrom(field.getType());
+    private boolean isQueue(Class<?> type) {
+        return Queue.class.isAssignableFrom(type);
     }
 
-    private Field getFieldFromHierarchy(Class<?> c, String propertyName) {
-        try {
-            return c.getDeclaredField(propertyName);
-        } catch (NoSuchFieldException e) {
-            if (c.getSuperclass() == null) {
-                throw new RuntimeException("no bean property was found in target class hierachy with name: " + propertyName);
-            }
-            return getFieldFromHierarchy(c.getSuperclass(), propertyName);
-        }
-    }
-    
-    private String getParameterType(Field field, String builderPackage) {
+    private String getParameterType(PropertyDescriptor propertyDescriptor, String builderPackage) {
         
-        String parameterType = getTargetType(field);
+        String parameterType = getTargetType(propertyDescriptor);
         
-        if (isBuilder(field)) {
+        if (isBuilder(propertyDescriptor)) {
             parameterType = builderPackage + parameterType.substring(parameterType.lastIndexOf(".")) + "Builder";
         }
 
@@ -175,27 +164,28 @@ class WithMethodFactory {
         
     }
 
-    private boolean isArray(Field field) {
-        return field.getType().isArray();
+    private boolean isArray(PropertyDescriptor propertyDescriptor) {
+        return propertyDescriptor.getPropertyType().isArray();
     }
 
-    private String getTargetType(Field field) {
+    private String getTargetType(PropertyDescriptor propertyDescriptor) {
         
-        if (isArray(field)) {
-            return getArrayName(field.getType());
+        if (isArray(propertyDescriptor)) {
+            return getArrayName(propertyDescriptor.getPropertyType());
         }
         
-        return getTargetTypeClass(field).getName();
+        return getTargetTypeClass(propertyDescriptor).getName();
     }
     
-    private Class<?> getTargetTypeClass(Field field) {
+    private Class<?> getTargetTypeClass(PropertyDescriptor propertyDescriptor) {
         
-        if (isCollection(field)) {
-            Type genericType = field.getGenericType();
+        if (isCollection(propertyDescriptor)) {
+            
+            Type genericType = propertyDescriptor.getReadMethod().getGenericReturnType();
             Type[] actualTypeArguments = ((ParameterizedType)genericType).getActualTypeArguments();
             return ((Class<?>) actualTypeArguments[0]);
         } else {
-            return field.getType();
+            return propertyDescriptor.getPropertyType();
         }
     }
     
@@ -214,12 +204,11 @@ class WithMethodFactory {
         return sb.toString();
 
     }
-
-    private String getPropertyName(Field field) {
-        
-        String fieldName = field.getName();
+    
+    private String getPropertyName(PropertyDescriptor propertyDescriptor) {
+        String fieldName = propertyDescriptor.getName();
         fieldName = capitaliseFirstLetter(fieldName);
-        if (isCollection(field)) {
+        if (isCollection(propertyDescriptor)) {
             fieldName = makeSingular(fieldName);
         }
         return fieldName;

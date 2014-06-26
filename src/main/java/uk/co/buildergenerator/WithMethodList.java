@@ -17,7 +17,7 @@ class WithMethodList extends ArrayList<WithMethod> {
             
             String propertyName = propertyDescriptor.getName();
             if (!"class".equals(propertyName)) {
-                add(getWithMethodFactory().createWithMethod(propertyName, targetClass, builderPackage));
+                add(getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage));
             }
         }
     }

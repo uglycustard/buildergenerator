@@ -1,7 +1,7 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.*;
-import static uk.co.buildergenerator.WithMethodFactory.getWithMethodFactory;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ public class WithMethodListTest {
     
     
     private static final String BUILDER_PACKAGE = "builder.package";
-
+    
     @Test
     public void targetWithStringProperty() throws Exception {
         
         List<WithMethod> withMethodList = new WithMethodList(House.class, BUILDER_PACKAGE);
         WithMethod actualWithMethod = find(withMethodList, "name");
-        WithMethod expectedWithMethod = getWithMethodFactory().createWithMethod("name", House.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("name", House.class, BUILDER_PACKAGE);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -31,7 +31,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = new WithMethodList(Target.class, BUILDER_PACKAGE);
         WithMethod actualWithMethod = find(withMethodList, "month");
-        WithMethod expectedWithMethod = getWithMethodFactory().createWithMethod("months", Target.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("months", Target.class, BUILDER_PACKAGE);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -40,7 +40,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = new WithMethodList(Target.class, BUILDER_PACKAGE);
         WithMethod actualWithMethod = find(withMethodList, "delegate");
-        WithMethod expectedWithMethod = getWithMethodFactory().createWithMethod("delegate", Target.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("delegate", Target.class, BUILDER_PACKAGE);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -49,7 +49,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = new WithMethodList(Target.class, BUILDER_PACKAGE);
         WithMethod actualWithMethod = find(withMethodList, "hostess");
-        WithMethod expectedWithMethod = getWithMethodFactory().createWithMethod("hostesses", Target.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("hostesses", Target.class, BUILDER_PACKAGE);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -65,7 +65,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = new WithMethodList(BooleanPropertyBean.class, BUILDER_PACKAGE);
         WithMethod actualWithMethod = find(withMethodList, "theBoolean");
-        WithMethod expectedWithMethod = getWithMethodFactory().createWithMethod("theBoolean", BooleanPropertyBean.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("theBoolean", BooleanPropertyBean.class, BUILDER_PACKAGE);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 

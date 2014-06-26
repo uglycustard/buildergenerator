@@ -12,6 +12,7 @@ import uk.co.buildergenerator.BuilderGenerator;
 import uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
+import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsMethod;
@@ -285,6 +286,16 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void beanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors() throws Exception {
+        
+        createBuilderGenerator(BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
