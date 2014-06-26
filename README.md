@@ -51,6 +51,20 @@ To generate builders in either a package and/or output folder other than those c
     bg.generateBuilders();
 ```
 
+##Setup
+
+Add BuilderGenerator as a Maven dependency:
+
+```
+    <dependency>
+        <groupId>uk.co.buildergenerator</groupId>
+        <artifactId>buildergenerator</artifactId>
+        <version>0.0.2</version>
+    </dependency>
+```
+
+Alternatively, you can download the source from https://github.com/uglycustard/buildergenerator
+
 ##Issues
 
 Please log all issues at https://github.com/uglycustard/buildergenerator/issues including a sample object graph that demonstrates the defect.
