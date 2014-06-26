@@ -200,8 +200,7 @@ public class BuilderGenerator {
 
 	private Configuration createFreemarkerConfiguration() throws IOException {
 		Configuration cfg = new Configuration();
-		cfg.setDirectoryForTemplateLoading(new File(ClassLoader
-				.getSystemResource("uk.co.buildergenerator").getFile()));
+		cfg.setClassForTemplateLoading(this.getClass(), "/uk.co.buildergenerator");
 		cfg.setObjectWrapper(new DefaultObjectWrapper());
 		return cfg;
 	}
