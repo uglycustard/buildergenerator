@@ -59,7 +59,7 @@ Add BuilderGenerator as a Maven dependency:
     <dependency>
         <groupId>uk.co.buildergenerator</groupId>
         <artifactId>buildergenerator</artifactId>
-        <version>0.0.2</version>
+        <version>LATEST</version>
     </dependency>
 ```
 
