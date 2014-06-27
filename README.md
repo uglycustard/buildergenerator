@@ -27,7 +27,7 @@ consistent pattern for each JavaBean in the entire object graph.
   - withCustomer(CustomerBuilder customer)
 - Handles Java collections in a consistent way which add to the underlying collection    
 - Handles initialisation of null collections directly in the generated builder
-- Handles arrays and all other Java types and primitives
+- Handles arrays and all other Java types, primitives and enums
 - Handles inherited properties in a class hierarchy
 - Handles cyclic/bi-directional object graphs
 - Ability to override the package for the generated builders
