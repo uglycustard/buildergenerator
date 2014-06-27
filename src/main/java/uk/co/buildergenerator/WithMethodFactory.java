@@ -131,8 +131,12 @@ class WithMethodFactory {
 
         Class<?> propertyType = propertyDescriptor.getPropertyType();
         
-        return !propertyType.isPrimitive() && !getTargetType(propertyDescriptor).startsWith("java") && !isArray(propertyDescriptor);
+        return !propertyType.isPrimitive() && !getTargetType(propertyDescriptor).startsWith("java") && !isArray(propertyDescriptor) && !isEnum(propertyDescriptor);
 
+    }
+
+    private boolean isEnum(PropertyDescriptor propertyDescriptor) {
+        return propertyDescriptor.getPropertyType().isEnum();
     }
 
     private boolean isCollection(PropertyDescriptor propertyDescriptor) {
@@ -170,11 +174,7 @@ class WithMethodFactory {
 
     private String getTargetType(PropertyDescriptor propertyDescriptor) {
         
-        if (isArray(propertyDescriptor)) {
-            return getArrayName(propertyDescriptor.getPropertyType());
-        }
-        
-        return getTargetTypeClass(propertyDescriptor).getName();
+        return getTargetTypeClass(propertyDescriptor).getCanonicalName();
     }
     
     private Class<?> getTargetTypeClass(PropertyDescriptor propertyDescriptor) {
@@ -187,22 +187,6 @@ class WithMethodFactory {
         } else {
             return propertyDescriptor.getPropertyType();
         }
-    }
-    
-    private String getArrayName(Class<?> type) {
-        Class<?> cl = type;
-        int dimensions = 0;
-        while (cl.isArray()) {
-            dimensions++;
-            cl = cl.getComponentType();
-        }
-        StringBuffer sb = new StringBuffer();
-        sb.append(cl.getName());
-        for (int i = 0; i < dimensions; i++) {
-            sb.append("[]");
-        }
-        return sb.toString();
-
     }
     
     private String getPropertyName(PropertyDescriptor propertyDescriptor) {

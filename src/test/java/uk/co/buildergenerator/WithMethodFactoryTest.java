@@ -1,7 +1,7 @@
 package uk.co.buildergenerator;
 
 import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.junit.Rule;
@@ -11,6 +11,9 @@ import org.junit.rules.ExpectedException;
 import uk.co.buildergenerator.testmodel.Address;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
+import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
+import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
+import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.Delegate;
 import uk.co.buildergenerator.testmodel.Hostess;
@@ -203,4 +206,36 @@ public class WithMethodFactoryTest {
         assertWithMethodsEqual(expected, actual);
     }
     
+    @Test
+    public void beanWithTopLevelEnumProperty() throws Exception {
+        
+        WithMethod expected = new WithMethod("TopLevelEnum", "uk.co.buildergenerator.testmodel.TopLevelEnum", "topLevelEnum", false, false, null, null, null, null, false, null);
+        WithMethod actual = TestUtils.createWithMethod("topLevelEnum", BeanWithTopLevelEnumProperty.class, BUILDER_PACKAGE);
+        assertWithMethodsEqual(expected, actual);
+    }
+    
+    @Test
+    public void beanWithNestedEnum() throws Exception {
+        
+        WithMethod expected = new WithMethod("NestedEnum", "uk.co.buildergenerator.testmodel.BeanWithNestedEnum.NestedEnum", "nestedEnum", false, false, null, null, null, null, false, null);
+        WithMethod actual = TestUtils.createWithMethod("nestedEnum", BeanWithNestedEnum.class, BUILDER_PACKAGE);
+        assertWithMethodsEqual(expected, actual);
+    }
+
+    @Test
+    public void beanWithThreeEDimensionalIntArray() throws Exception {
+        
+        WithMethod expected = new WithMethod("ThreeDimenstionalIntArray", "int[][][]", "threeDimenstionalIntArray", false, false, null, null, null, null, false, null);
+        WithMethod actual = TestUtils.createWithMethod("threeDimenstionalIntArray", BeanWithMultiDimensionalArrayOfPrimitives.class, BUILDER_PACKAGE);
+        assertWithMethodsEqual(expected, actual);
+    }
+
+    @Test
+    public void beanWithTwoEDimensionalBooleanArray() throws Exception {
+        
+        WithMethod expected = new WithMethod("TwoDimensionalBooleanArray", "boolean[][]", "twoDimensionalBooleanArray", false, false, null, null, null, null, false, null);
+        WithMethod actual = TestUtils.createWithMethod("twoDimensionalBooleanArray", BeanWithMultiDimensionalArrayOfPrimitives.class, BUILDER_PACKAGE);
+        assertWithMethodsEqual(expected, actual);
+    }
+
 }
