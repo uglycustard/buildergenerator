@@ -18,10 +18,18 @@ public class Target {
         return day;
     }
     
+    public void setDay(String day) {
+        this.day = day;
+    }
+
     public boolean isHungry() {
         return hungry;
     }
     
+    public void setHungry(boolean hungry) {
+        this.hungry = hungry;
+    }
+
     public List<String> getMonths() {
         return months;
     }
@@ -32,6 +40,10 @@ public class Target {
     
     public Delegate getDelegate() {
         return delegate;
+    }
+    
+    public void setDelegate(Delegate delegate) {
+        this.delegate = delegate;
     }
 
     public List<Person> getPersons() {
@@ -45,6 +57,10 @@ public class Target {
     public Address getAddress() {
         return address;
     }
+    
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public List<Hostess> getHostesses() {
         return hostesses;
@@ -56,6 +72,10 @@ public class Target {
 
     public House getHouse() {
         return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
     }
     
 }

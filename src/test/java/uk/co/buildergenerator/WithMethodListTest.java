@@ -1,13 +1,13 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Test;
 
+import uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.House;
 import uk.co.buildergenerator.testmodel.Target;
@@ -16,7 +16,16 @@ public class WithMethodListTest {
     
     
     private static final String BUILDER_PACKAGE = "builder.package";
-    
+
+    private WithMethod find(List<WithMethod> withMethodList, String parameterName) {
+        for (WithMethod candidateWithMethod : withMethodList) {
+            if (parameterName.equals(candidateWithMethod.getParameterName())) {
+                return candidateWithMethod;
+            }
+        }
+        return null;
+    }
+
     @Test
     public void targetWithStringProperty() throws Exception {
         
@@ -69,13 +78,11 @@ public class WithMethodListTest {
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
-    private WithMethod find(List<WithMethod> withMethodList, String parameterName) {
-        for (WithMethod candidateWithMethod : withMethodList) {
-            if (parameterName.equals(candidateWithMethod.getParameterName())) {
-                return candidateWithMethod;
-            }
-        }
-        return null;
+    @Test
+    public void beanWithNonWritablePropertyDoesNotCreateWiothMethodForTheNonWritableProperty() throws Exception {
+        
+        List<WithMethod> withMethodList = new WithMethodList(BeanWithNonWritableProperty.class, BUILDER_PACKAGE);
+        WithMethod actualWithMethod = find(withMethodList, "nonWritableProperty");
+        assertNull("expected no WithMethod for the non writable property", actualWithMethod);
     }
-
 }

@@ -15,6 +15,7 @@ import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod
 import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
+import uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty;
 import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods;
@@ -329,6 +330,16 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithMultiDimensionalArrayOfPrimitivesBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithMultiDimensionalArrayOfPrimitivesBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+    
+    @Test
+    public void beanWithNonWritableProperty() throws Exception {
+        
+        createBuilderGenerator(BeanWithNonWritableProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithNonWritablePropertyBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithNonWritablePropertyBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 

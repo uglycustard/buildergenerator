@@ -1,5 +1,7 @@
 package uk.co.buildergenerator;
 
+import static uk.co.buildergenerator.BuilderGeneratorUtils.isCollection;
+import static uk.co.buildergenerator.BuilderGeneratorUtils.isCollectionAddMethod;
 import static uk.co.buildergenerator.WithMethodFactory.getWithMethodFactory;
 
 import java.beans.PropertyDescriptor;
@@ -15,8 +17,8 @@ class WithMethodList extends ArrayList<WithMethod> {
         
         for (PropertyDescriptor propertyDescriptor : PropertyUtils.getPropertyDescriptors(targetClass)) {
             
-            String propertyName = propertyDescriptor.getName();
-            if (!"class".equals(propertyName)) {
+            if (!"class".equals(propertyDescriptor.getName()) && propertyDescriptor.getWriteMethod() != null 
+                    || (isCollection(propertyDescriptor) && isCollectionAddMethod(propertyDescriptor, targetClass))) {
                 add(getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage));
             }
         }
