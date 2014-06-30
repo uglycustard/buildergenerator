@@ -1,15 +1,7 @@
 package uk.co.buildergenerator;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 /**
  * A tool to auto generate builders following the Builder pattern for an object
@@ -98,6 +90,7 @@ public class BuilderGenerator {
 	}
 
 	private final Class<?> rootClass;
+	private final BuilderWriter builderWriter;
 	private String builderPackage;
 	private String outputDirectory;
 
@@ -121,89 +114,33 @@ public class BuilderGenerator {
 	 *            the object graph root class
 	 */
 	public BuilderGenerator(Class<?> rootClass) {
-		this.rootClass = rootClass;
-		setBuilderPackage(deriveDefaultBuilderPackage(rootClass));
-		setOutputDirectory(DEFAULT_OUTPUT_DIRECTORY);
+		this(rootClass, new BuilderWriter());
 	}
 
-	private String deriveDefaultBuilderPackage(Class<?> rootClass) {
+	BuilderGenerator(Class<?> rootClass, BuilderWriter builderWriter) {
+	    this.rootClass = rootClass;
+        this.builderWriter = builderWriter;
+        setBuilderPackage(deriveDefaultBuilderPackage(rootClass));
+        setOutputDirectory(DEFAULT_OUTPUT_DIRECTORY);
+    }
+
+    private String deriveDefaultBuilderPackage(Class<?> rootClass) {
 
 		return rootClass.getPackage().getName() + "builder";
-	}
-
-	// TODO: extract this method into class BuilderTemplateMapCollector
-	private void collectBuilderTemplateMaps(
-			List<BuilderTemplateMap> builderTemplateMapList,
-			Class<?> targetClass, String builderPackage)
-			throws ClassNotFoundException {
-
-		for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
-			if (builderTemplateMap.getFullyQualifiedTargetClassName().equals(
-					targetClass.getName())) {
-				return;
-			}
-		}
-
-		BuilderTemplateMap builderTemplateMap = new BuilderTemplateMap(
-				targetClass, builderPackage);
-		builderTemplateMapList.add(builderTemplateMap);
-		for (WithMethod withMethod : builderTemplateMap.getWithMethodList()) {
-			if (withMethod.isBuilder()) {
-				String builderTargetType = withMethod.getBuilderTargetType();
-				collectBuilderTemplateMaps(builderTemplateMapList,
-						Class.forName(builderTargetType), builderPackage);
-			}
-		}
 	}
 
 	/**
 	 * Generate the builders.
 	 */
-	public void generateBuilders() {
+    public void generateBuilders() {
 
-		try {
-			List<BuilderTemplateMap> builderTemplateMapList = new ArrayList<BuilderTemplateMap>();
-			collectBuilderTemplateMaps(builderTemplateMapList, getRootClass(),
-					getBuilderPackage());
+        List<BuilderTemplateMap> builderTemplateMapList = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage()).collectBuilderTemplateMaps();
 
-			File targetPackageDirectory = new File(getOutputDirectory() + "/"
-					+ getBuilderPackage().replaceAll("\\.", "/"));
-
-			if (!targetPackageDirectory.exists()) {
-				targetPackageDirectory.mkdirs();
-			}
-
-			for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
-				generateBuilder(builderTemplateMap, targetPackageDirectory);
-			}
-
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void generateBuilder(BuilderTemplateMap builderTemplateMap,
-			File targetPackageDirectory) throws IOException, TemplateException {
-		String targetClass = (String) builderTemplateMap.getTargetClassName();
-		File f = new File(targetPackageDirectory, targetClass + "Builder.java");
-		f.createNewFile();
-		FileWriter fw = new FileWriter(f);
-
-		Configuration cfg = createFreemarkerConfiguration();
-		Template template = cfg.getTemplate("BuilderTemplate.ftl");
-
-		template.process(builderTemplateMap, fw);
-
-		fw.flush();
-		fw.close();
-	}
-
-	private Configuration createFreemarkerConfiguration() throws IOException {
-		Configuration cfg = new Configuration();
-		cfg.setClassForTemplateLoading(this.getClass(), "/uk.co.buildergenerator");
-		cfg.setObjectWrapper(new DefaultObjectWrapper());
-		return cfg;
-	}
+        File outputDirectoryFile = new File(outputDirectory);
+        for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
+            builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
+        }
+    }
 
 	Class<?> getRootClass() {
 		return rootClass;

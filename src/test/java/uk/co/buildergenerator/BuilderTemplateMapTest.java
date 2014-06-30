@@ -67,6 +67,7 @@ public class BuilderTemplateMapTest {
         String builderPackage = "some.other.package";
         BuilderTemplateMap testee = new BuilderTemplateMap(Address.class, builderPackage);
         assertEquals(builderPackage, testee.get(BUILDER_PACKAGE_MAP_KEY));
+        assertEquals(builderPackage, testee.getBuilderPackage());
     }
 
 }

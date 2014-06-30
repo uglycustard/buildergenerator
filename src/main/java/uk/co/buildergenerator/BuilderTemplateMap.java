@@ -39,4 +39,8 @@ class BuilderTemplateMap extends HashMap<String, Object> {
         return (WithMethodList) get(WITH_METHOD_LIST_MAP_KEY);
     }
 
+    String getBuilderPackage() {
+        return (String) get(BUILDER_PACKAGE_MAP_KEY);
+    }
+
 }
