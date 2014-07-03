@@ -1,8 +1,12 @@
 package uk.co.buildergenerator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static uk.co.buildergenerator.BuilderGenerator.DEFAULT_OUTPUT_DIRECTORY;
 
@@ -10,7 +14,9 @@ import java.io.File;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -27,11 +33,17 @@ public class BuilderGeneratorTest {
 	@Mock
     private BuilderWriter builderWriter;
 	
+	@Mock
+	private FileUtils fileUtils;
+	
 	@Captor
 	private ArgumentCaptor<BuilderTemplateMap> builderTemplateMapCaptor;
 	
 	@Captor
 	private ArgumentCaptor<File> outputDirectoryCaptor;
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 	
 	@Before
     public void setup() throws Exception {
@@ -78,42 +90,106 @@ public class BuilderGeneratorTest {
 	@Test
     public void generateBuildersForSingleNodeGraphInDefaultOutputDirectory() throws Exception {
         
-        testee = new BuilderGenerator(NodeThree.class, builderWriter);
+	    File file = mockExisitingOutputDirectoryFile(DEFAULT_OUTPUT_DIRECTORY);
+	    
+        testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
         testee.generateBuilders();
         assertBuilderTemplateMaps(NodeThree.class);
-        assertOutputDirectoryPathForAllBuilders(DEFAULT_OUTPUT_DIRECTORY);
+        assertOutputDirectoryForAllBuilders(file);
     }
 	
 	@Test
 	public void generateBuildersForSingleNodeGraphInSpecifiedOutputDirectory() throws Exception {
 
 	    String outputDir = "another" + File.separator + "directory";
-        testee = new BuilderGenerator(NodeThree.class, builderWriter);
+        File file = mockExisitingOutputDirectoryFile(outputDir);
+
+        testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
         testee.setOutputDirectory(outputDir);
 	    testee.generateBuilders();
 	    assertBuilderTemplateMaps(NodeThree.class);
-	    assertOutputDirectoryPathForAllBuilders(outputDir);
+	    assertOutputDirectoryForAllBuilders(file);
 	}
+
+	@Test
+	public void generateBuildersForSingleNodeGraphInSpecifiedOutputDirectoryThatDoesNotExist() throws Exception {
+
+	    String outputDir = "another" + File.separator + "directory";
+	    File file = mockNonExisitingOutputDirectoryFile(outputDir);
+
+	    testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
+	    testee.setOutputDirectory(outputDir);
+	    testee.generateBuilders();
+	    assertBuilderTemplateMaps(NodeThree.class);
+	    assertOutputDirectoryForAllBuilders(file);
+	    assertOutputDirectoyWasCreated(file);
+	}
+
+	@Test
+	public void generateBuildersWhenOutputDirectoryCreationFails() throws Exception {
+
+	    String outputDir = "another" + File.separator + "directory";
+	    RuntimeException cause = new RuntimeException("some failure reason");
+        mockNonExisitingOutputDirectoryFileThatFailsToCreate(outputDir, cause);
+	    
+	    thrown.expect(cause.getClass());
+	    thrown.expectMessage(cause.getMessage());
+
+	    testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
+	    testee.setOutputDirectory(outputDir);
+	    testee.generateBuilders();
+	}
+
 
 	@Test
 	public void generateBuildersForMultiNodeGraphInDefaultOutputDirectory() throws Exception {
 
-	    testee = new BuilderGenerator(Root.class, builderWriter);
+	    File file = mockExisitingOutputDirectoryFile(DEFAULT_OUTPUT_DIRECTORY);
+	    testee = new BuilderGenerator(Root.class, builderWriter, fileUtils);
 	    testee.generateBuilders();
 	    assertBuilderTemplateMaps(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
-	    assertOutputDirectoryPathForAllBuilders(DEFAULT_OUTPUT_DIRECTORY);
+	    assertOutputDirectoryForAllBuilders(file);
 	}
 	
     @Test
     public void generateBuildersForMultiNodeGraphInSpecifiedOutputDirectory() throws Exception {
 
         String outputDir = "another" + File.separator + "different" + File.separator + "directory";
-        testee = new BuilderGenerator(Root.class, builderWriter);
+        File file = mockExisitingOutputDirectoryFile(outputDir);
+
+        testee = new BuilderGenerator(Root.class, builderWriter, fileUtils);
         testee.setOutputDirectory(outputDir);
         testee.generateBuilders();
         assertBuilderTemplateMaps(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
-        assertOutputDirectoryPathForAllBuilders(outputDir);
+        assertOutputDirectoryForAllBuilders(file);
     }
+	
+	private void assertOutputDirectoyWasCreated(File file) {
+	    verify(fileUtils).createDirectoriesIfNotExists(file);
+	}
+	
+	private File mockExisitingOutputDirectoryFile(String path) {
+	    File file = mockFile(path, true);
+	    when(file.mkdirs()).thenThrow(new RuntimeException("directory already existed, should not have tried to create"));
+        return file;
+	}
+
+    private File mockNonExisitingOutputDirectoryFile(String path) {
+        File file = mockFile(path, false);
+        return file;
+    }
+
+    private void mockNonExisitingOutputDirectoryFileThatFailsToCreate(String path, RuntimeException cause) {
+        File file = mockFile(path, false);
+        doThrow(cause).when(fileUtils).createDirectoriesIfNotExists(file);
+    }
+
+    private File mockFile(String path, boolean exists) {
+	    File file = mock(File.class);
+	    when(fileUtils.newFile(path)).thenReturn(file);
+	    when(file.exists()).thenReturn(exists);
+	    return file;
+	}
 
     private void assertBuilderTemplateMaps(Class<?>...expectedClasses) {
 	    verify(builderWriter, times(expectedClasses.length)).generateBuilder(builderTemplateMapCaptor.capture(), outputDirectoryCaptor.capture());
@@ -124,9 +200,9 @@ public class BuilderGeneratorTest {
         }
 	}
 
-    private void assertOutputDirectoryPathForAllBuilders(String expectedOutputDirectory) {
+    private void assertOutputDirectoryForAllBuilders(File expectedOutputDirectory) {
         for (File file : outputDirectoryCaptor.getAllValues()) {
-            assertEquals(expectedOutputDirectory, file.getPath());
+            assertSame(expectedOutputDirectory, file);
         }
     }
 	

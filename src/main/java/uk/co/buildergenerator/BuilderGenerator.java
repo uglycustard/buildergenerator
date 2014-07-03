@@ -91,6 +91,7 @@ public class BuilderGenerator {
 
 	private final Class<?> rootClass;
 	private final BuilderWriter builderWriter;
+	private final FileUtils fileUtils;
 	private String builderPackage;
 	private String outputDirectory;
 
@@ -114,12 +115,13 @@ public class BuilderGenerator {
 	 *            the object graph root class
 	 */
 	public BuilderGenerator(Class<?> rootClass) {
-		this(rootClass, new BuilderWriter());
+		this(rootClass, new BuilderWriter(new FileUtils()), new FileUtils());
 	}
 
-	BuilderGenerator(Class<?> rootClass, BuilderWriter builderWriter) {
+	BuilderGenerator(Class<?> rootClass, BuilderWriter builderWriter, FileUtils fileUtils) {
 	    this.rootClass = rootClass;
         this.builderWriter = builderWriter;
+        this.fileUtils = fileUtils;
         setBuilderPackage(deriveDefaultBuilderPackage(rootClass));
         setOutputDirectory(DEFAULT_OUTPUT_DIRECTORY);
     }
@@ -134,9 +136,10 @@ public class BuilderGenerator {
 	 */
     public void generateBuilders() {
 
+        File outputDirectoryFile = fileUtils.newFile(getOutputDirectory());
+        fileUtils.createDirectoriesIfNotExists(outputDirectoryFile);
         List<BuilderTemplateMap> builderTemplateMapList = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage()).collectBuilderTemplateMaps();
-
-        File outputDirectoryFile = new File(outputDirectory);
+        
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
             builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
         }

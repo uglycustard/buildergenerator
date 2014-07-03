@@ -11,22 +11,22 @@ import freemarker.template.Template;
 // TODO: TDD me
 class BuilderWriter {
 
+    private final FileUtils fileUtils;
+
+    BuilderWriter(FileUtils fileUtils) {
+        this.fileUtils = fileUtils;
+    }
+
     void generateBuilder(BuilderTemplateMap builderTemplateMap, File outputDirectory) {
 
         try {
             
-            File targetPackageDirectory = new File(outputDirectory, builderTemplateMap.getBuilderPackage().replaceAll("\\.", "/"));
-            
-            if (!targetPackageDirectory.exists()) {
-                boolean mkdirs = targetPackageDirectory.mkdirs();
-                if (!mkdirs) {
-                    throw new RuntimeException("failed to make output directory [" + targetPackageDirectory.getAbsolutePath() + "]");
-                }
-            }
+            File targetPackageDirectory = fileUtils.newFile(outputDirectory, builderTemplateMap.getBuilderPackage().replaceAll("\\.", "/"));
+            fileUtils.createDirectoriesIfNotExists(targetPackageDirectory);
             
             String targetClass = (String) builderTemplateMap.getTargetClassName();
-            File f = new File(targetPackageDirectory, targetClass + "Builder.java");
-            f.createNewFile();
+            File f = fileUtils.newFile(targetPackageDirectory, targetClass + "Builder.java");
+            fileUtils.createFileIfNotExists(f);
             FileWriter fw = new FileWriter(f);
             
             Configuration cfg = createFreemarkerConfiguration();
