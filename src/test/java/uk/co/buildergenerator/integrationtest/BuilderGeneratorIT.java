@@ -28,6 +28,7 @@ import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithSetListMethod
 import uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithSetSetMethod;
+import uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod;
 import uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod;
 import uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod;
 import uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod;
@@ -351,6 +352,16 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithJodaTimeBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithJodaTimeBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+    
+    @Test
+    public void nullListOfBuilderTargetTypesPropertyWithSetListMethod() throws Exception {
+        
+        createBuilderGenerator(NullListOfBuilderTargetTypesPropertyWithSetListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
