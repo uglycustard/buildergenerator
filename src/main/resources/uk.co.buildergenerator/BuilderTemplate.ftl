@@ -15,7 +15,12 @@ public class ${targetClass}Builder {
     <#if withMethod.collection>
     <#if withMethod.collectionNeedsInitialising>
         if (target.${withMethod.collectionGetterMethodName}() == null) {
+        <#if !withMethod.builder>
             target.${withMethod.collectionSetterMethodName}(new ${withMethod.collectionType}<${withMethod.parameterType}>());
+        </#if>
+        <#if withMethod.builder>
+            target.${withMethod.collectionSetterMethodName}(new ${withMethod.collectionType}<${withMethod.builderTargetType}>());
+        </#if>
         }        
     </#if>
         target.${withMethod.collectionMethodSettingInvocation}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
