@@ -32,6 +32,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Handles cyclic/bi-directional object graphs
 - Ability to override the package for the generated builders
 - Ability to specify the output folder for the generated builder source files
+- Ability to ignore specified properties in a given class in the object graph
 
 ##Usage
 
@@ -51,6 +52,15 @@ To generate builders in either a package and/or output folder other than those c
     bg.generateBuilders();
 ```
 
+To ignore properties in a specified class (choose only one of the setPropertyToIgnore methods):
+
+```
+    BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
+    bg.setPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");          // optional operation
+    bg.setPropertyToIgnore("com.example.MyObjectGraphRoot", "thePropertyToIgnore");  // optional operation
+    bg.generateBuilders();
+```
+
 ##Setup
 
 Add BuilderGenerator as a Maven dependency:
@@ -67,5 +77,6 @@ Alternatively, you can download the source from https://github.com/uglycustard/b
 
 ##Issues
 
-Please log all issues at https://github.com/uglycustard/buildergenerator/issues including a sample object graph that demonstrates the defect.
+Please ensure you are running the latest release of BuilderGenerator before logging an issue.
+If the problem still persists, please log an issue at https://github.com/uglycustard/buildergenerator/issues including a sample object graph that demonstrates the defect.
 
