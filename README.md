@@ -72,6 +72,7 @@ Add BuilderGenerator as a Maven dependency:
         <version>LATEST</version>
     </dependency>
 ```
+[Search Maven Central for BuilderGenerator releases](http://search.maven.org/#search%7Cga%7C1%7Cuk.co.buildergenerator.buildergenerator)
 
 Alternatively, you can download the source from https://github.com/uglycustard/buildergenerator
 
