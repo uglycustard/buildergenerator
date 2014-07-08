@@ -162,8 +162,8 @@ class BuilderGeneratorUtils {
     boolean isBuilder(PropertyDescriptor propertyDescriptor) {
 
         Class<?> propertyType = propertyDescriptor.getPropertyType();
-        
-        return !propertyType.isPrimitive() && !getTargetTypeClass(propertyDescriptor).getCanonicalName().startsWith("java") && !isArray(propertyDescriptor) && !isEnum(propertyDescriptor);
+        String canonicalName = getTargetTypeClass(propertyDescriptor).getCanonicalName();
+		return !propertyType.isPrimitive() && !canonicalName.startsWith("java") && !canonicalName.startsWith("org.joda.time") && !isArray(propertyDescriptor) && !isEnum(propertyDescriptor);
     }
     
     String getBuilderTargetType(PropertyDescriptor propertyDescriptor) {

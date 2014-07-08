@@ -13,7 +13,7 @@ class BuilderTemplateMapCollector {
         this.targetClass = targetClass;
         this.builderPackage = builderPackage;
     }
-
+    
     List<BuilderTemplateMap> collectBuilderTemplateMaps() {
 
         List<BuilderTemplateMap> builderTemplateMapList = new ArrayList<BuilderTemplateMap>();
@@ -26,10 +26,8 @@ class BuilderTemplateMapCollector {
 
         try {
 
-            for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
-                if (builderTemplateMap.getFullyQualifiedTargetClassName().equals(targetClass.getName())) {
-                    return;
-                }
+        	if (ignoredClass(targetClass) || alreadyCollected(builderTemplateMapList, targetClass)) {
+            	return;
             }
 
             BuilderTemplateMap builderTemplateMap = new BuilderTemplateMap(targetClass, builderPackage);
@@ -44,5 +42,20 @@ class BuilderTemplateMapCollector {
             throw new RuntimeException(e);
         }
     }
+
+	private boolean ignoredClass(Class<?> targetClass) {
+		// TODO: expand me.
+		return targetClass.getName().startsWith("org.joda.time");
+	}
+
+	private boolean alreadyCollected(List<BuilderTemplateMap> builderTemplateMapList, Class<?> targetClass) {
+		
+		for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
+		    if (builderTemplateMap.getFullyQualifiedTargetClassName().equals(targetClass.getName())) {
+		    	return true;
+		    }
+		}
+		return false;
+	}
 
 }

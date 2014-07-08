@@ -1,6 +1,6 @@
 package uk.co.buildergenerator.integrationtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayM
 import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
+import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
 import uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty;
@@ -340,6 +341,16 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithNonWritablePropertyBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithNonWritablePropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void beanWithJodaTimeProperties() throws Exception {
+        
+        createBuilderGenerator(BeanWithJodaTime.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithJodaTimeBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithJodaTimeBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
