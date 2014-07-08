@@ -8,7 +8,7 @@ public class NodeThreeBuilder {
     
     private uk.co.buildergenerator.testmodel.NodeThree target = new uk.co.buildergenerator.testmodel.NodeThree();
     
-    private NodeThreeBuilder() {}
+    public NodeThreeBuilder() {}
     
     public NodeThreeBuilder withNodeThreeString(java.lang.String nodeThreeString) {
         target.setNodeThreeString(nodeThreeString);

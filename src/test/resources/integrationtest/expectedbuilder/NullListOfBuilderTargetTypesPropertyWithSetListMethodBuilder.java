@@ -8,7 +8,7 @@ public class NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod target = new uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod();
     
-    private NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder() {}
+    public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder() {}
     
     public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder withHouse(integrationtest.generatedbuilder.HouseBuilder house) {
         if (target.getHouses() == null) {

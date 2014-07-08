@@ -8,7 +8,7 @@ public class NullListPropertyWithSetListMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod target = new uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod();
     
-    private NullListPropertyWithSetListMethodBuilder() {}
+    public NullListPropertyWithSetListMethodBuilder() {}
     
     public NullListPropertyWithSetListMethodBuilder withString(java.lang.String string) {
         if (target.getStrings() == null) {

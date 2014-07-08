@@ -8,7 +8,7 @@ public class NullQueuePropertyWithSetQueueMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod target = new uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod();
     
-    private NullQueuePropertyWithSetQueueMethodBuilder() {}
+    public NullQueuePropertyWithSetQueueMethodBuilder() {}
     
     public NullQueuePropertyWithSetQueueMethodBuilder withString(java.lang.String string) {
         if (target.getStrings() == null) {

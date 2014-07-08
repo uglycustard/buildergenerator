@@ -8,7 +8,7 @@ public class NodeOneBuilder {
     
     private uk.co.buildergenerator.testmodel.NodeOne target = new uk.co.buildergenerator.testmodel.NodeOne();
     
-    private NodeOneBuilder() {}
+    public NodeOneBuilder() {}
     
     public NodeOneBuilder withNodeOneString(java.lang.String nodeOneString) {
         target.setNodeOneString(nodeOneString);

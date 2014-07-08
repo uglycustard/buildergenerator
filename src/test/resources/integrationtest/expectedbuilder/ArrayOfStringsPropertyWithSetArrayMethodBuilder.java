@@ -8,7 +8,7 @@ public class ArrayOfStringsPropertyWithSetArrayMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod target = new uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod();
     
-    private ArrayOfStringsPropertyWithSetArrayMethodBuilder() {}
+    public ArrayOfStringsPropertyWithSetArrayMethodBuilder() {}
     
     public ArrayOfStringsPropertyWithSetArrayMethodBuilder withStrings(java.lang.String[] strings) {
         target.setStrings(strings);

@@ -8,7 +8,7 @@ public class NullSetPropertyWithSetSetMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod target = new uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod();
     
-    private NullSetPropertyWithSetSetMethodBuilder() {}
+    public NullSetPropertyWithSetSetMethodBuilder() {}
     
     public NullSetPropertyWithSetSetMethodBuilder withString(java.lang.String string) {
         if (target.getStrings() == null) {

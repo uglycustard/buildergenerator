@@ -8,7 +8,7 @@ public class BeanWithNonWritablePropertyBuilder {
     
     private uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty target = new uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty();
     
-    private BeanWithNonWritablePropertyBuilder() {}
+    public BeanWithNonWritablePropertyBuilder() {}
     
     public BeanWithNonWritablePropertyBuilder withWritableProperty(java.lang.String writableProperty) {
         target.setWritableProperty(writableProperty);

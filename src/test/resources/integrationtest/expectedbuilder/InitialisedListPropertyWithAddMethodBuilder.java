@@ -8,7 +8,7 @@ public class InitialisedListPropertyWithAddMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethod target = new uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethod();
     
-    private InitialisedListPropertyWithAddMethodBuilder() {}
+    public InitialisedListPropertyWithAddMethodBuilder() {}
     
     public InitialisedListPropertyWithAddMethodBuilder withString(java.lang.String string) {
         target.addString(string);

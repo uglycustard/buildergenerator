@@ -8,7 +8,7 @@ public class ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod target = new uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod();
     
-    private ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder() {}
+    public ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder() {}
     
     public ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder withHostesses(uk.co.buildergenerator.testmodel.Hostess[] hostesses) {
         target.setHostesses(hostesses);

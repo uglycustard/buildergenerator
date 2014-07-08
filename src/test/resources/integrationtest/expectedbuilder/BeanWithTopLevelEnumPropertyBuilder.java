@@ -8,7 +8,7 @@ public class BeanWithTopLevelEnumPropertyBuilder {
     
     private uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty target = new uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty();
     
-    private BeanWithTopLevelEnumPropertyBuilder() {}
+    public BeanWithTopLevelEnumPropertyBuilder() {}
     
     public BeanWithTopLevelEnumPropertyBuilder withTopLevelEnum(uk.co.buildergenerator.testmodel.TopLevelEnum topLevelEnum) {
         target.setTopLevelEnum(topLevelEnum);

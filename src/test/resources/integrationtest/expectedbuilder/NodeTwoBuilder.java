@@ -8,7 +8,7 @@ public class NodeTwoBuilder {
     
     private uk.co.buildergenerator.testmodel.NodeTwo target = new uk.co.buildergenerator.testmodel.NodeTwo();
     
-    private NodeTwoBuilder() {}
+    public NodeTwoBuilder() {}
     
     public NodeTwoBuilder withNodeThree(integrationtest.generatedbuilder.NodeThreeBuilder nodeThree) {
         target.setNodeThree(nodeThree.build());

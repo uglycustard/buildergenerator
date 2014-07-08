@@ -8,7 +8,7 @@ public class StringPropertyBeanBuilder {
     
     private uk.co.buildergenerator.testmodel.StringPropertyBean target = new uk.co.buildergenerator.testmodel.StringPropertyBean();
     
-    private StringPropertyBeanBuilder() {}
+    public StringPropertyBeanBuilder() {}
     
     public StringPropertyBeanBuilder withTheString(java.lang.String theString) {
         target.setTheString(theString);

@@ -8,7 +8,7 @@ public class BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder 
     
     private uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors target = new uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors();
     
-    private BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder() {}
+    public BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder() {}
     
     public BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder withWibble(java.lang.String wibble) {
         target.setWibble(wibble);

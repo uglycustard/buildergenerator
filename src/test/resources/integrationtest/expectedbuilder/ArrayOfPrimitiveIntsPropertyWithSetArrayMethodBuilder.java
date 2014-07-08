@@ -8,7 +8,7 @@ public class ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod target = new uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod();
     
-    private ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder() {}
+    public ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder() {}
     
     public ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder withInts(int[] ints) {
         target.setInts(ints);

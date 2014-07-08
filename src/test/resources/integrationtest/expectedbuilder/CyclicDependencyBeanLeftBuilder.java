@@ -8,7 +8,7 @@ public class CyclicDependencyBeanLeftBuilder {
     
     private uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft target = new uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft();
     
-    private CyclicDependencyBeanLeftBuilder() {}
+    public CyclicDependencyBeanLeftBuilder() {}
     
     public CyclicDependencyBeanLeftBuilder withCyclicDependencyBeanRight(integrationtest.generatedbuilder.CyclicDependencyBeanRightBuilder cyclicDependencyBeanRight) {
         target.setCyclicDependencyBeanRight(cyclicDependencyBeanRight.build());

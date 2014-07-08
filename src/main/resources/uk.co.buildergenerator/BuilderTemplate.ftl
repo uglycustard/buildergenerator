@@ -8,7 +8,7 @@ public class ${targetClass}Builder {
     
     private ${fullyQualifiedTargetClass} target = new ${fullyQualifiedTargetClass}();
     
-    private ${targetClass}Builder() {}
+    public ${targetClass}Builder() {}
     
     <#list withMethodList as withMethod>
     public ${targetClass}Builder with${withMethod.propertyName}(${withMethod.parameterType} ${withMethod.parameterName}) {

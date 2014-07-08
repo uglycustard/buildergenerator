@@ -8,7 +8,7 @@ public class InitialisedQueuePropertyWithAddMethodBuilder {
     
     private uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod target = new uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod();
     
-    private InitialisedQueuePropertyWithAddMethodBuilder() {}
+    public InitialisedQueuePropertyWithAddMethodBuilder() {}
     
     public InitialisedQueuePropertyWithAddMethodBuilder withString(java.lang.String string) {
         target.addString(string);

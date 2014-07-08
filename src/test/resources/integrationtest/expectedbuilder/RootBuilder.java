@@ -8,7 +8,7 @@ public class RootBuilder {
     
     private uk.co.buildergenerator.testmodel.Root target = new uk.co.buildergenerator.testmodel.Root();
     
-    private RootBuilder() {}
+    public RootBuilder() {}
     
     public RootBuilder withNodeTwo(integrationtest.generatedbuilder.NodeTwoBuilder nodeTwo) {
         target.setNodeTwo(nodeTwo.build());

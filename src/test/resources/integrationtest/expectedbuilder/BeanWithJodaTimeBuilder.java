@@ -8,7 +8,7 @@ public class BeanWithJodaTimeBuilder {
     
     private uk.co.buildergenerator.testmodel.BeanWithJodaTime target = new uk.co.buildergenerator.testmodel.BeanWithJodaTime();
     
-    private BeanWithJodaTimeBuilder() {}
+    public BeanWithJodaTimeBuilder() {}
     
     public BeanWithJodaTimeBuilder withDateTime(org.joda.time.DateTime dateTime) {
         target.setDateTime(dateTime);

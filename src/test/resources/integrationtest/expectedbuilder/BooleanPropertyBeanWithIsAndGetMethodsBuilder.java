@@ -8,7 +8,7 @@ public class BooleanPropertyBeanWithIsAndGetMethodsBuilder {
     
     private uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods target = new uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods();
     
-    private BooleanPropertyBeanWithIsAndGetMethodsBuilder() {}
+    public BooleanPropertyBeanWithIsAndGetMethodsBuilder() {}
     
     public BooleanPropertyBeanWithIsAndGetMethodsBuilder withTheBoolean(boolean theBoolean) {
         target.setTheBoolean(theBoolean);

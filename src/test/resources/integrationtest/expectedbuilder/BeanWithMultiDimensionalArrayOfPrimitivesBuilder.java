@@ -8,7 +8,7 @@ public class BeanWithMultiDimensionalArrayOfPrimitivesBuilder {
     
     private uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives target = new uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives();
     
-    private BeanWithMultiDimensionalArrayOfPrimitivesBuilder() {}
+    public BeanWithMultiDimensionalArrayOfPrimitivesBuilder() {}
     
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withThreeDimenstionalIntArray(int[][][] threeDimenstionalIntArray) {
         target.setThreeDimenstionalIntArray(threeDimenstionalIntArray);

@@ -8,7 +8,7 @@ public class BooleanPropertyBeanBuilder {
     
     private uk.co.buildergenerator.testmodel.BooleanPropertyBean target = new uk.co.buildergenerator.testmodel.BooleanPropertyBean();
     
-    private BooleanPropertyBeanBuilder() {}
+    public BooleanPropertyBeanBuilder() {}
     
     public BooleanPropertyBeanBuilder withTheBoolean(boolean theBoolean) {
         target.setTheBoolean(theBoolean);

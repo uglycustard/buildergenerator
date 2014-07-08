@@ -8,7 +8,7 @@ public class SelfReferencingBeanBuilder {
     
     private uk.co.buildergenerator.testmodel.SelfReferencingBean target = new uk.co.buildergenerator.testmodel.SelfReferencingBean();
     
-    private SelfReferencingBeanBuilder() {}
+    public SelfReferencingBeanBuilder() {}
     
     public SelfReferencingBeanBuilder withSelfReferencingBean(integrationtest.generatedbuilder.SelfReferencingBeanBuilder selfReferencingBean) {
         target.setSelfReferencingBean(selfReferencingBean.build());
