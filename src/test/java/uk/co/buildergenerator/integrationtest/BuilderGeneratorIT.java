@@ -17,6 +17,7 @@ import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
 import uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty;
+import uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore;
 import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods;
@@ -64,12 +65,19 @@ public class BuilderGeneratorIT {
     }
     
     private BuilderGenerator createBuilderGenerator(Class<?> root, String builderPackage, String outputDirectory) {
-    	BuilderGenerator bg = new BuilderGenerator(root);
-    	bg.setBuilderPackage(builderPackage);
-    	bg.setOutputDirectory(outputDirectory);
-    	return bg;
+    	return createBuilderGenerator(root, builderPackage, outputDirectory, null, null);
     }
     
+    private BuilderGenerator createBuilderGenerator(Class<?> root, String builderPackage, String outputDirectory, Class<?> classToIgnoreProperty, String propertyToIgnore) {
+        BuilderGenerator bg = new BuilderGenerator(root);
+        bg.setBuilderPackage(builderPackage);
+        bg.setOutputDirectory(outputDirectory);
+        if (classToIgnoreProperty != null && propertyToIgnore != null) {
+            bg.setPropertyToIgnore(classToIgnoreProperty, propertyToIgnore);
+        }
+        return bg;
+    }
+
     @Test
     public void stringProperty() throws Exception {
         
@@ -362,6 +370,17 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    
+    @Test
+    public void beanWithPropertyToIgnore() throws Exception {
+        
+        createBuilderGenerator(BeanWithPropertyToIgnore.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY, BeanWithPropertyToIgnore.class, "propertyToIgnore").generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithPropertyToIgnoreBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithPropertyToIgnoreBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 

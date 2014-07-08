@@ -1,7 +1,6 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -21,6 +20,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore;
 import uk.co.buildergenerator.testmodel.NodeOne;
 import uk.co.buildergenerator.testmodel.NodeThree;
 import uk.co.buildergenerator.testmodel.NodeTwo;
@@ -94,7 +94,7 @@ public class BuilderGeneratorTest {
 	    
         testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
         testee.generateBuilders();
-        assertBuilderTemplateMaps(NodeThree.class);
+        assertBuilderTemplateMapsCreatedForClasses(NodeThree.class);
         assertOutputDirectoryForAllBuilders(file);
     }
 	
@@ -107,7 +107,7 @@ public class BuilderGeneratorTest {
         testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
         testee.setOutputDirectory(outputDir);
 	    testee.generateBuilders();
-	    assertBuilderTemplateMaps(NodeThree.class);
+	    assertBuilderTemplateMapsCreatedForClasses(NodeThree.class);
 	    assertOutputDirectoryForAllBuilders(file);
 	}
 
@@ -120,7 +120,7 @@ public class BuilderGeneratorTest {
 	    testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
 	    testee.setOutputDirectory(outputDir);
 	    testee.generateBuilders();
-	    assertBuilderTemplateMaps(NodeThree.class);
+	    assertBuilderTemplateMapsCreatedForClasses(NodeThree.class);
 	    assertOutputDirectoryForAllBuilders(file);
 	    assertOutputDirectoyWasCreated(file);
 	}
@@ -147,7 +147,7 @@ public class BuilderGeneratorTest {
 	    File file = mockExisitingOutputDirectoryFile(DEFAULT_OUTPUT_DIRECTORY);
 	    testee = new BuilderGenerator(Root.class, builderWriter, fileUtils);
 	    testee.generateBuilders();
-	    assertBuilderTemplateMaps(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
+	    assertBuilderTemplateMapsCreatedForClasses(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
 	    assertOutputDirectoryForAllBuilders(file);
 	}
 	
@@ -160,8 +160,20 @@ public class BuilderGeneratorTest {
         testee = new BuilderGenerator(Root.class, builderWriter, fileUtils);
         testee.setOutputDirectory(outputDir);
         testee.generateBuilders();
-        assertBuilderTemplateMaps(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
+        assertBuilderTemplateMapsCreatedForClasses(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
         assertOutputDirectoryForAllBuilders(file);
+    }
+    
+    @Test
+    public void generateBuildersIgnoringProperties() throws Exception {
+        
+        testee = new BuilderGenerator(BeanWithPropertyToIgnore.class, builderWriter, fileUtils);
+        testee.setPropertyToIgnore(BeanWithPropertyToIgnore.class, "propertyToIgnore");
+        testee.generateBuilders();
+        assertBuilderTemplateMapsCreatedForClasses(BeanWithPropertyToIgnore.class);
+        BuilderTemplateMap builderTemplateMap = builderTemplateMapCaptor.getValue();
+        WithMethodList withMethodList = builderTemplateMap.getWithMethodList();
+        assertEquals("should not have created WithMethod for ignored property", 1, withMethodList.size());
     }
 	
 	private void assertOutputDirectoyWasCreated(File file) {
@@ -191,11 +203,11 @@ public class BuilderGeneratorTest {
 	    return file;
 	}
 
-    private void assertBuilderTemplateMaps(Class<?>...expectedClasses) {
+    private void assertBuilderTemplateMapsCreatedForClasses(Class<?>...expectedClasses) {
 	    verify(builderWriter, times(expectedClasses.length)).generateBuilder(builderTemplateMapCaptor.capture(), outputDirectoryCaptor.capture());
-	    List<BuilderTemplateMap> allBuilderTemplateMaps = builderTemplateMapCaptor.getAllValues();
+	    List<BuilderTemplateMap> createdBuilderTemplateMaps = builderTemplateMapCaptor.getAllValues();
 	    for (Class<?> expectedClass : expectedClasses) {
-	        assertEquals(expectedClass.getCanonicalName(), findFrom(allBuilderTemplateMaps, expectedClass).getFullyQualifiedTargetClassName());
+	        assertEquals(expectedClass.getCanonicalName(), findFrom(createdBuilderTemplateMaps, expectedClass).getFullyQualifiedTargetClassName());
             
         }
 	}
@@ -215,5 +227,5 @@ public class BuilderGeneratorTest {
         }
 	    return null;
 	}
-
+	
 }

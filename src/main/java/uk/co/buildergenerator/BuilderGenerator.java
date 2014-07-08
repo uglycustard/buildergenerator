@@ -1,7 +1,10 @@
 package uk.co.buildergenerator;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A tool to auto generate builders following the Builder pattern for an object
@@ -29,11 +32,21 @@ import java.util.List;
  * bg.generateBuilders();
  * </code>
  * <p>
+ * To ignore properties in a specified class:
+ * <p>
+ * <code>
+ * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br/>
+ * bg.setPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");<br/>    
+ * bg.generateBuilders();
+ * </code>
+ * <p>
  * See: <br/>
  * {@link #generateBuilders(Class) generateBuilders}
  * {@link #generateBuilders(String) generateBuilders}
  * {@link #setOutputDirectory(String) setOutputDirectory}
  * {@link #setBuilderPackage(String) setBuilderPackage}
+ * {@link #setPropertyToIgnore(Class, String) setPropertyToIgnore}
+ * {@link #setPropertyToIgnore(String, String) setPropertyToIgnore}
  * 
  * 
  * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a>
@@ -63,7 +76,7 @@ public class BuilderGenerator {
 	 * 
 	 * @param rootClassName
 	 *            the object graph root class name
-	 * @throws ClassNotFoundException
+	 * @throws ClassNotFoundException if the root class cannot be found on the classpath
 	 */
 	public static void generateBuilders(String rootClassName)
 			throws ClassNotFoundException {
@@ -83,7 +96,6 @@ public class BuilderGenerator {
 	 * 
 	 * @param rootClass
 	 *            the object graph root class
-	 * @throws ClassNotFoundException
 	 */
 	public static void generateBuilders(Class<?> rootClass) {
 		new BuilderGenerator(rootClass).generateBuilders();
@@ -92,6 +104,7 @@ public class BuilderGenerator {
 	private final Class<?> rootClass;
 	private final BuilderWriter builderWriter;
 	private final FileUtils fileUtils;
+	private final Map<Class<?>, List<String>> ignoredClassProperties = new HashMap<Class<?>, List<String>>();
 	private String builderPackage;
 	private String outputDirectory;
 
@@ -101,7 +114,7 @@ public class BuilderGenerator {
 	 * 
 	 * @param rootClassName
 	 *            the object graph root class name
-	 * @throws ClassNotFoundException
+	 * @throws ClassNotFoundException if the root class cannot be found on the classpath
 	 */
 	public BuilderGenerator(String rootClassName) throws ClassNotFoundException {
 		this(Class.forName(rootClassName));
@@ -138,7 +151,8 @@ public class BuilderGenerator {
 
         File outputDirectoryFile = fileUtils.newFile(getOutputDirectory());
         fileUtils.createDirectoriesIfNotExists(outputDirectoryFile);
-        List<BuilderTemplateMap> builderTemplateMapList = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage()).collectBuilderTemplateMaps();
+        BuilderTemplateMapCollector builderTemplateMapCollector = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage(), ignoredClassProperties);
+        List<BuilderTemplateMap> builderTemplateMapList = builderTemplateMapCollector.collectBuilderTemplateMaps();
         
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
             builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
@@ -176,6 +190,34 @@ public class BuilderGenerator {
 	 */
 	public void setOutputDirectory(String outputDirectory) {
 		this.outputDirectory = outputDirectory;
+	}
+	
+	/**
+	 * Specify a property to ignore in a given class.  
+	 * 
+	 * Ignored properties will not appear in the generated builder.
+	 * 
+	 * @param targetClassName the name of the class in which the property is to be ignored
+	 * @param propertyName the name of the property in the target class to ignore
+	 * @throws ClassNotFoundException if the target class cannot be found on the classpath
+	 */
+	public void setPropertyToIgnore(String targetClassName, String propertyName) throws ClassNotFoundException {
+	    setPropertyToIgnore(Class.forName(targetClassName), propertyName);
+	}
+	
+	/**
+     * Specify a property to ignore in a given class.  
+     * 
+     * Ignored properties will not appear in the generated builder.
+	 * 
+     * @param targetClass the class in which the property is to be ignored
+     * @param propertyName the name of the property in the target class to ignore
+	 */
+	public void setPropertyToIgnore(Class<?> targetClass, String propertyName) {
+	    if (ignoredClassProperties.get(targetClass) == null) {
+	        ignoredClassProperties.put(targetClass, new ArrayList<String>());
+	    }
+	    ignoredClassProperties.get(targetClass).add(propertyName);
 	}
 
 }
