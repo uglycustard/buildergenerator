@@ -94,4 +94,5 @@ If you want to extend the capabilities of the generated builders, follow [Martin
 
 Please ensure you are running the latest release of BuilderGenerator before logging an issue.
 If the problem still persists, please log an issue at https://github.com/uglycustard/buildergenerator/issues including a sample object graph that demonstrates the defect.
-
+As a workaround while waiting for a response/fix to your issue, you could try using the ignore properties and/or ignore classes features of BuilderGenerator to ignore the
+parts of your object graph that BuilderGenerator is having problems with.  Please do log an issue though so the problem can be addressed.
