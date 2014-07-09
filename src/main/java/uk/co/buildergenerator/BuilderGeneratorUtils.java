@@ -51,6 +51,7 @@ class BuilderGeneratorUtils {
 
     String getCollectionTypeWhenCollectionNeedsInitialising(PropertyDescriptor propertyDescriptor) {
         
+        // TODO: FIXME: This assumes everything has been coded to the interfaces, which they won't have been.
         if (isList(propertyDescriptor.getPropertyType())) {
             return "java.util.ArrayList";
         } else if (isSet(propertyDescriptor.getPropertyType())) {
@@ -138,11 +139,11 @@ class BuilderGeneratorUtils {
         return fieldName;
     }
 
-    String getParameterType(PropertyDescriptor propertyDescriptor, String builderPackage) {
+    String getParameterType(PropertyDescriptor propertyDescriptor, String builderPackage, ClassesToIgnore classesToIgnore) {
         
         String parameterType = getTargetTypeClass(propertyDescriptor).getCanonicalName();
         
-        if (isBuilder(propertyDescriptor)) {
+        if (isBuilder(propertyDescriptor, classesToIgnore)) {
             parameterType = builderPackage + parameterType.substring(parameterType.lastIndexOf(".")) + "Builder";
         }
 
@@ -159,16 +160,14 @@ class BuilderGeneratorUtils {
         }
     }
 
-    boolean isBuilder(PropertyDescriptor propertyDescriptor) {
+    boolean isBuilder(PropertyDescriptor propertyDescriptor, ClassesToIgnore classesToIgnore) {
 
-        Class<?> propertyType = propertyDescriptor.getPropertyType();
-        String canonicalName = getTargetTypeClass(propertyDescriptor).getCanonicalName();
-		return !propertyType.isPrimitive() && !canonicalName.startsWith("java") && !canonicalName.startsWith("org.joda.time") && !isArray(propertyDescriptor) && !isEnum(propertyDescriptor);
+        return !classesToIgnore.isIgnored(getTargetTypeClass(propertyDescriptor)) && !propertyDescriptor.getPropertyType().isPrimitive() && !isArray(propertyDescriptor) && !isEnum(propertyDescriptor);
     }
     
-    String getBuilderTargetType(PropertyDescriptor propertyDescriptor) {
+    String getBuilderTargetType(PropertyDescriptor propertyDescriptor, ClassesToIgnore classesToIgnore) {
         
-        if (isBuilder(propertyDescriptor)) {
+        if (isBuilder(propertyDescriptor, classesToIgnore)) {
             return getTargetTypeClass(propertyDescriptor).getCanonicalName();
         }
         

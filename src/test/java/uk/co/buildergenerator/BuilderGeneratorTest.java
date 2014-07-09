@@ -164,6 +164,7 @@ public class BuilderGeneratorTest {
         assertOutputDirectoryForAllBuilders(file);
     }
     
+    @SuppressWarnings("deprecation")
     @Test
     public void generateBuildersIgnoringProperties() throws Exception {
         

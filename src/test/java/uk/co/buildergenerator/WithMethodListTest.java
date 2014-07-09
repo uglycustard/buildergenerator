@@ -1,8 +1,9 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -18,10 +19,11 @@ public class WithMethodListTest {
     
     
     private static final String BUILDER_PACKAGE = "builder.package";
-    private List<String> propertiesToIgnore = new ArrayList<String>();
+    private PropertiesToIgnore propertiesToIgnore = new PropertiesToIgnore();
+    private ClassesToIgnore classesToIgnore = new ClassesToIgnore();
 
     private WithMethodList createTestee(Class<?> targetClass) {
-        return new WithMethodList(targetClass, BUILDER_PACKAGE, propertiesToIgnore);
+        return new WithMethodList(targetClass, BUILDER_PACKAGE, propertiesToIgnore, classesToIgnore);
     }
 
     private WithMethod find(List<WithMethod> withMethodList, String parameterName) {
@@ -38,7 +40,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = createTestee(House.class);
         WithMethod actualWithMethod = find(withMethodList, "name");
-        WithMethod expectedWithMethod = TestUtils.createWithMethod("name", House.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("name", House.class, BUILDER_PACKAGE, classesToIgnore);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -47,7 +49,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = createTestee(Target.class);
         WithMethod actualWithMethod = find(withMethodList, "month");
-        WithMethod expectedWithMethod = TestUtils.createWithMethod("months", Target.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("months", Target.class, BUILDER_PACKAGE, classesToIgnore);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -56,7 +58,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = createTestee(Target.class);
         WithMethod actualWithMethod = find(withMethodList, "delegate");
-        WithMethod expectedWithMethod = TestUtils.createWithMethod("delegate", Target.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("delegate", Target.class, BUILDER_PACKAGE, classesToIgnore);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -65,7 +67,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = createTestee(Target.class);
         WithMethod actualWithMethod = find(withMethodList, "hostess");
-        WithMethod expectedWithMethod = TestUtils.createWithMethod("hostesses", Target.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("hostesses", Target.class, BUILDER_PACKAGE, classesToIgnore);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -81,7 +83,7 @@ public class WithMethodListTest {
         
         List<WithMethod> withMethodList = createTestee(BooleanPropertyBean.class);
         WithMethod actualWithMethod = find(withMethodList, "theBoolean");
-        WithMethod expectedWithMethod = TestUtils.createWithMethod("theBoolean", BooleanPropertyBean.class, BUILDER_PACKAGE);
+        WithMethod expectedWithMethod = TestUtils.createWithMethod("theBoolean", BooleanPropertyBean.class, BUILDER_PACKAGE, classesToIgnore);
         assertTrue(EqualsBuilder.reflectionEquals(expectedWithMethod, actualWithMethod));
     }
 
@@ -96,19 +98,9 @@ public class WithMethodListTest {
     @Test
     public void ignorePropertiesIfSpecifiedAndPresentInTargetClass() throws Exception {
         
-        propertiesToIgnore.add("propertyToIgnore");
+        propertiesToIgnore.addPropertyToIgnore(BeanWithPropertyToIgnore.class, "propertyToIgnore");
         List<WithMethod> withMethodList = createTestee(BeanWithPropertyToIgnore.class);
         WithMethod actualWithMethod = find(withMethodList, "propertyToIgnore");
         assertNull("expected no WithMethod for the ignored property", actualWithMethod);
     }
-
-    @Test
-    public void nullIgnoreProperties() throws Exception {
-        
-        propertiesToIgnore = null;
-        List<WithMethod> withMethodList = createTestee(BeanWithPropertyToIgnore.class);
-        WithMethod actualWithMethod = find(withMethodList, "propertyToIgnore");
-        assertNotNull("expected no WithMethod for the ignored property", actualWithMethod);
-    }
-
 }

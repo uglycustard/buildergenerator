@@ -14,6 +14,8 @@ public class BuilderGeneratorUtilsTest {
 
 	private BuilderGeneratorUtils testee;
 	
+	private ClassesToIgnore classesToIgnore = new ClassesToIgnore();
+	
 //	@Mock
 	private PropertyDescriptor propertyDescriptor;
 	
@@ -35,7 +37,7 @@ public class BuilderGeneratorUtilsTest {
 	public void jodaTimePropertiesAreNotSuitableForBuilder() {
 		
 		createPropertyDescriptor("localDate", BeanWithJodaTime.class);
-		assertFalse("property should not be a builder", testee.isBuilder(propertyDescriptor));
+		assertFalse("property should not be a builder", testee.isBuilder(propertyDescriptor, classesToIgnore));
 	}
 
 

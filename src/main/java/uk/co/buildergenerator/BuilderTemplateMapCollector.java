@@ -2,19 +2,20 @@ package uk.co.buildergenerator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 // TODO: TDD me
 class BuilderTemplateMapCollector {
 
     private final Class<?> targetClass;
     private final String builderPackage;
-    private final Map<Class<?>, List<String>> ignoredClassProperties;
+    private final PropertiesToIgnore propertiesToIgnore;
+    private final ClassesToIgnore classesToIgnore;
 
-    BuilderTemplateMapCollector(Class<?> targetClass, String builderPackage, Map<Class<?>, List<String>> ignoredClassProperties) {
+    BuilderTemplateMapCollector(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore) {
         this.targetClass = targetClass;
         this.builderPackage = builderPackage;
-        this.ignoredClassProperties = ignoredClassProperties;
+        this.propertiesToIgnore = propertiesToIgnore;
+        this.classesToIgnore = classesToIgnore;
     }
     
     List<BuilderTemplateMap> collectBuilderTemplateMaps() {
@@ -32,7 +33,7 @@ class BuilderTemplateMapCollector {
             	return;
             }
 
-            BuilderTemplateMap builderTemplateMap = new BuilderTemplateMap(targetClass, builderPackage, getIgnoredProperties(targetClass));
+            BuilderTemplateMap builderTemplateMap = new BuilderTemplateMap(targetClass, builderPackage, propertiesToIgnore, classesToIgnore);
             builderTemplateMapList.add(builderTemplateMap);
             for (WithMethod withMethod : builderTemplateMap.getWithMethodList()) {
                 if (withMethod.isBuilder()) {
@@ -45,13 +46,9 @@ class BuilderTemplateMapCollector {
         }
     }
 
-	private List<String> getIgnoredProperties(Class<?> targetClass) {
-        return ignoredClassProperties.get(targetClass);
-    }
-
     private boolean ignoredClass(Class<?> targetClass) {
-		// TODO: expand me.
-		return targetClass.getName().startsWith("org.joda.time");
+        
+        return classesToIgnore.isIgnored(targetClass);
 	}
 
 	private boolean alreadyCollected(List<BuilderTemplateMap> builderTemplateMapList, Class<?> targetClass) {

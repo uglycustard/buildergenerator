@@ -8,11 +8,11 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 public class TestUtils {
 
-    public static WithMethod createWithMethod(String propertyName, Class<?> targetClass, String builderPackage) {
+    public static WithMethod createWithMethod(String propertyName, Class<?> targetClass, String builderPackage, ClassesToIgnore classesToIgnore) {
         
         try {
             PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(targetClass.newInstance(), propertyName);
-            return getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage);
+            return getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage, classesToIgnore);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

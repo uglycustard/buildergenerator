@@ -33,6 +33,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Ability to override the package for the generated builders
 - Ability to specify the output folder for the generated builder source files
 - Ability to ignore specified properties in a given class in the object graph
+- Ability to ignore specified classes in the object graph
 
 ##Usage
 
@@ -52,12 +53,20 @@ To generate builders in either a package and/or output folder other than those c
     bg.generateBuilders();
 ```
 
-To ignore properties in a specified class (choose only one of the setPropertyToIgnore methods):
+To ignore properties in a specified class (choose only one of the addPropertyToIgnore methods):
 
 ```
     BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
-    bg.setPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");          // optional operation
-    bg.setPropertyToIgnore("com.example.MyObjectGraphRoot", "thePropertyToIgnore");  // optional operation
+    bg.addPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");          // optional operation
+    bg.addPropertyToIgnore("com.example.MyObjectGraphRoot", "thePropertyToIgnore");  // optional operation
+    bg.generateBuilders();
+```
+
+To ignore classes in the object graph:
+
+```
+    BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
+    bg.addClassToIgnore(MyObjectToIgnore.class);
     bg.generateBuilders();
 ```
 
@@ -75,6 +84,11 @@ Add BuilderGenerator as a Maven dependency:
 [Search Maven Central for BuilderGenerator releases](http://search.maven.org/#search%7Cga%7C1%7Cuk.co.buildergenerator.buildergenerator)
 
 Alternatively, you can download the source from https://github.com/uglycustard/buildergenerator
+
+##Best Practice
+
+You should avoid modifying generated source code so that it can be re-generated without you losing your additions.
+If you want to extend the capabilities of the generated builders, follow [Martin Fowler's Generation Gap pattern](http://martinfowler.com/dslCatalog/generationGap.html).
 
 ##Issues
 

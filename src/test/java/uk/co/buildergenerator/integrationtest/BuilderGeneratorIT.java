@@ -1,8 +1,10 @@
 package uk.co.buildergenerator.integrationtest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -12,7 +14,9 @@ import uk.co.buildergenerator.BuilderGenerator;
 import uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
+import uk.co.buildergenerator.testmodel.BeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
+import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
@@ -73,7 +77,7 @@ public class BuilderGeneratorIT {
         bg.setBuilderPackage(builderPackage);
         bg.setOutputDirectory(outputDirectory);
         if (classToIgnoreProperty != null && propertyToIgnore != null) {
-            bg.setPropertyToIgnore(classToIgnoreProperty, propertyToIgnore);
+            bg.addPropertyToIgnore(classToIgnoreProperty, propertyToIgnore);
         }
         return bg;
     }
@@ -381,6 +385,47 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithPropertyToIgnoreBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithPropertyToIgnoreBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+    
+    @Test
+    public void beanWithChildBeanToIgnore() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(BeanWithChildBeanToBeIgnored.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.addClassToIgnore(BeanToBeIgnored.class);
+        builderGenerator.generateBuilders();
+        assertNoBuilderGenerated("integrationtest/generatedbuilder/BeanToBeIgnoredBuilder.java");
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    private void assertNoBuilderGenerated(String string) {
+        File f = new File(OUTPUT_DIRECTORY, string);
+        assertFalse("builder should not have been generated", f.exists());
+    }
+
+    @Test
+    public void beanWithChildBeanToIgnoreUsingStringClassName() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(BeanWithChildBeanToBeIgnored.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.addClassToIgnore(BeanToBeIgnored.class.getName());
+        builderGenerator.generateBuilders();
+        assertNoBuilderGenerated("integrationtest/generatedbuilder/BeanToBeIgnoredBuilder.java");
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void beanWithChildBeanToIgnoreUsingStringWithWildCard() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(BeanWithChildBeanToBeIgnored.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.addClassToIgnore("uk.co.buildergenerator.testmodel.BeanToBeIgn*");
+        builderGenerator.generateBuilders();
+        assertNoBuilderGenerated("integrationtest/generatedbuilder/BeanToBeIgnoredBuilder.java");
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 

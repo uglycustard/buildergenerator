@@ -1,10 +1,7 @@
 package uk.co.buildergenerator;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A tool to auto generate builders following the Builder pattern for an object
@@ -36,7 +33,15 @@ import java.util.Map;
  * <p>
  * <code>
  * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br/>
- * bg.setPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");<br/>    
+ * bg.addPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");<br/>    
+ * bg.generateBuilders();
+ * </code>
+ * <p>
+ * To ignore classes in the object graph:
+ * <p>
+ * <code>
+ * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br/>
+ * bg.addClassToIgnore(MyObjectToIgnore.class);<br/>    
  * bg.generateBuilders();
  * </code>
  * <p>
@@ -45,8 +50,10 @@ import java.util.Map;
  * {@link #generateBuilders(String) generateBuilders}
  * {@link #setOutputDirectory(String) setOutputDirectory}
  * {@link #setBuilderPackage(String) setBuilderPackage}
- * {@link #setPropertyToIgnore(Class, String) setPropertyToIgnore}
- * {@link #setPropertyToIgnore(String, String) setPropertyToIgnore}
+ * {@link #addPropertyToIgnore(Class, String) addPropertyToIgnore}
+ * {@link #addPropertyToIgnore(String, String) addPropertyToIgnore}
+ * {@link #addClassToIgnore(Class) addClassToIgnore}
+ * {@link #addClassToIgnore(String) addClassToIgnore}
  * 
  * 
  * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a>
@@ -104,7 +111,8 @@ public class BuilderGenerator {
 	private final Class<?> rootClass;
 	private final BuilderWriter builderWriter;
 	private final FileUtils fileUtils;
-	private final Map<Class<?>, List<String>> ignoredClassProperties = new HashMap<Class<?>, List<String>>();
+	private final PropertiesToIgnore propertiesToIgnore = new PropertiesToIgnore();
+	private final ClassesToIgnore classesToIgnore = new ClassesToIgnore();
 	private String builderPackage;
 	private String outputDirectory;
 
@@ -151,7 +159,7 @@ public class BuilderGenerator {
 
         File outputDirectoryFile = fileUtils.newFile(getOutputDirectory());
         fileUtils.createDirectoriesIfNotExists(outputDirectoryFile);
-        BuilderTemplateMapCollector builderTemplateMapCollector = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage(), ignoredClassProperties);
+        BuilderTemplateMapCollector builderTemplateMapCollector = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage(), propertiesToIgnore, classesToIgnore);
         List<BuilderTemplateMap> builderTemplateMapList = builderTemplateMapCollector.collectBuilderTemplateMaps();
         
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
@@ -193,31 +201,84 @@ public class BuilderGenerator {
 	}
 	
 	/**
-	 * Specify a property to ignore in a given class.  
-	 * 
-	 * Ignored properties will not appear in the generated builder.
+     * @deprecated see {@link #addPropertyToIgnore(String, String) addPropertyToIgnore}
 	 * 
 	 * @param targetClassName the name of the class in which the property is to be ignored
 	 * @param propertyName the name of the property in the target class to ignore
 	 * @throws ClassNotFoundException if the target class cannot be found on the classpath
 	 */
+	@Deprecated
 	public void setPropertyToIgnore(String targetClassName, String propertyName) throws ClassNotFoundException {
-	    setPropertyToIgnore(Class.forName(targetClassName), propertyName);
+	    addPropertyToIgnore(targetClassName, propertyName);
 	}
-	
-	/**
+
+   /**
      * Specify a property to ignore in a given class.  
      * 
      * Ignored properties will not appear in the generated builder.
+     * 
+     * @param targetClassName the name of the class in which the property is to be ignored
+     * @param propertyName the name of the property in the target class to ignore
+     * @throws ClassNotFoundException if the target class cannot be found on the classpath
+     */
+	public void addPropertyToIgnore(String targetClassName, String propertyName) throws ClassNotFoundException {
+	    addPropertyToIgnore(Class.forName(targetClassName), propertyName);
+	}
+
+	/**
+	 * @deprecated see {@link #addPropertyToIgnore(Class, String) addPropertyToIgnore}
 	 * 
      * @param targetClass the class in which the property is to be ignored
      * @param propertyName the name of the property in the target class to ignore
 	 */
+	@Deprecated
 	public void setPropertyToIgnore(Class<?> targetClass, String propertyName) {
-	    if (ignoredClassProperties.get(targetClass) == null) {
-	        ignoredClassProperties.put(targetClass, new ArrayList<String>());
-	    }
-	    ignoredClassProperties.get(targetClass).add(propertyName);
+	    addPropertyToIgnore(targetClass, propertyName);
 	}
 
+    /**
+     * Specify a property to ignore in a given class.  
+     * 
+     * Ignored properties will not appear in the generated builder.
+     * 
+     * @param targetClass the class in which the property is to be ignored
+     * @param propertyName the name of the property in the target class to ignore
+     */
+    public void addPropertyToIgnore(Class<?> targetClass, String propertyName) {
+        propertiesToIgnore.addPropertyToIgnore(targetClass, propertyName);
+    }
+
+    /**
+	 * Add classes that <code>BuilderGenerator</code> will ignore.  I.e. no builder will
+	 * be generated for the given class.
+	 * <p>
+	 * Classes with properties of the ignored types will still have a <code>with<i>Property</i></code> method generated
+	 * to set the property, but the parameter to the <code>with<i>Property</i></code> method will be the property type, 
+	 * not a builder. 
+	 * 
+	 * @param classToIgnore class to ignore
+	 */
+    public void addClassToIgnore(Class<?> classToIgnore) {
+        // TODO: test use of canonical name by ignoring a nested class
+        addClassToIgnore(classToIgnore.getCanonicalName());
+    }
+
+    /**
+     * Add classes that <code>BuilderGenerator</code> will ignore.  I.e. no builder will
+     * be generated for the given class.
+     * <p>
+     * Classes with properties of the ignored types will still have a <code>with<i>Property</i></code> method generated
+     * to set the property, but the parameter to the <code>with<i>Property</i></code> method will be the property type, 
+     * not a builder.
+     * <p>
+     * Wild cards can be used to ignore groups of classes or entire packages (and sub packages), e.g:
+     * <p>
+     * <code>com.example.MyCla*</code> - will ignore all classes starting with com.example.MyCla<br>
+     * <code>com.example*</code> - will ignore all classes in the com.example package (and sub packages)<br>
+     * 
+     * @param classNameToIgnore The class name (with or without trailing wild card) to ignore
+     */
+    public void addClassToIgnore(String classNameToIgnore) {
+        classesToIgnore.add(classNameToIgnore);
+    }
 }

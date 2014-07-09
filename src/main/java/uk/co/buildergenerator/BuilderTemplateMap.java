@@ -1,7 +1,6 @@
 package uk.co.buildergenerator;
 
 import java.util.HashMap;
-import java.util.List;
 
 class BuilderTemplateMap extends HashMap<String, Object> {
 
@@ -14,13 +13,13 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     static final String BUILDER_PACKAGE_MAP_KEY = "builderPackage";
     static final String FACTORY_METHOD_PREFIX_MAP_KEY = "factoryMethodPrefix";
     
-    BuilderTemplateMap(Class<?> targetClass, String builderPackage, List<String> propertiesToIgnore) {
+    BuilderTemplateMap(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore) {
         
         put(BUILDER_PACKAGE_MAP_KEY, builderPackage);
         put(TARGET_CLASS_NAME_MAP_KEY, targetClass.getSimpleName());
         put(FULLY_QUALIFIED_TARGET_CLASS_NAME_MAP_KEY, targetClass.getName());
         put(FACTORY_METHOD_PREFIX_MAP_KEY, startsWithVowel(targetClass.getSimpleName()) ? "an" : "a");
-        put(WITH_METHOD_LIST_MAP_KEY, new WithMethodList(targetClass, builderPackage, propertiesToIgnore));
+        put(WITH_METHOD_LIST_MAP_KEY, new WithMethodList(targetClass, builderPackage, propertiesToIgnore, classesToIgnore));
     }
 
     private static boolean startsWithVowel(String s) {
