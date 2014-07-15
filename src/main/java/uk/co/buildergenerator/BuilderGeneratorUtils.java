@@ -5,7 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -49,15 +51,31 @@ class BuilderGeneratorUtils {
         return null;
     }
 
+    private static Map<Class<?>, String> collectionInitialisationTypes = new HashMap<Class<?>, String>();
+    static {
+        collectionInitialisationTypes.put(Collection.class, "java.util.ArrayList");
+        collectionInitialisationTypes.put(List.class, "java.util.ArrayList");
+        collectionInitialisationTypes.put(Set.class, "java.util.HashSet");
+        collectionInitialisationTypes.put(Queue.class, "java.util.PriorityQueue");
+    }
+    
     String getCollectionTypeWhenCollectionNeedsInitialising(PropertyDescriptor propertyDescriptor) {
         
-        // TODO: FIXME: This assumes everything has been coded to the interfaces, which they won't have been.
-        if (isList(propertyDescriptor.getPropertyType())) {
-            return "java.util.ArrayList";
-        } else if (isSet(propertyDescriptor.getPropertyType())) {
-            return "java.util.HashSet";
-        } else if (isQueue(propertyDescriptor.getPropertyType())) {
-            return "java.util.PriorityQueue";
+        if (isCollection(propertyDescriptor)) {
+            if (propertyDescriptor.getPropertyType().isInterface()) {
+                String type = collectionInitialisationTypes.get(propertyDescriptor.getPropertyType());
+                if (type != null) {
+                    return type;
+                } else {
+                    // ????? we don't know what type to use to initialise the collection
+                    // options: don't try and initialise the collection
+                    //          throw exception
+                    //          ??
+                    throw new RuntimeException(String.format("don't know how to initialiase null collection type %s, please raise issue at https://github.com/uglycustard/buildergenerator/issues", propertyDescriptor.getPropertyType().getCanonicalName()));
+                }
+            } else {
+                return propertyDescriptor.getPropertyType().getCanonicalName();
+            }
         }
         
         return null;

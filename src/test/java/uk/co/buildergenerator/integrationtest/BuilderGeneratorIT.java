@@ -33,6 +33,8 @@ import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithSetListMethod
 import uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithSetSetMethod;
+import uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod;
+import uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod;
 import uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod;
 import uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod;
 import uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod;
@@ -224,6 +226,26 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/NullListPropertyWithSetListMethodBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/NullListPropertyWithSetListMethodBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void nullCollectionPropertyWithSetCollectionMethod() throws Exception {
+        
+        createBuilderGenerator(NullCollectionPropertyWithSetCollectionMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/NullCollectionPropertyWithSetCollectionMethodBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/NullCollectionPropertyWithSetCollectionMethodBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void nullLinkedListPropertyWithSetLinkedListMethod() throws Exception {
+        
+        createBuilderGenerator(NullLinkedListPropertyWithSetLinkedListMethod.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/NullLinkedListPropertyWithSetLinkedListMethodBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/NullLinkedListPropertyWithSetLinkedListMethodBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
