@@ -30,6 +30,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Handles arrays and all other Java types, primitives and enums
 - Handles inherited properties in a class hierarchy
 - Handles cyclic/bi-directional object graphs
+- Handles interface properties and collections of interface properties
 - Ability to override the package for the generated builders
 - Ability to specify the output folder for the generated builder source files
 - Ability to ignore specified properties in a given class in the object graph
