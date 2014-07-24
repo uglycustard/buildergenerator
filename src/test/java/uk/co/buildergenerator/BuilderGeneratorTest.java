@@ -20,6 +20,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import uk.co.buildergenerator.testmodel.BeanToBeIgnored;
+import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
+import uk.co.buildergenerator.testmodel.BeanWithNestedClass;
+import uk.co.buildergenerator.testmodel.BeanWithNestedClassProperty;
 import uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore;
 import uk.co.buildergenerator.testmodel.NodeOne;
 import uk.co.buildergenerator.testmodel.NodeThree;
@@ -177,7 +181,25 @@ public class BuilderGeneratorTest {
         assertEquals("should not have created WithMethod for ignored property", 1, withMethodList.size());
     }
 	
-	private void assertOutputDirectoyWasCreated(File file) {
+    @Test
+    public void generateBuildersIgnoringClasses() throws Exception {
+        
+        testee = new BuilderGenerator(BeanWithChildBeanToBeIgnored.class, builderWriter, fileUtils);
+        testee.addClassToIgnore(BeanToBeIgnored.class);
+        testee.generateBuilders();
+        assertBuilderTemplateMapsCreatedForClasses(BeanWithChildBeanToBeIgnored.class);
+    }
+
+    @Test
+    public void generateBuildersIgnoringNestedClasses() throws Exception {
+        
+        testee = new BuilderGenerator(BeanWithNestedClassProperty.class, builderWriter, fileUtils);
+        testee.addClassToIgnore(BeanWithNestedClass.NestedClass.class);
+        testee.generateBuilders();
+        assertBuilderTemplateMapsCreatedForClasses(BeanWithNestedClassProperty.class);
+    }
+
+    private void assertOutputDirectoyWasCreated(File file) {
 	    verify(fileUtils).createDirectoriesIfNotExists(file);
 	}
 	

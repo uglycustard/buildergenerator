@@ -259,7 +259,6 @@ public class BuilderGenerator {
 	 * @param classToIgnore class to ignore
 	 */
     public void addClassToIgnore(Class<?> classToIgnore) {
-        // TODO: test use of canonical name by ignoring a nested class
         addClassToIgnore(classToIgnore.getCanonicalName());
     }
 
