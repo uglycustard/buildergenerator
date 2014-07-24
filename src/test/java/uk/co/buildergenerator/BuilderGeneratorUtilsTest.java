@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
+import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.House;
 import uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod;
@@ -116,4 +118,19 @@ public class BuilderGeneratorUtilsTest {
         thrown.expectMessage("don't know how to initialiase null collection type org.apache.commons.collections.Bag, please raise issue at https://github.com/uglycustard/buildergenerator/issues");
         testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor);
     }
+
+    @Test
+    public void interfacePropertiesAreNotBuilders() throws Exception {
+        
+        createPropertyDescriptor("anInterface", BeanWithAnInterfaceProperty.class);
+        assertFalse("property should not be a builder", testee.isBuilder(propertyDescriptor, classesToIgnore));
+    }
+    
+    @Test
+    public void collectionsOfInterfacePropertiesAreNotBuilders() throws Exception {
+        
+        createPropertyDescriptor("anInterfacesArrayList", BeanWithAnInterfaceCollectionProperty.class);
+        assertFalse("property should not be a builder", testee.isBuilder(propertyDescriptor, classesToIgnore));
+    }
+
 }

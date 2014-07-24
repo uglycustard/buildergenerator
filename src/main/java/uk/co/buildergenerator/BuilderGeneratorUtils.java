@@ -180,7 +180,11 @@ class BuilderGeneratorUtils {
 
     boolean isBuilder(PropertyDescriptor propertyDescriptor, ClassesToIgnore classesToIgnore) {
 
-        return !classesToIgnore.isIgnored(getTargetTypeClass(propertyDescriptor)) && !propertyDescriptor.getPropertyType().isPrimitive() && !isArray(propertyDescriptor) && !isEnum(propertyDescriptor);
+        return !classesToIgnore.isIgnored(getTargetTypeClass(propertyDescriptor)) && 
+               !propertyDescriptor.getPropertyType().isPrimitive() && 
+               !isArray(propertyDescriptor) && 
+               !isEnum(propertyDescriptor) && 
+               (!propertyDescriptor.getPropertyType().isInterface() || (isCollection(propertyDescriptor) && !getTargetTypeClass(propertyDescriptor).isInterface()));
     }
     
     String getBuilderTargetType(PropertyDescriptor propertyDescriptor, ClassesToIgnore classesToIgnore) {

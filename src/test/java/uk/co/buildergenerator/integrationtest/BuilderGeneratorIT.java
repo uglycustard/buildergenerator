@@ -16,6 +16,8 @@ import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArray
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.BeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
+import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
+import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
@@ -448,6 +450,26 @@ public class BuilderGeneratorIT {
         assertNoBuilderGenerated("integrationtest/generatedbuilder/BeanToBeIgnoredBuilder.java");
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithChildBeanToBeIgnoredBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+    
+    @Test
+    public void beanWithAnInterfaceProperty() throws Exception {
+        
+        createBuilderGenerator(BeanWithAnInterfaceProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithAnInterfacePropertyBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithAnInterfacePropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+    
+    @Test
+    public void beanWithAnInterfaceCollectionProperty() throws Exception {
+        
+        createBuilderGenerator(BeanWithAnInterfaceCollectionProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithAnInterfaceCollectionPropertyBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithAnInterfaceCollectionPropertyBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
