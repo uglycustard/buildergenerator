@@ -1,11 +1,14 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,6 +17,7 @@ import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections;
+import uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty;
 import uk.co.buildergenerator.testmodel.House;
 import uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod;
 import uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod;
@@ -21,7 +25,6 @@ import uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod;
 import uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod;
 import uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod;
 import uk.co.buildergenerator.testmodel.NullTreeSetPropertyWithSetTreeSetMethod;
-import uk.co.buildergenerator.testmodel.NullUnrecognisedCollectionPropertyWithSetUnrecognisedCollectionMethod;
 
 public class BuilderGeneratorUtilsTest {
 
@@ -112,15 +115,6 @@ public class BuilderGeneratorUtilsTest {
     }
 
     @Test
-    public void unrecognisedNullCollectionType() throws Exception {
-        
-        createPropertyDescriptor("bag", NullUnrecognisedCollectionPropertyWithSetUnrecognisedCollectionMethod.class);
-        thrown.expect(RuntimeException.class);
-        thrown.expectMessage("don't know how to initialiase null collection type org.apache.commons.collections.Bag, please raise issue at https://github.com/uglycustard/buildergenerator/issues");
-        testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor);
-    }
-
-    @Test
     public void interfacePropertiesAreNotBuilders() throws Exception {
         
         createPropertyDescriptor("anInterface", BeanWithAnInterfaceProperty.class);
@@ -141,4 +135,23 @@ public class BuilderGeneratorUtilsTest {
         Class<?> targetTypeClass = testee.getTargetTypeClass(propertyDescriptor);
         assertEquals(Object.class, targetTypeClass);
     }
+    
+    @Ignore
+    @Test
+    public void cannotInitialiseAnUnknownSubInterfaceOfCollection() throws Exception {
+        
+        createPropertyDescriptor("subList", BeanWithNullSubListInterfaceProperty.class);
+        assertFalse(testee.isCollectionNeedsInitialising(BeanWithNullSubListInterfaceProperty.class, propertyDescriptor));
+        assertNull(testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+        assertEquals("setSubList", testee.getCollectionMethodSettingInvocation(propertyDescriptor, BeanWithNullSubListInterfaceProperty.class));
+    }
+    
+    @Test
+    public void treatUnknownSubInterfaceOfCollectionAsSimpleType() throws Exception {
+        
+        createPropertyDescriptor("subList", BeanWithNullSubListInterfaceProperty.class);
+        assertFalse(testee.isCollection(propertyDescriptor));
+        assertFalse(testee.isBuilder(propertyDescriptor, classesToIgnore));
+    }
+
 }

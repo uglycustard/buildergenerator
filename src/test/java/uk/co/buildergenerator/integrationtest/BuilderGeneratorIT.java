@@ -24,6 +24,7 @@ import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitive
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
 import uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections;
 import uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty;
+import uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore;
 import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
@@ -484,4 +485,13 @@ public class BuilderGeneratorIT {
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
+    @Test
+    public void beanWithNullSubListInterfaceProperty() throws Exception {
+        
+        createBuilderGenerator(BeanWithNullSubListInterfaceProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithNullSubListInterfacePropertyBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithNullSubListInterfacePropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
 }

@@ -15,7 +15,8 @@ class BuilderGeneratorUtils {
 
     boolean isCollection(PropertyDescriptor propertyDescriptor) {
         
-        return Collection.class.isAssignableFrom(propertyDescriptor.getPropertyType());
+        Class<?> propertyType = propertyDescriptor.getPropertyType();
+        return Collection.class.isAssignableFrom(propertyType) && propertyType.getPackage().getName().startsWith("java.util");
     }
     
     boolean isCollectionNeedsInitialising(Class<?> targetClass, PropertyDescriptor propertyDescriptor) {
@@ -64,15 +65,7 @@ class BuilderGeneratorUtils {
         if (isCollection(propertyDescriptor)) {
             if (propertyDescriptor.getPropertyType().isInterface()) {
                 String type = collectionInitialisationTypes.get(propertyDescriptor.getPropertyType());
-                if (type != null) {
-                    return type;
-                } else {
-                    // ????? we don't know what type to use to initialise the collection
-                    // options: don't try and initialise the collection
-                    //          throw exception
-                    //          ??
-                    throw new RuntimeException(String.format("don't know how to initialiase null collection type %s, please raise issue at https://github.com/uglycustard/buildergenerator/issues", propertyDescriptor.getPropertyType().getCanonicalName()));
-                }
+                return type;
             } else {
                 return propertyDescriptor.getPropertyType().getCanonicalName();
             }
