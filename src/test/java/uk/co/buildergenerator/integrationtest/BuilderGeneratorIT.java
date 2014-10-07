@@ -22,6 +22,7 @@ import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
+import uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections;
 import uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty;
 import uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore;
 import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
@@ -470,6 +471,16 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithAnInterfaceCollectionPropertyBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithAnInterfaceCollectionPropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void beanWithNonGenericCollectionsProperty() throws Exception {
+        
+        createBuilderGenerator(BeanWithNonGenericCollections.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithNonGenericCollectionsBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithNonGenericCollectionsBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 

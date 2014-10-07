@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
+import uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections;
 import uk.co.buildergenerator.testmodel.House;
 import uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod;
 import uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod;
@@ -133,4 +134,11 @@ public class BuilderGeneratorUtilsTest {
         assertFalse("property should not be a builder", testee.isBuilder(propertyDescriptor, classesToIgnore));
     }
 
+    @Test
+    public void targetTypeClassForNonGenericList() throws Exception {
+        
+        createPropertyDescriptor("things", BeanWithNonGenericCollections.class);
+        Class<?> targetTypeClass = testee.getTargetTypeClass(propertyDescriptor);
+        assertEquals(Object.class, targetTypeClass);
+    }
 }

@@ -136,8 +136,14 @@ class BuilderGeneratorUtils {
         if (isCollection(propertyDescriptor)) {
             
             Type genericType = propertyDescriptor.getReadMethod().getGenericReturnType();
-            Type[] actualTypeArguments = ((ParameterizedType)genericType).getActualTypeArguments();
-            return ((Class<?>) actualTypeArguments[0]);
+            
+            if (genericType instanceof ParameterizedType) {
+                Type[] actualTypeArguments = ((ParameterizedType)genericType).getActualTypeArguments();
+                return ((Class<?>) actualTypeArguments[0]);
+            } else {
+                return Object.class;
+            }
+            
         } else {
             return propertyDescriptor.getPropertyType();
         }
