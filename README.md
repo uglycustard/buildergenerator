@@ -25,7 +25,7 @@ consistent pattern for each JavaBean in the entire object graph.
   - with method that adds an Address to addresses collection property -> withAddress(Address address)
 - Chains builders together for building complex types e.g.:
   - withCustomer(CustomerBuilder customer)
-- Handles Java collections in a consistent way which add to the underlying collection    
+- Handles Java collections in a consistent way which add to the underlying collection (see below)
 - Handles initialisation of null collections directly in the generated builder
 - Handles arrays and all other Java types, primitives and enums
 - Handles inherited properties in a class hierarchy
@@ -85,6 +85,59 @@ Add BuilderGenerator as a Maven dependency:
 [Search Maven Central for BuilderGenerator releases](http://search.maven.org/#search%7Cga%7C1%7Cuk.co.buildergenerator.buildergenerator)
 
 Alternatively, you can download the source from https://github.com/uglycustard/buildergenerator
+
+##Java Collection Handling
+
+BuilderGenerator attempts to make working with Java Collections easier as follows:
+
+- Creates with methods that add to the collection, e.g. given bean:
+```
+    public class MyBean {
+        private List<Thing> things = new ArrayList<Thing>();
+        public List<Thing> getThings() { return things; }
+    }
+```
+  BuilderGenerator will include the following with method:
+```
+    public MyBeanBuilder withThing(Thing thing) {
+        target.getThings().add(thing);
+        return this;
+    }
+```
+- Initialises null collections, e.g. given bean:
+```
+    public class MyBean {
+        private List<Thing> things;
+        public List<Thing> getThings() { return things; }
+        public void setThings(List<Thing> things) { this.things = things; }
+    }
+```
+  BuilderGenerator will include the following with method:
+```
+    public MyBeanBuilder withThing(Thing thing) {
+        if (target.getThings() == null) {
+            target.setThings(new ArrayList<Thing>();
+        }
+        target.getThings().add(thing);
+        return this;
+    }
+```
+- Uses collection add method if found, e.g. given bean:
+```
+    public class MyBean {
+        private List<Thing> things = new ArrayList<Thing>();
+        public List<Thing> getThings() { return things; }
+        public void addThing(Thing thing) { this.things.add(thing); }
+    }
+```
+  BuilderGenerator will include the following with method:
+```
+    public MyBeanBuilder withThing(Thing thing) {
+        target.addThing(thing);
+        return this;
+    }
+```
+- Handles unrecognised collections and non-parameterized collection types by treating the property as a simple type
 
 ##Best Practice
 
