@@ -17,6 +17,13 @@ class BuilderWriter {
         this.fileUtils = fileUtils;
     }
 
+    void generateBuilderWithGenerationGap(BuilderTemplateMap builderTemplateMap, File outputDirectory) {
+        builderTemplateMap.setAsGenerationGapBaseBuilder();
+        generateBuilder(builderTemplateMap, outputDirectory);
+        builderTemplateMap.setAsGenerationGapBuilder();
+        generateBuilder(builderTemplateMap, outputDirectory);
+    }
+
     void generateBuilder(BuilderTemplateMap builderTemplateMap, File outputDirectory) {
 
         try {
@@ -25,7 +32,14 @@ class BuilderWriter {
             fileUtils.createDirectoriesIfNotExists(targetPackageDirectory);
             
             String targetClass = (String) builderTemplateMap.getTargetClassName();
-            File f = fileUtils.newFile(targetPackageDirectory, targetClass + "Builder.java");
+            String filename = targetClass + (builderTemplateMap.isGeneratioGapBaseBuilder() ? "Base" : "") + "Builder.java";
+            File f = fileUtils.newFile(targetPackageDirectory, filename);
+            
+            if (builderTemplateMap.isGeneratioGapBuilder() && f.exists()) {
+                // don't overwrite sub classes in generation gap mode, they are for customising
+                return;
+            }
+            
             fileUtils.createFileIfNotExists(f);
             FileWriter fw = new FileWriter(f);
             

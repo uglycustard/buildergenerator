@@ -1,11 +1,11 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static uk.co.buildergenerator.BuilderTemplateMap.BUILDER_PACKAGE_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.FACTORY_METHOD_PREFIX_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.FULLY_QUALIFIED_TARGET_CLASS_NAME_MAP_KEY;
+import static uk.co.buildergenerator.BuilderTemplateMap.GENERATION_GAP_BASE_BUILDER;
+import static uk.co.buildergenerator.BuilderTemplateMap.GENERATION_GAP_BUILDER;
 import static uk.co.buildergenerator.BuilderTemplateMap.TARGET_CLASS_NAME_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.WITH_METHOD_LIST_MAP_KEY;
 
@@ -84,6 +84,38 @@ public class BuilderTemplateMapTest {
         BuilderTemplateMap testee = new BuilderTemplateMap(Address.class, builderPackage, propertiesToIgnore, classesToIgnore);
         assertEquals(builderPackage, testee.get(BUILDER_PACKAGE_MAP_KEY));
         assertEquals(builderPackage, testee.getBuilderPackage());
+    }
+
+    @Test
+    public void notGenerationGapByDefault() throws Exception {
+        
+        BuilderTemplateMap testee = new BuilderTemplateMap(Target.class, "uk.co.buildergenerator", propertiesToIgnore, classesToIgnore);
+        assertFalse(testee.isGeneratioGapBaseBuilder());
+        assertEquals(false, testee.get(GENERATION_GAP_BASE_BUILDER));
+        assertFalse(testee.isGeneratioGapBuilder());
+        assertEquals(false, testee.get(GENERATION_GAP_BUILDER));
+    }
+    
+    @Test
+    public void setAsGenerationGapBaseBuilder() throws Exception {
+        
+        BuilderTemplateMap testee = new BuilderTemplateMap(Target.class, "uk.co.buildergenerator", propertiesToIgnore, classesToIgnore);
+        testee.setAsGenerationGapBaseBuilder();
+        assertTrue(testee.isGeneratioGapBaseBuilder());
+        assertEquals(true, testee.get(GENERATION_GAP_BASE_BUILDER));
+        assertFalse(testee.isGeneratioGapBuilder());
+        assertEquals(false, testee.get(GENERATION_GAP_BUILDER));
+    }
+    
+    @Test
+    public void setAsGenerationGapBuilder() throws Exception {
+        
+        BuilderTemplateMap testee = new BuilderTemplateMap(Target.class, "uk.co.buildergenerator", propertiesToIgnore, classesToIgnore);
+        testee.setAsGenerationGapBuilder();
+        assertFalse(testee.isGeneratioGapBaseBuilder());
+        assertEquals(false, testee.get(GENERATION_GAP_BASE_BUILDER));
+        assertTrue(testee.isGeneratioGapBuilder());
+        assertEquals(true, testee.get(GENERATION_GAP_BUILDER));
     }
 
 }

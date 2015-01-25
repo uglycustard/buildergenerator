@@ -115,6 +115,7 @@ public class BuilderGenerator {
 	private final ClassesToIgnore classesToIgnore = new ClassesToIgnore();
 	private String builderPackage;
 	private String outputDirectory;
+    private boolean generationGap;
 
 	/**
 	 * Construct a <code>BuilderGenerator</code> for an object graph whose graph
@@ -163,10 +164,13 @@ public class BuilderGenerator {
         List<BuilderTemplateMap> builderTemplateMapList = builderTemplateMapCollector.collectBuilderTemplateMaps();
         
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
+            if (generationGap) {
+                builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile);
+            }
             builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
         }
     }
-
+    
 	Class<?> getRootClass() {
 		return rootClass;
 	}
@@ -279,5 +283,15 @@ public class BuilderGenerator {
      */
     public void addClassToIgnore(String classNameToIgnore) {
         classesToIgnore.add(classNameToIgnore);
+    }
+
+    /**
+     * Configure whether <code>BuilderGenerator</code> will create builders following the "Generation Gap" pattern.
+     * 
+     * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a>
+     * @param generationGap <code>true</code> to create builders following the "Generation Gap" pattern, otherwise <code>false</code> (default).
+     */
+    public void setGenerationGap(boolean generationGap) {
+        this.generationGap = generationGap;
     }
 }

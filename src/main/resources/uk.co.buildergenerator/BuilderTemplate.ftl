@@ -1,17 +1,16 @@
 package ${builderPackage};
 
-public class ${targetClass}Builder {
-
+public class ${targetClass}<#if !generatioGapBaseBuilder>Builder</#if><#if generatioGapBaseBuilder>BaseBuilder<T extends ${targetClass}BaseBuilder<T>></#if> <#if generatioGapBuilder>extends ${targetClass}BaseBuilder<${targetClass}Builder> </#if>{
+    <#if !generatioGapBaseBuilder>
     public static ${targetClass}Builder ${factoryMethodPrefix}${targetClass}() {
         return new ${targetClass}Builder();
-    }
-    
+    }</#if><#if !generatioGapBuilder>    
     private ${fullyQualifiedTargetClass} target = new ${fullyQualifiedTargetClass}();
     
-    public ${targetClass}Builder() {}
+    public ${targetClass}<#if generatioGapBaseBuilder>Base</#if>Builder() {}
     
     <#list withMethodList as withMethod>
-    public ${targetClass}Builder with${withMethod.propertyName}(${withMethod.parameterType} ${withMethod.parameterName}) {
+    public <#if generatioGapBaseBuilder>T</#if><#if !generatioGapBaseBuilder>${targetClass}Builder</#if> with${withMethod.propertyName}(${withMethod.parameterType} ${withMethod.parameterName}) {
     <#if withMethod.collection>
     <#if withMethod.collectionNeedsInitialising>
         if (target.${withMethod.collectionGetterMethodName}() == null) {
@@ -28,11 +27,16 @@ public class ${targetClass}Builder {
     <#if !withMethod.collection>
         target.set${withMethod.propertyName}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
     </#if>
-        return this;
+        return <#if generatioGapBaseBuilder>(T) </#if>this;
     }
     
-    </#list>
-    public ${fullyQualifiedTargetClass} build() {
+    </#list><#if generatioGapBaseBuilder>
+    protected ${fullyQualifiedTargetClass} getTarget() {
         return target;
     }
+    
+    </#if>
+    public ${fullyQualifiedTargetClass} build() {
+        return target;
+    }</#if>
 }

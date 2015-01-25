@@ -4,13 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.junit.Test;
 
 import uk.co.buildergenerator.BuilderGenerator;
+import uk.co.buildergenerator.FileUtils;
 import uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
@@ -30,6 +33,7 @@ import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsMethod;
+import uk.co.buildergenerator.testmodel.CustomisedStringPropertyBean;
 import uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft;
 import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethodAndSetListMethod;
@@ -52,6 +56,7 @@ import uk.co.buildergenerator.testmodel.SubClassOfInitialisedListPropertyWithSet
 public class BuilderGeneratorIT {
     
     private static final String BUILDER_PACKAGE = "integrationtest.generatedbuilder";
+    private static final String GENERATION_GAP_BUILDER_PACKAGE = "integrationtest.generationgap.generatedbuilder";
     private static final String OUTPUT_DIRECTORY = "./target/test-classes";
 //    private static final String OUTPUT_DIRECTORY = "./src/test/java";
 
@@ -494,4 +499,54 @@ public class BuilderGeneratorIT {
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithNullSubListInterfacePropertyBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
+
+    @Test
+    public void stringPropertyBeanWithGenerationGap() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBean.class, GENERATION_GAP_BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.setGenerationGap(true);
+        builderGenerator.generateBuilders();
+        
+        String generatedBaseBuilderFilename = "integrationtest/generationgap/generatedbuilder/StringPropertyBeanBaseBuilder.java";
+        String expectedBaseBuilderFilename = "integrationtest/generationgap/expectedbuilder/StringPropertyBeanBaseBuilder.java";
+        assertFilesEqual(expectedBaseBuilderFilename, generatedBaseBuilderFilename);
+        
+        String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/StringPropertyBeanBuilder.java";
+        String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/StringPropertyBeanBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void generationGapWithCustomisedBuilder() throws Exception {
+        
+        // TODO: tidy this mess
+        
+        FileUtils fileUtils = new FileUtils();
+        File outputDirectory = fileUtils.newFile(OUTPUT_DIRECTORY);
+        fileUtils.createDirectoriesIfNotExists(outputDirectory);
+        
+        File packageDirectory = fileUtils.newFile(outputDirectory, "integrationtest/generationgap/generatedbuilder");
+        fileUtils.createDirectoriesIfNotExists(packageDirectory);
+        
+        String generatedBuilderFilename = "CustomisedStringPropertyBeanBuilder.java";
+        String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/CustomisedStringPropertyBeanBuilder.java";
+        File existingCustomisedBuilder = fileUtils.newFile(packageDirectory, generatedBuilderFilename);
+        fileUtils.createFileIfNotExists(existingCustomisedBuilder);
+        String readFile = readFile(expectedBuilderFilename);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(existingCustomisedBuilder));
+        writer.write(readFile);
+        writer.flush();
+        writer.close();
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(CustomisedStringPropertyBean.class, GENERATION_GAP_BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.setGenerationGap(true);
+        builderGenerator.generateBuilders();
+        
+        String generatedBaseBuilderFilename = "integrationtest/generationgap/generatedbuilder/CustomisedStringPropertyBeanBaseBuilder.java";
+        String expectedBaseBuilderFilename = "integrationtest/generationgap/expectedbuilder/CustomisedStringPropertyBeanBaseBuilder.java";
+        assertFilesEqual(expectedBaseBuilderFilename, generatedBaseBuilderFilename);
+        
+        assertFilesEqual(expectedBuilderFilename, "integrationtest/generationgap/generatedbuilder/" + generatedBuilderFilename);
+    }
+
 }

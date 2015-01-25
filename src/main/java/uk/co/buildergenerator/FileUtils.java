@@ -3,17 +3,17 @@ package uk.co.buildergenerator;
 import java.io.File;
 import java.io.IOException;
 
-class FileUtils {
+public class FileUtils {
 
-    File newFile(String path) {
+    public File newFile(String path) {
         return new File(path);
     }
     
-    File newFile(File parent, String path) {
+    public File newFile(File parent, String path) {
         return new File(parent, path);
     }
 
-    void createDirectoriesIfNotExists(File directory) {
+    public void createDirectoriesIfNotExists(File directory) {
         if (!directory.exists()) {
             if(!directory.mkdirs()) {
                 throw new RuntimeException(String.format("failed to create directory %s", directory.getPath()));
@@ -21,7 +21,7 @@ class FileUtils {
         }
     }
 
-    void createFileIfNotExists(File file) {
+    public void createFileIfNotExists(File file) {
         
         if (!file.exists()) {
             try {
