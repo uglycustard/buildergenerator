@@ -549,4 +549,22 @@ public class BuilderGeneratorIT {
         assertFilesEqual(expectedBuilderFilename, "integrationtest/generationgap/generatedbuilder/" + generatedBuilderFilename);
     }
 
+    @Test
+    public void generationGapWithDifferentPackageForBaseBuilders() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBean.class, GENERATION_GAP_BUILDER_PACKAGE + ".builder", OUTPUT_DIRECTORY);
+        builderGenerator.setGenerationGap(true);
+        builderGenerator.setGenerationGapBaseBuilderPackage(GENERATION_GAP_BUILDER_PACKAGE + ".base");
+        builderGenerator.generateBuilders();
+        
+        String generatedBaseBuilderFilename = "integrationtest/generationgap/generatedbuilder/base/StringPropertyBeanBaseBuilder.java";
+        String expectedBaseBuilderFilename = "integrationtest/generationgap/expectedbuilder/base/StringPropertyBeanBaseBuilder.java";
+        assertFilesEqual(expectedBaseBuilderFilename, generatedBaseBuilderFilename);
+        
+        String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/builder/StringPropertyBeanBuilder.java";
+        String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/base/StringPropertyBeanBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+
+    }
+
 }

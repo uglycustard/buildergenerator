@@ -1,16 +1,17 @@
-package ${builderPackage};
+<#if !generationGapBaseBuilder>package ${builderPackage};</#if>
+<#if generationGapBaseBuilder>package ${generationGapBaseBuilderPackage};</#if>
 
-public class ${targetClass}<#if !generatioGapBaseBuilder>Builder</#if><#if generatioGapBaseBuilder>BaseBuilder<T extends ${targetClass}BaseBuilder<T>></#if> <#if generatioGapBuilder>extends ${targetClass}BaseBuilder<${targetClass}Builder> </#if>{
-    <#if !generatioGapBaseBuilder>
+public class ${targetClass}<#if !generationGapBaseBuilder>Builder</#if><#if generationGapBaseBuilder>BaseBuilder<T extends ${generationGapBaseBuilderPackage}.${targetClass}BaseBuilder<T>></#if> <#if generationGapBuilder>extends ${generationGapBaseBuilderPackage}.${targetClass}BaseBuilder<${targetClass}Builder> </#if>{
+    <#if !generationGapBaseBuilder>
     public static ${targetClass}Builder ${factoryMethodPrefix}${targetClass}() {
         return new ${targetClass}Builder();
-    }</#if><#if !generatioGapBuilder>    
+    }</#if><#if !generationGapBuilder>    
     private ${fullyQualifiedTargetClass} target = new ${fullyQualifiedTargetClass}();
     
-    public ${targetClass}<#if generatioGapBaseBuilder>Base</#if>Builder() {}
+    public ${targetClass}<#if generationGapBaseBuilder>Base</#if>Builder() {}
     
     <#list withMethodList as withMethod>
-    public <#if generatioGapBaseBuilder>T</#if><#if !generatioGapBaseBuilder>${targetClass}Builder</#if> with${withMethod.propertyName}(${withMethod.parameterType} ${withMethod.parameterName}) {
+    public <#if generationGapBaseBuilder>T</#if><#if !generationGapBaseBuilder>${targetClass}Builder</#if> with${withMethod.propertyName}(${withMethod.parameterType} ${withMethod.parameterName}) {
     <#if withMethod.collection>
     <#if withMethod.collectionNeedsInitialising>
         if (target.${withMethod.collectionGetterMethodName}() == null) {
@@ -27,10 +28,10 @@ public class ${targetClass}<#if !generatioGapBaseBuilder>Builder</#if><#if gener
     <#if !withMethod.collection>
         target.set${withMethod.propertyName}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
     </#if>
-        return <#if generatioGapBaseBuilder>(T) </#if>this;
+        return <#if generationGapBaseBuilder>(T) </#if>this;
     }
     
-    </#list><#if generatioGapBaseBuilder>
+    </#list><#if generationGapBaseBuilder>
     protected ${fullyQualifiedTargetClass} getTarget() {
         return target;
     }

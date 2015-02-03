@@ -1,6 +1,6 @@
-package integrationtest.generationgap.generatedbuilder;
+package integrationtest.generationgap.generatedbuilder.base;
 
-public class StringPropertyBeanBaseBuilder<T extends integrationtest.generationgap.generatedbuilder.StringPropertyBeanBaseBuilder<T>> {
+public class StringPropertyBeanBaseBuilder<T extends integrationtest.generationgap.generatedbuilder.base.StringPropertyBeanBaseBuilder<T>> {
     
     private uk.co.buildergenerator.testmodel.StringPropertyBean target = new uk.co.buildergenerator.testmodel.StringPropertyBean();
     

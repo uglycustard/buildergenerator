@@ -11,8 +11,9 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     static final String WITH_METHOD_LIST_MAP_KEY = "withMethodList";
     static final String BUILDER_PACKAGE_MAP_KEY = "builderPackage";
     static final String FACTORY_METHOD_PREFIX_MAP_KEY = "factoryMethodPrefix";
-    static final String GENERATION_GAP_BASE_BUILDER = "generatioGapBaseBuilder";
-    static final String GENERATION_GAP_BUILDER = "generatioGapBuilder";
+    static final String GENERATION_GAP_BASE_BUILDER = "generationGapBaseBuilder";
+    static final String GENERATION_GAP_BUILDER = "generationGapBuilder";
+    static final String GENERATION_GAP_BASE_BUILDER_PACKAGE = "generationGapBaseBuilderPackage";
     
     BuilderTemplateMap(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore) {
         
@@ -46,6 +47,10 @@ class BuilderTemplateMap extends HashMap<String, Object> {
         return (String) get(BUILDER_PACKAGE_MAP_KEY);
     }
 
+    String getGenerationGapBaseBuilderPackage() {
+        return (String) get(GENERATION_GAP_BASE_BUILDER_PACKAGE);
+    }
+
     boolean isGeneratioGapBaseBuilder() {
         return (Boolean) get(GENERATION_GAP_BASE_BUILDER);
     }
@@ -57,6 +62,10 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     void setAsGenerationGapBaseBuilder() {
         put(GENERATION_GAP_BASE_BUILDER, true);
         put(GENERATION_GAP_BUILDER, false);
+    }
+    
+    void setGenerationGapBaseBuilderPackage(String generationGapBaseBuilderPackage) {
+        put(GENERATION_GAP_BASE_BUILDER_PACKAGE, generationGapBaseBuilderPackage);
     }
 
     void setAsGenerationGapBuilder() {

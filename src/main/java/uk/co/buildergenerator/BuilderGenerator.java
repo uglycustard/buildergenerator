@@ -116,6 +116,7 @@ public class BuilderGenerator {
 	private String builderPackage;
 	private String outputDirectory;
     private boolean generationGap;
+    private String generationGapBaseBuilderPackage;
 
 	/**
 	 * Construct a <code>BuilderGenerator</code> for an object graph whose graph
@@ -165,7 +166,8 @@ public class BuilderGenerator {
         
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
             if (generationGap) {
-                builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile);
+                String baseBuilderPackage = getGenerationGapBaseBuilderPackage() != null ? getGenerationGapBaseBuilderPackage() : getBuilderPackage();
+                builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile, baseBuilderPackage);
             }
             builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
         }
@@ -182,6 +184,10 @@ public class BuilderGenerator {
 	String getOutputDirectory() {
 		return outputDirectory;
 	}
+	
+    String getGenerationGapBaseBuilderPackage() {
+        return generationGapBaseBuilderPackage;
+    }
 
 	/**
 	 * Override the default builder package by calling this method.
@@ -294,4 +300,15 @@ public class BuilderGenerator {
     public void setGenerationGap(boolean generationGap) {
         this.generationGap = generationGap;
     }
+
+    /**
+     * Set the package of the base builders when building using the Generation Gap pattern.
+     * 
+     * @param generationGapBaseBuilderPackage
+     *            the package that generated base builders will be written to.
+     */
+    public void setGenerationGapBaseBuilderPackage(String generationGapBaseBuilderPackage) {
+        this.generationGapBaseBuilderPackage = generationGapBaseBuilderPackage;
+    }
+
 }

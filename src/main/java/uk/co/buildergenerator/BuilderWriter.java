@@ -17,8 +17,9 @@ class BuilderWriter {
         this.fileUtils = fileUtils;
     }
 
-    void generateBuilderWithGenerationGap(BuilderTemplateMap builderTemplateMap, File outputDirectory) {
+    void generateBuilderWithGenerationGap(BuilderTemplateMap builderTemplateMap, File outputDirectory, String generationGapBaseBuilderPackage) {
         builderTemplateMap.setAsGenerationGapBaseBuilder();
+        builderTemplateMap.setGenerationGapBaseBuilderPackage(generationGapBaseBuilderPackage);
         generateBuilder(builderTemplateMap, outputDirectory);
         builderTemplateMap.setAsGenerationGapBuilder();
         generateBuilder(builderTemplateMap, outputDirectory);
@@ -28,7 +29,8 @@ class BuilderWriter {
 
         try {
             
-            File targetPackageDirectory = fileUtils.newFile(outputDirectory, builderTemplateMap.getBuilderPackage().replaceAll("\\.", "/"));
+            String builderPackage = builderTemplateMap.isGeneratioGapBaseBuilder() ? builderTemplateMap.getGenerationGapBaseBuilderPackage() : builderTemplateMap.getBuilderPackage();
+            File targetPackageDirectory = fileUtils.newFile(outputDirectory, builderPackage.replaceAll("\\.", "/"));
             fileUtils.createDirectoriesIfNotExists(targetPackageDirectory);
             
             String targetClass = (String) builderTemplateMap.getTargetClassName();
