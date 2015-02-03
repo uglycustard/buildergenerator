@@ -161,7 +161,7 @@ To configure BuilderGenerator to generate builders following this pattern, do th
     bg.generateBuilders();
 ``` 
 
-You can also configure BuilderGenerator to output the the base builders into a differnt package from the actual builders as follows:
+You can also configure BuilderGenerator to output the base builders into a differnt package from the actual builders as follows:
 
 ```
     BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
