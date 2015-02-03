@@ -35,6 +35,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Ability to specify the output folder for the generated builder source files
 - Ability to ignore specified properties in a given class in the object graph
 - Ability to ignore specified classes in the object graph
+- Ability to configure BuilderGenerator to generate builders following the Generation Gap pattern (see "Best Practice" below)
 
 ##Usage
 
@@ -142,7 +143,33 @@ BuilderGenerator attempts to make working with Java Collections easier as follow
 ##Best Practice
 
 You should avoid modifying generated source code so that it can be re-generated without you losing your additions.
-If you want to extend the capabilities of the generated builders, follow [Martin Fowler's Generation Gap pattern](http://martinfowler.com/dslCatalog/generationGap.html).
+BuilderGenerator can be configured to follow [Martin Fowler's Generation Gap pattern](http://martinfowler.com/dslCatalog/generationGap.html)
+such that it will generate a base builder containing all the generated methods which the builder then extends.  It is the sub class builder
+that you can then customise and BuilderGenerator will not overwrite this file it it exists.
+
+Generics are used so that all the generated "withXXX" methods that reside in the base builder super class, return an instance of the sub class, i.e. the actual builder
+that your code interfaces with.  This is to allow chaining of methods in the super class base builder with customised methods in the actual builder sub class.
+You should not code against the base builder super class, only the actual builder.
+
+The generated factory methods are still implemented in the actual builder as for generation without using the Generation Gap pattern.
+
+To configure BuilderGenerator to generate builders following this pattern, do the following:
+
+```
+    BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
+    bg.setGenerationGap(true);
+    bg.generateBuilders();
+``` 
+
+You can also configure BuilderGenerator to output the the base builders into a differnt package from the actual builders as follows:
+
+```
+    BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);
+    bg.setGenerationGap(true);
+    bg.setGenerationGapBaseBuilderPackage("com.example.mypackage.basebuilders");
+    bg.generateBuilders();
+``` 
+
 
 ##Issues
 
