@@ -9,7 +9,7 @@
 
     <groupId>uk.co.buildergenerator</groupId>
     <artifactId>buildergenerator</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Builder Generator</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:git@github.com:uglycustard/buildergenerator.git</connection>
         <developerConnection>scm:git:https://github.com/uglycustard/buildergenerator.git</developerConnection>
         <url>https://github.com/uglycustard/buildergenerator</url>
-        <tag>buildergenerator-0.0.12</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <licenses>
