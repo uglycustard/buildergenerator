@@ -145,7 +145,7 @@ BuilderGenerator attempts to make working with Java Collections easier as follow
 You should avoid modifying generated source code so that it can be re-generated without you losing your additions.
 BuilderGenerator can be configured to follow [Martin Fowler's Generation Gap pattern](http://martinfowler.com/dslCatalog/generationGap.html)
 such that it will generate a base builder containing all the generated methods which the builder then extends.  It is the sub class builder
-that you can then customise and BuilderGenerator will not overwrite this file it it exists.
+that you can then customise and BuilderGenerator will not overwrite this file if it exists.
 
 Generics are used so that all the generated "withXXX" methods that reside in the base builder super class, return an instance of the sub class, i.e. the actual builder
 that your code interfaces with.  This is to allow chaining of methods in the super class base builder with customised methods in the actual builder sub class.
