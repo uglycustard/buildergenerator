@@ -17,8 +17,12 @@ class WithMethodList extends ArrayList<WithMethod> {
         
         for (PropertyDescriptor propertyDescriptor : PropertyUtils.getPropertyDescriptors(targetClass)) {
             
-            if (!propertiesToIgnore.isPropertyIgnored(targetClass, propertyDescriptor.getName()) && propertyIsWritable(targetClass, propertyDescriptor)) {
-                add(getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage, classesToIgnore));
+            try {
+                if (!propertiesToIgnore.isPropertyIgnored(targetClass, propertyDescriptor.getName()) && propertyIsWritable(targetClass, propertyDescriptor)) {
+                    add(getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage, classesToIgnore));
+                }
+            } catch (RuntimeException e) {
+                throw new RuntimeException(String.format("error generating builder method for property [%s] in class [%s], please log an issue at www.buildergenerator.co.uk", propertyDescriptor.getDisplayName(), targetClass.getName()), e);
             }
         }
     }
