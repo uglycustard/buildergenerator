@@ -23,6 +23,7 @@ import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
+import uk.co.buildergenerator.testmodel.BeanWithMapProperty;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
 import uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections;
@@ -565,6 +566,15 @@ public class BuilderGeneratorIT {
         String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/base/StringPropertyBeanBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
 
+    }
+
+    @Test
+    public void beanWithMapProperties() throws Exception {
+        
+        createBuilderGenerator(BeanWithMapProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithMapPropertyBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithMapPropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
 }

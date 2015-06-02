@@ -3,9 +3,12 @@ package uk.co.buildergenerator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -16,6 +19,7 @@ import org.junit.rules.ExpectedException;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
+import uk.co.buildergenerator.testmodel.BeanWithMapProperty;
 import uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections;
 import uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty;
 import uk.co.buildergenerator.testmodel.House;
@@ -152,6 +156,33 @@ public class BuilderGeneratorUtilsTest {
         createPropertyDescriptor("subList", BeanWithNullSubListInterfaceProperty.class);
         assertFalse(testee.isCollection(propertyDescriptor));
         assertFalse(testee.isBuilder(propertyDescriptor, classesToIgnore));
+    }
+
+    
+    @Test
+    public void isMap() throws Exception {
+        
+        assertTrue(testee.isMap(Map.class));
+    }
+    
+    @Test
+    public void isNotMap() throws Exception {
+        
+        assertFalse(testee.isMap(List.class));
+    }
+
+    @Test
+    public void mapPropertyWithGenerics() throws Exception {
+        
+        createPropertyDescriptor("mapOfStrings", BeanWithMapProperty.class);
+        assertEquals("java.util.Map<java.lang.String, java.lang.String>", testee.getParameterType(propertyDescriptor, null, classesToIgnore));
+    }
+
+    @Test
+    public void mapPropertyWithoutGenerics() throws Exception {
+        
+        createPropertyDescriptor("mapOfAnything", BeanWithMapProperty.class);
+        assertEquals("java.util.Map", testee.getParameterType(propertyDescriptor, null, classesToIgnore));
     }
 
 }

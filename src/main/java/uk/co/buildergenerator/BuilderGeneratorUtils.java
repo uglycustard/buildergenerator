@@ -86,6 +86,10 @@ class BuilderGeneratorUtils {
         return Queue.class.isAssignableFrom(type);
     }
     
+    boolean isMap(Class<?> type) {
+        return Map.class.isAssignableFrom(type);
+    }
+    
     String getCollectionMethodSettingInvocation(PropertyDescriptor propertyDescriptor, Class<?> targetClass) {
         
         if (isCollection(propertyDescriptor)) {
@@ -158,12 +162,25 @@ class BuilderGeneratorUtils {
 
     String getParameterType(PropertyDescriptor propertyDescriptor, String builderPackage, ClassesToIgnore classesToIgnore) {
         
-        String parameterType = getTargetTypeClass(propertyDescriptor).getCanonicalName();
+        String parameterType;
         
-        if (isBuilder(propertyDescriptor, classesToIgnore)) {
-            parameterType = builderPackage + parameterType.substring(parameterType.lastIndexOf(".")) + "Builder";
+        if (isMap(getTargetTypeClass(propertyDescriptor))) {
+            
+            parameterType = propertyDescriptor.getPropertyType().getCanonicalName();
+            Type genericType = propertyDescriptor.getReadMethod().getGenericReturnType();
+            if (genericType instanceof ParameterizedType) {
+                Type[] actualTypeArguments = ((ParameterizedType)genericType).getActualTypeArguments();
+                parameterType += "<" + ((Class<?>) actualTypeArguments[0]).getCanonicalName() + ", " + ((Class<?>) actualTypeArguments[0]).getCanonicalName() + ">";
+            }
+        } else {
+            
+            parameterType = getTargetTypeClass(propertyDescriptor).getCanonicalName();
+            
+            if (isBuilder(propertyDescriptor, classesToIgnore)) {
+                parameterType = builderPackage + parameterType.substring(parameterType.lastIndexOf(".")) + "Builder";
+            }
         }
-
+        
         return parameterType;
         
     }
