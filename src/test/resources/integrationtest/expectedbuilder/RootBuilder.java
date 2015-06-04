@@ -11,21 +11,25 @@ public class RootBuilder {
     public RootBuilder() {}
     
     public RootBuilder withNodeTwo(integrationtest.generatedbuilder.NodeTwoBuilder nodeTwo) {
-        target.setNodeTwo(nodeTwo.build());
+        getTarget().setNodeTwo(nodeTwo.build());
         return this;
     }
     
     public RootBuilder withRootString(java.lang.String rootString) {
-        target.setRootString(rootString);
+        getTarget().setRootString(rootString);
         return this;
     }
     
     public RootBuilder withNodeOne(integrationtest.generatedbuilder.NodeOneBuilder nodeOne) {
-        target.setNodeOne(nodeOne.build());
+        getTarget().setNodeOne(nodeOne.build());
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.Root build() {
+    protected uk.co.buildergenerator.testmodel.Root getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.Root build() {
+        return getTarget();
     }
 }

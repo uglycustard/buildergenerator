@@ -11,14 +11,18 @@ public class NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder {
     public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder() {}
     
     public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder withHouse(integrationtest.generatedbuilder.HouseBuilder house) {
-        if (target.getHouses() == null) {
-            target.setHouses(new java.util.ArrayList<uk.co.buildergenerator.testmodel.House>());
+        if (getTarget().getHouses() == null) {
+            getTarget().setHouses(new java.util.ArrayList<uk.co.buildergenerator.testmodel.House>());
         }        
-        target.getHouses().add(house.build());
+        getTarget().getHouses().add(house.build());
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod build() {
+    protected uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod build() {
+        return getTarget();
     }
 }

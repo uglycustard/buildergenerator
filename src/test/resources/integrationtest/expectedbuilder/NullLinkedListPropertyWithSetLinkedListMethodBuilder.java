@@ -11,14 +11,18 @@ public class NullLinkedListPropertyWithSetLinkedListMethodBuilder {
     public NullLinkedListPropertyWithSetLinkedListMethodBuilder() {}
     
     public NullLinkedListPropertyWithSetLinkedListMethodBuilder withString(java.lang.String string) {
-        if (target.getStrings() == null) {
-            target.setStrings(new java.util.LinkedList<java.lang.String>());
+        if (getTarget().getStrings() == null) {
+            getTarget().setStrings(new java.util.LinkedList<java.lang.String>());
         }        
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod build() {
+    protected uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod build() {
+        return getTarget();
     }
 }

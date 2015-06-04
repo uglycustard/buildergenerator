@@ -11,11 +11,15 @@ public class BeanWithNestedEnumBuilder {
     public BeanWithNestedEnumBuilder() {}
     
     public BeanWithNestedEnumBuilder withNestedEnum(uk.co.buildergenerator.testmodel.BeanWithNestedEnum.NestedEnum nestedEnum) {
-        target.setNestedEnum(nestedEnum);
+        getTarget().setNestedEnum(nestedEnum);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithNestedEnum build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithNestedEnum getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithNestedEnum build() {
+        return getTarget();
     }
 }

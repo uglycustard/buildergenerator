@@ -11,14 +11,18 @@ public class NullCollectionPropertyWithSetCollectionMethodBuilder {
     public NullCollectionPropertyWithSetCollectionMethodBuilder() {}
     
     public NullCollectionPropertyWithSetCollectionMethodBuilder withString(java.lang.String string) {
-        if (target.getStrings() == null) {
-            target.setStrings(new java.util.ArrayList<java.lang.String>());
+        if (getTarget().getStrings() == null) {
+            getTarget().setStrings(new java.util.ArrayList<java.lang.String>());
         }        
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod build() {
+    protected uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod build() {
+        return getTarget();
     }
 }

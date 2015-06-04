@@ -11,11 +11,15 @@ public class BeanWithPropertyToIgnoreBuilder {
     public BeanWithPropertyToIgnoreBuilder() {}
     
     public BeanWithPropertyToIgnoreBuilder withProperty(java.lang.String property) {
-        target.setProperty(property);
+        getTarget().setProperty(property);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore build() {
+        return getTarget();
     }
 }

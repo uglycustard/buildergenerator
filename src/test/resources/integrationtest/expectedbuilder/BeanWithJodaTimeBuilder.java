@@ -11,21 +11,25 @@ public class BeanWithJodaTimeBuilder {
     public BeanWithJodaTimeBuilder() {}
     
     public BeanWithJodaTimeBuilder withDateTime(org.joda.time.DateTime dateTime) {
-        target.setDateTime(dateTime);
+        getTarget().setDateTime(dateTime);
         return this;
     }
     
     public BeanWithJodaTimeBuilder withLocalTime(org.joda.time.LocalTime localTime) {
-        target.setLocalTime(localTime);
+        getTarget().setLocalTime(localTime);
         return this;
     }
     
     public BeanWithJodaTimeBuilder withLocalDate(org.joda.time.LocalDate localDate) {
-        target.setLocalDate(localDate);
+        getTarget().setLocalDate(localDate);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithJodaTime build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithJodaTime getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithJodaTime build() {
+        return getTarget();
     }
 }

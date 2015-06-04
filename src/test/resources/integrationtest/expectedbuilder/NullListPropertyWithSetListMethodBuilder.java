@@ -11,14 +11,18 @@ public class NullListPropertyWithSetListMethodBuilder {
     public NullListPropertyWithSetListMethodBuilder() {}
     
     public NullListPropertyWithSetListMethodBuilder withString(java.lang.String string) {
-        if (target.getStrings() == null) {
-            target.setStrings(new java.util.ArrayList<java.lang.String>());
+        if (getTarget().getStrings() == null) {
+            getTarget().setStrings(new java.util.ArrayList<java.lang.String>());
         }        
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod build() {
+    protected uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NullListPropertyWithSetListMethod build() {
+        return getTarget();
     }
 }

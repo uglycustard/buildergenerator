@@ -11,11 +11,15 @@ public class SubClassOfInitialisedListPropertyWithSetListMethodBuilder {
     public SubClassOfInitialisedListPropertyWithSetListMethodBuilder() {}
     
     public SubClassOfInitialisedListPropertyWithSetListMethodBuilder withString(java.lang.String string) {
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.SubClassOfInitialisedListPropertyWithSetListMethod build() {
+    protected uk.co.buildergenerator.testmodel.SubClassOfInitialisedListPropertyWithSetListMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.SubClassOfInitialisedListPropertyWithSetListMethod build() {
+        return getTarget();
     }
 }

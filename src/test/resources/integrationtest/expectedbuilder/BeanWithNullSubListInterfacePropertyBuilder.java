@@ -11,11 +11,15 @@ public class BeanWithNullSubListInterfacePropertyBuilder {
     public BeanWithNullSubListInterfacePropertyBuilder() {}
     
     public BeanWithNullSubListInterfacePropertyBuilder withSubList(uk.co.buildergenerator.testmodel.SubList subList) {
-        target.setSubList(subList);
+        getTarget().setSubList(subList);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty build() {
+        return getTarget();
     }
 }

@@ -11,11 +11,15 @@ public class SelfReferencingBeanBuilder {
     public SelfReferencingBeanBuilder() {}
     
     public SelfReferencingBeanBuilder withSelfReferencingBean(integrationtest.generatedbuilder.SelfReferencingBeanBuilder selfReferencingBean) {
-        target.setSelfReferencingBean(selfReferencingBean.build());
+        getTarget().setSelfReferencingBean(selfReferencingBean.build());
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.SelfReferencingBean build() {
+    protected uk.co.buildergenerator.testmodel.SelfReferencingBean getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.SelfReferencingBean build() {
+        return getTarget();
     }
 }

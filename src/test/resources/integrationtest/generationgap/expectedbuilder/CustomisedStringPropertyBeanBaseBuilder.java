@@ -7,7 +7,7 @@ public class CustomisedStringPropertyBeanBaseBuilder<T extends integrationtest.g
     public CustomisedStringPropertyBeanBaseBuilder() {}
     
     public T withTheString(java.lang.String theString) {
-        target.setTheString(theString);
+        getTarget().setTheString(theString);
         return (T) this;
     }
     
@@ -16,6 +16,6 @@ public class CustomisedStringPropertyBeanBaseBuilder<T extends integrationtest.g
     }
     
     public uk.co.buildergenerator.testmodel.CustomisedStringPropertyBean build() {
-        return target;
+        return getTarget();
     }
 }

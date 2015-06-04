@@ -11,11 +11,15 @@ public class HouseBuilder {
     public HouseBuilder() {}
     
     public HouseBuilder withName(java.lang.String name) {
-        target.setName(name);
+        getTarget().setName(name);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.House build() {
+    protected uk.co.buildergenerator.testmodel.House getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.House build() {
+        return getTarget();
     }
 }

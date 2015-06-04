@@ -11,14 +11,18 @@ public class NullQueuePropertyWithSetQueueMethodBuilder {
     public NullQueuePropertyWithSetQueueMethodBuilder() {}
     
     public NullQueuePropertyWithSetQueueMethodBuilder withString(java.lang.String string) {
-        if (target.getStrings() == null) {
-            target.setStrings(new java.util.PriorityQueue<java.lang.String>());
+        if (getTarget().getStrings() == null) {
+            getTarget().setStrings(new java.util.PriorityQueue<java.lang.String>());
         }        
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod build() {
+    protected uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod build() {
+        return getTarget();
     }
 }

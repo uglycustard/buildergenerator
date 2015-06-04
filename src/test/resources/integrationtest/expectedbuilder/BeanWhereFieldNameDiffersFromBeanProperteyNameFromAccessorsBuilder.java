@@ -11,11 +11,15 @@ public class BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder 
     public BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder() {}
     
     public BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder withWibble(java.lang.String wibble) {
-        target.setWibble(wibble);
+        getTarget().setWibble(wibble);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors build() {
+    protected uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors build() {
+        return getTarget();
     }
 }

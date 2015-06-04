@@ -11,14 +11,18 @@ public class NullSetPropertyWithSetSetMethodBuilder {
     public NullSetPropertyWithSetSetMethodBuilder() {}
     
     public NullSetPropertyWithSetSetMethodBuilder withString(java.lang.String string) {
-        if (target.getStrings() == null) {
-            target.setStrings(new java.util.HashSet<java.lang.String>());
+        if (getTarget().getStrings() == null) {
+            getTarget().setStrings(new java.util.HashSet<java.lang.String>());
         }        
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod build() {
+    protected uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod build() {
+        return getTarget();
     }
 }

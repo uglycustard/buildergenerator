@@ -11,11 +11,15 @@ public class NodeOneBuilder {
     public NodeOneBuilder() {}
     
     public NodeOneBuilder withNodeOneString(java.lang.String nodeOneString) {
-        target.setNodeOneString(nodeOneString);
+        getTarget().setNodeOneString(nodeOneString);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NodeOne build() {
+    protected uk.co.buildergenerator.testmodel.NodeOne getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NodeOne build() {
+        return getTarget();
     }
 }

@@ -11,24 +11,28 @@ public class BeanWithAnInterfaceCollectionPropertyBuilder {
     public BeanWithAnInterfaceCollectionPropertyBuilder() {}
     
     public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesNullList(uk.co.buildergenerator.testmodel.AnInterface anInterfacesNullList) {
-        if (target.getAnInterfacesNullList() == null) {
-            target.setAnInterfacesNullList(new java.util.ArrayList<uk.co.buildergenerator.testmodel.AnInterface>());
+        if (getTarget().getAnInterfacesNullList() == null) {
+            getTarget().setAnInterfacesNullList(new java.util.ArrayList<uk.co.buildergenerator.testmodel.AnInterface>());
         }        
-        target.getAnInterfacesNullList().add(anInterfacesNullList);
+        getTarget().getAnInterfacesNullList().add(anInterfacesNullList);
         return this;
     }
     
     public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesArrayList(uk.co.buildergenerator.testmodel.AnInterface anInterfacesArrayList) {
-        target.getAnInterfacesArrayList().add(anInterfacesArrayList);
+        getTarget().getAnInterfacesArrayList().add(anInterfacesArrayList);
         return this;
     }
     
     public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesArrayListWithAddMethod(uk.co.buildergenerator.testmodel.AnInterface anInterfacesArrayListWithAddMethod) {
-        target.addAnInterfacesArrayListWithAddMethod(anInterfacesArrayListWithAddMethod);
+        getTarget().addAnInterfacesArrayListWithAddMethod(anInterfacesArrayListWithAddMethod);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty build() {
+        return getTarget();
     }
 }

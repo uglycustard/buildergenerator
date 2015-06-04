@@ -11,11 +11,15 @@ public class BooleanPropertyBeanWithIsMethodBuilder {
     public BooleanPropertyBeanWithIsMethodBuilder() {}
     
     public BooleanPropertyBeanWithIsMethodBuilder withTheBoolean(boolean theBoolean) {
-        target.setTheBoolean(theBoolean);
+        getTarget().setTheBoolean(theBoolean);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsMethod build() {
+    protected uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsMethod build() {
+        return getTarget();
     }
 }

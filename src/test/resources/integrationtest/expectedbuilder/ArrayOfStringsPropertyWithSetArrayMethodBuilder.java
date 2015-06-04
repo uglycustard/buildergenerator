@@ -11,11 +11,15 @@ public class ArrayOfStringsPropertyWithSetArrayMethodBuilder {
     public ArrayOfStringsPropertyWithSetArrayMethodBuilder() {}
     
     public ArrayOfStringsPropertyWithSetArrayMethodBuilder withStrings(java.lang.String[] strings) {
-        target.setStrings(strings);
+        getTarget().setStrings(strings);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod build() {
+    protected uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod build() {
+        return getTarget();
     }
 }

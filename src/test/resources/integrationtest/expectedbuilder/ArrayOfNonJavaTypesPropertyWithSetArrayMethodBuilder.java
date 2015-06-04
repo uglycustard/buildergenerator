@@ -11,11 +11,15 @@ public class ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder {
     public ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder() {}
     
     public ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder withHostesses(uk.co.buildergenerator.testmodel.Hostess[] hostesses) {
-        target.setHostesses(hostesses);
+        getTarget().setHostesses(hostesses);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod build() {
+    protected uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod build() {
+        return getTarget();
     }
 }

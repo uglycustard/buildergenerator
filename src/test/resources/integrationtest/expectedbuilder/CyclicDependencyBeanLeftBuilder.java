@@ -11,11 +11,15 @@ public class CyclicDependencyBeanLeftBuilder {
     public CyclicDependencyBeanLeftBuilder() {}
     
     public CyclicDependencyBeanLeftBuilder withCyclicDependencyBeanRight(integrationtest.generatedbuilder.CyclicDependencyBeanRightBuilder cyclicDependencyBeanRight) {
-        target.setCyclicDependencyBeanRight(cyclicDependencyBeanRight.build());
+        getTarget().setCyclicDependencyBeanRight(cyclicDependencyBeanRight.build());
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft build() {
+    protected uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft build() {
+        return getTarget();
     }
 }

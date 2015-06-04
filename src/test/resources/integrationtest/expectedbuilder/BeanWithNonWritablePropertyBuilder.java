@@ -11,11 +11,15 @@ public class BeanWithNonWritablePropertyBuilder {
     public BeanWithNonWritablePropertyBuilder() {}
     
     public BeanWithNonWritablePropertyBuilder withWritableProperty(java.lang.String writableProperty) {
-        target.setWritableProperty(writableProperty);
+        getTarget().setWritableProperty(writableProperty);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty build() {
+        return getTarget();
     }
 }

@@ -11,11 +11,15 @@ public class BeanWithAnInterfacePropertyBuilder {
     public BeanWithAnInterfacePropertyBuilder() {}
     
     public BeanWithAnInterfacePropertyBuilder withAnInterface(uk.co.buildergenerator.testmodel.AnInterface anInterface) {
-        target.setAnInterface(anInterface);
+        getTarget().setAnInterface(anInterface);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty build() {
+        return getTarget();
     }
 }

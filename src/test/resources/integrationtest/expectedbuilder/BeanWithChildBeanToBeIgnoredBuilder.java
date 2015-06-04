@@ -11,16 +11,20 @@ public class BeanWithChildBeanToBeIgnoredBuilder {
     public BeanWithChildBeanToBeIgnoredBuilder() {}
     
     public BeanWithChildBeanToBeIgnoredBuilder withSomeProperty(java.lang.String someProperty) {
-        target.setSomeProperty(someProperty);
+        getTarget().setSomeProperty(someProperty);
         return this;
     }
     
     public BeanWithChildBeanToBeIgnoredBuilder withBeanToBeIgnored(uk.co.buildergenerator.testmodel.BeanToBeIgnored beanToBeIgnored) {
-        target.setBeanToBeIgnored(beanToBeIgnored);
+        getTarget().setBeanToBeIgnored(beanToBeIgnored);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored build() {
+        return getTarget();
     }
 }

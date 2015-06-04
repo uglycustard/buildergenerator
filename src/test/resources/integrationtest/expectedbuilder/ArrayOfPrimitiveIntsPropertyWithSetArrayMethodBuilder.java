@@ -11,11 +11,15 @@ public class ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder {
     public ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder() {}
     
     public ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder withInts(int[] ints) {
-        target.setInts(ints);
+        getTarget().setInts(ints);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod build() {
+    protected uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod build() {
+        return getTarget();
     }
 }

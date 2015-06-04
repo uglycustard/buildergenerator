@@ -11,16 +11,20 @@ public class BeanWithMapPropertyBuilder {
     public BeanWithMapPropertyBuilder() {}
     
     public BeanWithMapPropertyBuilder withMapOfStrings(java.util.Map<java.lang.String, java.lang.String> mapOfStrings) {
-        target.setMapOfStrings(mapOfStrings);
+        getTarget().setMapOfStrings(mapOfStrings);
         return this;
     }
     
     public BeanWithMapPropertyBuilder withMapOfAnything(java.util.Map mapOfAnything) {
-        target.setMapOfAnything(mapOfAnything);
+        getTarget().setMapOfAnything(mapOfAnything);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithMapProperty build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithMapProperty getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithMapProperty build() {
+        return getTarget();
     }
 }

@@ -11,21 +11,25 @@ public class BeanWithMultiDimensionalArrayOfPrimitivesBuilder {
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder() {}
     
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withThreeDimenstionalIntArray(int[][][] threeDimenstionalIntArray) {
-        target.setThreeDimenstionalIntArray(threeDimenstionalIntArray);
+        getTarget().setThreeDimenstionalIntArray(threeDimenstionalIntArray);
         return this;
     }
     
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withTwoDimensionalBooleanArray(boolean[][] twoDimensionalBooleanArray) {
-        target.setTwoDimensionalBooleanArray(twoDimensionalBooleanArray);
+        getTarget().setTwoDimensionalBooleanArray(twoDimensionalBooleanArray);
         return this;
     }
     
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withFourDimensionalCharArray(char[][][][] fourDimensionalCharArray) {
-        target.setFourDimensionalCharArray(fourDimensionalCharArray);
+        getTarget().setFourDimensionalCharArray(fourDimensionalCharArray);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives build() {
+        return getTarget();
     }
 }

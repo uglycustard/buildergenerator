@@ -14,30 +14,29 @@ public class ${targetClass}<#if !generationGapBaseBuilder>Builder</#if><#if gene
     public <#if generationGapBaseBuilder>T</#if><#if !generationGapBaseBuilder>${targetClass}Builder</#if> with${withMethod.propertyName}(${withMethod.parameterType} ${withMethod.parameterName}) {
     <#if withMethod.collection>
     <#if withMethod.collectionNeedsInitialising>
-        if (target.${withMethod.collectionGetterMethodName}() == null) {
+        if (getTarget().${withMethod.collectionGetterMethodName}() == null) {
         <#if !withMethod.builder>
-            target.${withMethod.collectionSetterMethodName}(new ${withMethod.collectionType}<${withMethod.parameterType}>());
+            getTarget().${withMethod.collectionSetterMethodName}(new ${withMethod.collectionType}<${withMethod.parameterType}>());
         </#if>
         <#if withMethod.builder>
-            target.${withMethod.collectionSetterMethodName}(new ${withMethod.collectionType}<${withMethod.builderTargetType}>());
+            getTarget().${withMethod.collectionSetterMethodName}(new ${withMethod.collectionType}<${withMethod.builderTargetType}>());
         </#if>
         }        
     </#if>
-        target.${withMethod.collectionMethodSettingInvocation}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
+        getTarget().${withMethod.collectionMethodSettingInvocation}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
     </#if>
     <#if !withMethod.collection>
-        target.set${withMethod.propertyName}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
+        getTarget().set${withMethod.propertyName}(${withMethod.parameterName}<#if withMethod.builder>.build()</#if>);
     </#if>
         return <#if generationGapBaseBuilder>(T) </#if>this;
     }
     
-    </#list><#if generationGapBaseBuilder>
+    </#list>
     protected ${fullyQualifiedTargetClass} getTarget() {
         return target;
     }
     
-    </#if>
     public ${fullyQualifiedTargetClass} build() {
-        return target;
+        return getTarget();
     }</#if>
 }

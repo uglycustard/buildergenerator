@@ -11,11 +11,15 @@ public class InitialisedSetPropertyWithSetSetMethodBuilder {
     public InitialisedSetPropertyWithSetSetMethodBuilder() {}
     
     public InitialisedSetPropertyWithSetSetMethodBuilder withString(java.lang.String string) {
-        target.getStrings().add(string);
+        getTarget().getStrings().add(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithSetSetMethod build() {
+    protected uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithSetSetMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithSetSetMethod build() {
+        return getTarget();
     }
 }

@@ -11,11 +11,15 @@ public class StringPropertyBeanBuilder {
     public StringPropertyBeanBuilder() {}
     
     public StringPropertyBeanBuilder withTheString(java.lang.String theString) {
-        target.setTheString(theString);
+        getTarget().setTheString(theString);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.StringPropertyBean build() {
+    protected uk.co.buildergenerator.testmodel.StringPropertyBean getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.StringPropertyBean build() {
+        return getTarget();
     }
 }

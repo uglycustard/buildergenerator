@@ -11,16 +11,20 @@ public class NodeTwoBuilder {
     public NodeTwoBuilder() {}
     
     public NodeTwoBuilder withNodeThree(integrationtest.generatedbuilder.NodeThreeBuilder nodeThree) {
-        target.setNodeThree(nodeThree.build());
+        getTarget().setNodeThree(nodeThree.build());
         return this;
     }
     
     public NodeTwoBuilder withNodeTwoString(java.lang.String nodeTwoString) {
-        target.setNodeTwoString(nodeTwoString);
+        getTarget().setNodeTwoString(nodeTwoString);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NodeTwo build() {
+    protected uk.co.buildergenerator.testmodel.NodeTwo getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NodeTwo build() {
+        return getTarget();
     }
 }

@@ -11,11 +11,15 @@ public class InitialisedQueuePropertyWithAddMethodBuilder {
     public InitialisedQueuePropertyWithAddMethodBuilder() {}
     
     public InitialisedQueuePropertyWithAddMethodBuilder withString(java.lang.String string) {
-        target.addString(string);
+        getTarget().addString(string);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod build() {
+    protected uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod build() {
+        return getTarget();
     }
 }

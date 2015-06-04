@@ -11,11 +11,15 @@ public class BooleanPropertyBeanBuilder {
     public BooleanPropertyBeanBuilder() {}
     
     public BooleanPropertyBeanBuilder withTheBoolean(boolean theBoolean) {
-        target.setTheBoolean(theBoolean);
+        getTarget().setTheBoolean(theBoolean);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BooleanPropertyBean build() {
+    protected uk.co.buildergenerator.testmodel.BooleanPropertyBean getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BooleanPropertyBean build() {
+        return getTarget();
     }
 }

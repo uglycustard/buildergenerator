@@ -11,11 +11,15 @@ public class BeanWithTopLevelEnumPropertyBuilder {
     public BeanWithTopLevelEnumPropertyBuilder() {}
     
     public BeanWithTopLevelEnumPropertyBuilder withTopLevelEnum(uk.co.buildergenerator.testmodel.TopLevelEnum topLevelEnum) {
-        target.setTopLevelEnum(topLevelEnum);
+        getTarget().setTopLevelEnum(topLevelEnum);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty build() {
+    protected uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty build() {
+        return getTarget();
     }
 }

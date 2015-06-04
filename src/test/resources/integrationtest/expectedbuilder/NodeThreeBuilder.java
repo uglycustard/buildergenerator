@@ -11,11 +11,15 @@ public class NodeThreeBuilder {
     public NodeThreeBuilder() {}
     
     public NodeThreeBuilder withNodeThreeString(java.lang.String nodeThreeString) {
-        target.setNodeThreeString(nodeThreeString);
+        getTarget().setNodeThreeString(nodeThreeString);
         return this;
     }
     
-    public uk.co.buildergenerator.testmodel.NodeThree build() {
+    protected uk.co.buildergenerator.testmodel.NodeThree getTarget() {
         return target;
+    }
+    
+    public uk.co.buildergenerator.testmodel.NodeThree build() {
+        return getTarget();
     }
 }

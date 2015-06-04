@@ -1,5 +1,7 @@
 package uk.co.buildergenerator.testmodel;
 
+import uk.co.buildergenerator.BuilderGenerator;
+
 public class Root {
 
     private String rootString;
@@ -28,6 +30,27 @@ public class Root {
 
     public void setNodeTwo(NodeTwo nodeTwo) {
         this.nodeTwo = nodeTwo;
+    }
+    
+    public static void main(String[] args) {
+        BuilderGenerator bg = new BuilderGenerator(Root.class);
+        bg.setOutputDirectory("src/test/java");
+        bg.setBuilderPackage("uk.co.buildergenerator.roottest");
+        bg.setGenerationGap(true);
+        bg.generateBuilders();
+        
+        
+//        public static void main(String[] args) {
+//            Root root = aRoot().withRootString("rootString")
+//                               .withNodeOne(aNodeOne().withNodeOneString("nodeOneString"))
+//                               .withNodeTwo(aNodeTwo().withNodeTwoString("nodeTwoString")
+//                                                      .withNodeThree(aNodeThree().withNodeThreeString("nodeThreeString"))).build();
+//            
+//            assertEquals("rootString", root.getRootString());
+//            assertEquals("nodeOneString", root.getNodeOne().getNodeOneString());
+//            
+//        }
+        
     }
 
 }
