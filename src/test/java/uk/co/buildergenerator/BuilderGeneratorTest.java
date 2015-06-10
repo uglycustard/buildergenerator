@@ -1,6 +1,9 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -29,6 +32,7 @@ import uk.co.buildergenerator.testmodel.NodeOne;
 import uk.co.buildergenerator.testmodel.NodeThree;
 import uk.co.buildergenerator.testmodel.NodeTwo;
 import uk.co.buildergenerator.testmodel.Root;
+import uk.co.buildergenerator.testmodel.StringPropertyBeanWithSomethingElse;
 
 public class BuilderGeneratorTest {
 
@@ -198,6 +202,35 @@ public class BuilderGeneratorTest {
         testee.generateBuilders();
         assertBuilderTemplateMapsCreatedForClasses(BeanWithNestedClassProperty.class);
     }
+    
+    @Test
+	public void superClassNotSpecified() throws Exception {
+		
+        testee = new BuilderGenerator(StringPropertyBeanWithSomethingElse.class, builderWriter, fileUtils);
+        testee.generateBuilders();
+        assertBuilderTemplateMapsCreatedForClasses(StringPropertyBeanWithSomethingElse.class);
+        BuilderTemplateMap builderTemplateMap = builderTemplateMapCaptor.getValue();
+        assertFalse("builder super class was not specified", builderTemplateMap.isSuperClassSpecified());
+	}
+
+    @Test
+	public void superClassSpecified() throws Exception {
+		
+        testee = new BuilderGenerator(StringPropertyBeanWithSomethingElse.class, builderWriter, fileUtils);
+        String superClassStatement = "some.class.to.Extend";
+		testee.setBuilderSuperClass(StringPropertyBeanWithSomethingElse.class, superClassStatement);
+        testee.generateBuilders();
+        assertBuilderTemplateMapsCreatedForClasses(StringPropertyBeanWithSomethingElse.class);
+        BuilderTemplateMap builderTemplateMap = builderTemplateMapCaptor.getValue();
+        assertTrue("builder super class was specified", builderTemplateMap.isSuperClassSpecified());
+        assertEquals(superClassStatement, builderTemplateMap.getSuperClass());
+	}
+
+    
+    @Test
+	public void superClassSpecifiedWithGenerationGap() throws Exception {
+    	// TODO
+	}
 
     private void assertOutputDirectoyWasCreated(File file) {
 	    verify(fileUtils).createDirectoriesIfNotExists(file);

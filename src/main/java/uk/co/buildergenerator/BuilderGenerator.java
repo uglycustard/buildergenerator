@@ -1,7 +1,9 @@
 package uk.co.buildergenerator;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A tool to auto generate builders following the Builder pattern for an object
@@ -113,6 +115,7 @@ public class BuilderGenerator {
 	private final FileUtils fileUtils;
 	private final PropertiesToIgnore propertiesToIgnore = new PropertiesToIgnore();
 	private final ClassesToIgnore classesToIgnore = new ClassesToIgnore();
+	private final Map<String, String> builderSuperClass = new HashMap<String, String>();
 	private String builderPackage;
 	private String outputDirectory;
     private boolean generationGap;
@@ -165,11 +168,13 @@ public class BuilderGenerator {
         List<BuilderTemplateMap> builderTemplateMapList = builderTemplateMapCollector.collectBuilderTemplateMaps();
         
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
+        	builderTemplateMap.setSuperClass(builderSuperClass.get(builderTemplateMap.getFullyQualifiedTargetClassName()));
             if (generationGap) {
                 String baseBuilderPackage = getGenerationGapBaseBuilderPackage() != null ? getGenerationGapBaseBuilderPackage() : getBuilderPackage();
                 builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile, baseBuilderPackage);
+            } else {
+            	builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
             }
-            builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
         }
     }
     
@@ -310,5 +315,65 @@ public class BuilderGenerator {
     public void setGenerationGapBaseBuilderPackage(String generationGapBaseBuilderPackage) {
         this.generationGapBaseBuilderPackage = generationGapBaseBuilderPackage;
     }
+
+    /**
+     * Specify a fully qualified type statement to follow the extends keyword of the generated builder for the target class.
+     * 
+     * E.g. if you want the generated builder to be specified as extending "com.example.Foo<T extends com.example.Bar>" then pass that string
+     * as the <code>superClassStatement</code> parameter. 
+     * 
+     * @param targetClass the target class whose generated builder should extend the given <code>superClassStatement</code>.
+     * @param superClassStatement the statement to follow the extends keyword of the generated builder, e.g. com.example.SomeClass
+     * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a> for more details on this feature
+     * <br />
+     * {@link #setBuilderSuperClass(Class, Class)}
+     */
+	public void setBuilderSuperClass(Class<?> targetClass, String superClassStatement) {
+		builderSuperClass.put(targetClass.getName(), superClassStatement);
+	}
+	
+	/**
+	 * Specify a class that the generated builder for the <code>targetClass</code> should extend.
+	 * <p>
+	 * This method is expected to be used if you want to add a custom base class to multiple builders that share common code.
+	 * It also expects that the base class uses generics in the following way such that any "with" methods in the specified base class
+	 * return an instance of the actual sub class builder so method chaining can be performed.  E.g.:
+	 * <p>
+	 * Custom base builders should be written as follows:
+	 * <pre>
+	 * public abstract class MyBaseBuilder{@code <T extends MyBaseBuilder>} {
+	 *      
+	 *     public T withMyCustomSettingMethod(...) { 
+	 *         getTarget().setMyCustomSetting(...);
+	 *         return (T) this;
+	 *     }
+	 *      
+	 *     protected abstract MyTargetClass getTarget();
+	 * } 
+	 * </pre>
+	 * Implementations for the abstract <code>getTarget</code> method shown are auto generated in the sub class builders.
+	 *  <p>
+	 * You can then tell BuilderGenerator to set this class as the base class of the builder for the target class as follows:
+	 * <pre>
+	 * BuilderGenerator bg = new BuilderGenerator(MyRootClassInHierarchy.class);
+	 * bg.setBuilderSuperClass(MyTargetClass.class, MyBaseBuilder.class);
+	 * bg.generateBuilders();
+	 * </pre>
+	 * This will generate a builder for MyTargetClass with the following type signature:
+	 * <pre>
+	 * public class MyTargetClassBuilder extends MyBaseBuilder{@code <MyTargetClassBuilder>}
+	 * </pre>
+	 * If the base class you want to extend needs a different extends statement, see 
+	 * {@link #setBuilderSuperClass(Class, String)} which allows you to specify any string to follow the extends keyword.
+	 * <p>
+     * @param targetClass the target class whose generated builder should extend the given <code>superClassStatement</code>.
+	 * @param superClass
+     * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a> for more details on this feature
+     * <br />
+     * {@link #setBuilderSuperClass(Class, String)}
+	 */
+	public void setBuilderSuperClass(Class<?> targetClass, Class<?> superClass) {
+		setBuilderSuperClass(targetClass, superClass.getName() + "<T extends " + superClass.getName() + ">");
+	}
 
 }

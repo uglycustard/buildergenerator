@@ -11,6 +11,8 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     static final String WITH_METHOD_LIST_MAP_KEY = "withMethodList";
     static final String BUILDER_PACKAGE_MAP_KEY = "builderPackage";
     static final String FACTORY_METHOD_PREFIX_MAP_KEY = "factoryMethodPrefix";
+    static final String SUPER_CLASS_MAP_KEY = "superClass";
+    static final String SUPER_CLASS_SPECIFIED_MAP_KEY = "superClassSpecified";
     static final String GENERATION_GAP_BASE_BUILDER = "generationGapBaseBuilder";
     static final String GENERATION_GAP_BUILDER = "generationGapBuilder";
     static final String GENERATION_GAP_BASE_BUILDER_PACKAGE = "generationGapBaseBuilderPackage";
@@ -24,6 +26,7 @@ class BuilderTemplateMap extends HashMap<String, Object> {
         put(WITH_METHOD_LIST_MAP_KEY, new WithMethodList(targetClass, builderPackage, propertiesToIgnore, classesToIgnore));
         put(GENERATION_GAP_BASE_BUILDER, false);
         put(GENERATION_GAP_BUILDER, false);
+        put(SUPER_CLASS_SPECIFIED_MAP_KEY, false);
     }
 
     private static boolean startsWithVowel(String s) {
@@ -72,5 +75,21 @@ class BuilderTemplateMap extends HashMap<String, Object> {
         put(GENERATION_GAP_BASE_BUILDER, false);
         put(GENERATION_GAP_BUILDER, true);
     }
+
+	boolean isSuperClassSpecified() {
+		return getSuperClass() != null;
+	}
+
+	void setSuperClass(String superClass) {
+		
+		if (superClass != null) {
+			put(SUPER_CLASS_MAP_KEY, superClass);
+			put(SUPER_CLASS_SPECIFIED_MAP_KEY, true);
+		}
+	}
+
+	public String getSuperClass() {
+		return (String) get(SUPER_CLASS_MAP_KEY);
+	}
 
 }

@@ -1,7 +1,6 @@
 package uk.co.buildergenerator.integrationtest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -51,6 +50,8 @@ import uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod;
 import uk.co.buildergenerator.testmodel.Root;
 import uk.co.buildergenerator.testmodel.SelfReferencingBean;
 import uk.co.buildergenerator.testmodel.StringPropertyBean;
+import uk.co.buildergenerator.testmodel.StringPropertyBeanWithSomethingElse;
+import uk.co.buildergenerator.testmodel.StringPropertyBeanWithSomethingElseForGenerationGapTest;
 import uk.co.buildergenerator.testmodel.SubClassOfInitialisedListPropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.SubClassOfInitialisedListPropertyWithSetListMethod;
 
@@ -574,6 +575,34 @@ public class BuilderGeneratorIT {
         createBuilderGenerator(BeanWithMapProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithMapPropertyBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithMapPropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+	public void configureSuperClassForBuilder() throws Exception {
+
+        BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBeanWithSomethingElse.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.setBuilderSuperClass(StringPropertyBeanWithSomethingElse.class, "integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseBuilder>");
+        builderGenerator.generateBuilders();
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/StringPropertyBeanWithSomethingElseBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/StringPropertyBeanWithSomethingElseBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+	}
+    
+    @Test
+    public void configureSuperClassForBuilderWithGenerationGap() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBeanWithSomethingElseForGenerationGapTest.class, GENERATION_GAP_BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.setGenerationGap(true);
+        builderGenerator.setBuilderSuperClass(StringPropertyBeanWithSomethingElseForGenerationGapTest.class, "integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseForGenerationGapTest>");
+        builderGenerator.generateBuilders();
+        
+        String generatedBaseBuilderFilename = "integrationtest/generationgap/generatedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBaseBuilder.java";
+        String expectedBaseBuilderFilename = "integrationtest/generationgap/expectedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBaseBuilder.java";
+        assertFilesEqual(expectedBaseBuilderFilename, generatedBaseBuilderFilename);
+        
+        String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBuilder.java";
+        String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 

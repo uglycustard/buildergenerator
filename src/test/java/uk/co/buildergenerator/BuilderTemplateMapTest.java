@@ -1,11 +1,17 @@
 package uk.co.buildergenerator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static uk.co.buildergenerator.BuilderTemplateMap.BUILDER_PACKAGE_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.FACTORY_METHOD_PREFIX_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.FULLY_QUALIFIED_TARGET_CLASS_NAME_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.GENERATION_GAP_BASE_BUILDER;
 import static uk.co.buildergenerator.BuilderTemplateMap.GENERATION_GAP_BUILDER;
+import static uk.co.buildergenerator.BuilderTemplateMap.SUPER_CLASS_MAP_KEY;
+import static uk.co.buildergenerator.BuilderTemplateMap.SUPER_CLASS_SPECIFIED_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.TARGET_CLASS_NAME_MAP_KEY;
 import static uk.co.buildergenerator.BuilderTemplateMap.WITH_METHOD_LIST_MAP_KEY;
 
@@ -117,5 +123,40 @@ public class BuilderTemplateMapTest {
         assertTrue(testee.isGeneratioGapBuilder());
         assertEquals(true, testee.get(GENERATION_GAP_BUILDER));
     }
+
+    @Test
+	public void noSuperClassSpecifiedByDefault() throws Exception {
+		
+        BuilderTemplateMap testee = new BuilderTemplateMap(Target.class, "uk.co.buildergenerator", propertiesToIgnore, classesToIgnore);
+    	assertFalse(testee.isSuperClassSpecified());
+    	assertEquals(false, testee.get(SUPER_CLASS_SPECIFIED_MAP_KEY));
+    	assertNull(testee.getSuperClass());
+    	assertNull(testee.get(SUPER_CLASS_MAP_KEY));
+	}
+    
+    @Test
+	public void superClassSpecified() throws Exception {
+		
+        BuilderTemplateMap testee = new BuilderTemplateMap(Target.class, "uk.co.buildergenerator", propertiesToIgnore, classesToIgnore);
+        String superClass = "com.example.Something<T>";
+        testee.setSuperClass(superClass);
+    	assertTrue(testee.isSuperClassSpecified());
+    	assertEquals(true, testee.get(SUPER_CLASS_SPECIFIED_MAP_KEY));
+    	assertEquals(superClass, testee.getSuperClass());
+    	assertEquals(superClass, testee.get(SUPER_CLASS_MAP_KEY));
+	}
+    
+    @Test
+	public void superClassSpecifiedAsNull() throws Exception {
+		
+        BuilderTemplateMap testee = new BuilderTemplateMap(Target.class, "uk.co.buildergenerator", propertiesToIgnore, classesToIgnore);
+        String superClass = null;
+        testee.setSuperClass(superClass);
+    	assertFalse(testee.isSuperClassSpecified());
+    	assertEquals(false, testee.get(SUPER_CLASS_SPECIFIED_MAP_KEY));
+    	assertEquals(superClass, testee.getSuperClass());
+    	assertEquals(superClass, testee.get(SUPER_CLASS_MAP_KEY));
+	}
+
 
 }

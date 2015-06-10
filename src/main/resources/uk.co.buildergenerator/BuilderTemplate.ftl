@@ -1,7 +1,7 @@
 <#if !generationGapBaseBuilder>package ${builderPackage};</#if>
 <#if generationGapBaseBuilder>package ${generationGapBaseBuilderPackage};</#if>
 
-public class ${targetClass}<#if !generationGapBaseBuilder>Builder</#if><#if generationGapBaseBuilder>BaseBuilder<T extends ${generationGapBaseBuilderPackage}.${targetClass}BaseBuilder<T>></#if> <#if generationGapBuilder>extends ${generationGapBaseBuilderPackage}.${targetClass}BaseBuilder<${targetClass}Builder> </#if>{
+public class ${targetClass}<#if !generationGapBaseBuilder>Builder</#if><#if generationGapBaseBuilder>BaseBuilder<T extends ${generationGapBaseBuilderPackage}.${targetClass}BaseBuilder<T>></#if> <#if generationGapBuilder>extends ${generationGapBaseBuilderPackage}.${targetClass}BaseBuilder<${targetClass}Builder> </#if><#if !generationGapBuilder><#if superClassSpecified>extends ${superClass} </#if></#if>{
     <#if !generationGapBaseBuilder>
     public static ${targetClass}Builder ${factoryMethodPrefix}${targetClass}() {
         return new ${targetClass}Builder();
