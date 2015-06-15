@@ -218,7 +218,7 @@ public class BuilderGeneratorTest {
 		
         testee = new BuilderGenerator(StringPropertyBeanWithSomethingElse.class, builderWriter, fileUtils);
         String superClassStatement = "some.class.to.Extend";
-		testee.setBuilderSuperClass(StringPropertyBeanWithSomethingElse.class, superClassStatement);
+		testee.addBuilderSuperClass(StringPropertyBeanWithSomethingElse.class, superClassStatement);
         testee.generateBuilders();
         assertBuilderTemplateMapsCreatedForClasses(StringPropertyBeanWithSomethingElse.class);
         BuilderTemplateMap builderTemplateMap = builderTemplateMapCaptor.getValue();

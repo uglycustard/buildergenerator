@@ -1,6 +1,7 @@
 package uk.co.buildergenerator.integrationtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,6 +17,7 @@ import uk.co.buildergenerator.FileUtils;
 import uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
+import uk.co.buildergenerator.testmodel.Audi;
 import uk.co.buildergenerator.testmodel.BeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
@@ -33,8 +35,10 @@ import uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBean;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods;
 import uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsMethod;
+import uk.co.buildergenerator.testmodel.CustomerCarBuilder;
 import uk.co.buildergenerator.testmodel.CustomisedStringPropertyBean;
 import uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft;
+import uk.co.buildergenerator.testmodel.Ford;
 import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethod;
 import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethodAndSetListMethod;
 import uk.co.buildergenerator.testmodel.InitialisedListPropertyWithSetListMethod;
@@ -582,7 +586,7 @@ public class BuilderGeneratorIT {
 	public void configureSuperClassForBuilder() throws Exception {
 
         BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBeanWithSomethingElse.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY);
-        builderGenerator.setBuilderSuperClass(StringPropertyBeanWithSomethingElse.class, "integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseBuilder>");
+        builderGenerator.addBuilderSuperClass(StringPropertyBeanWithSomethingElse.class, "integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseBuilder>");
         builderGenerator.generateBuilders();
         String generatedBuilderFilename = "integrationtest/generatedbuilder/StringPropertyBeanWithSomethingElseBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/StringPropertyBeanWithSomethingElseBuilder.java";
@@ -594,7 +598,7 @@ public class BuilderGeneratorIT {
         
         BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBeanWithSomethingElseForGenerationGapTest.class, GENERATION_GAP_BUILDER_PACKAGE, OUTPUT_DIRECTORY);
         builderGenerator.setGenerationGap(true);
-        builderGenerator.setBuilderSuperClass(StringPropertyBeanWithSomethingElseForGenerationGapTest.class, "integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseForGenerationGapTest>");
+        builderGenerator.addBuilderSuperClass(StringPropertyBeanWithSomethingElseForGenerationGapTest.class, "integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseForGenerationGapTest>");
         builderGenerator.generateBuilders();
         
         String generatedBaseBuilderFilename = "integrationtest/generationgap/generatedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBaseBuilder.java";
@@ -603,6 +607,34 @@ public class BuilderGeneratorIT {
         
         String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBuilder.java";
         String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/StringPropertyBeanWithSomethingElseForGenerationGapTestBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void configureSuperClassForBuilderUsingCustomerClassMethod() throws Exception {
+
+        BuilderGenerator builderGenerator = createBuilderGenerator(Ford.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.addBuilderSuperClass(Ford.class, CustomerCarBuilder.class);
+        builderGenerator.generateBuilders();
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/FordBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/FordBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    @Test
+    public void configureSuperClassForBuilderUsingCustomerClassMethodWithGenerationGap() throws Exception {
+
+        BuilderGenerator builderGenerator = createBuilderGenerator(Audi.class, GENERATION_GAP_BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.setGenerationGap(true);
+        builderGenerator.addBuilderSuperClass(Audi.class, CustomerCarBuilder.class);
+        builderGenerator.generateBuilders();
+        
+        String generatedBaseBuilderFilename = "integrationtest/generationgap/generatedbuilder/AudiBaseBuilder.java";
+        String expectedBaseBuilderFilename = "integrationtest/generationgap/expectedbuilder/AudiBaseBuilder.java";
+        assertFilesEqual(expectedBaseBuilderFilename, generatedBaseBuilderFilename);
+        
+        String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/AudiBuilder.java";
+        String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/AudiBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
