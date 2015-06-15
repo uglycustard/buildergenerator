@@ -36,6 +36,7 @@ consistent pattern for each JavaBean in the entire object graph.
 - Ability to ignore specified properties in a given class in the object graph
 - Ability to ignore specified classes in the object graph
 - Ability to configure BuilderGenerator to generate builders following the Generation Gap pattern (see "Best Practice" below)
+- Ability to configure custom classes that a builder should extend, works with and without using the Generation Gap mode
 
 ##Usage
 
