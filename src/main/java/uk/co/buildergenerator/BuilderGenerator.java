@@ -52,10 +52,13 @@ import java.util.Map;
  * {@link #generateBuilders(String) generateBuilders}
  * {@link #setOutputDirectory(String) setOutputDirectory}
  * {@link #setBuilderPackage(String) setBuilderPackage}
+ * {@link #setGenerationGap(boolean)}
  * {@link #addPropertyToIgnore(Class, String) addPropertyToIgnore}
  * {@link #addPropertyToIgnore(String, String) addPropertyToIgnore}
  * {@link #addClassToIgnore(Class) addClassToIgnore}
  * {@link #addClassToIgnore(String) addClassToIgnore}
+ * {@link #addBuilderSuperClass(Class, String)}
+ * {@link #addBuilderSuperClass(Class, Class)}
  * 
  * 
  * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a>
