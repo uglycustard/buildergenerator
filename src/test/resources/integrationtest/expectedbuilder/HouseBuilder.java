@@ -1,4 +1,4 @@
-package uk.co.buildergenerator.testmodelbuilder;
+package integrationtest.generatedbuilder;
 
 public class HouseBuilder {
 

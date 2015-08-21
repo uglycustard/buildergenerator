@@ -2,18 +2,24 @@ package uk.co.buildergenerator.integrationtest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import uk.co.buildergenerator.BuilderGenerator;
 import uk.co.buildergenerator.FileUtils;
+import uk.co.buildergenerator.testmodel.Address;
 import uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod;
 import uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod;
@@ -24,6 +30,7 @@ import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty;
 import uk.co.buildergenerator.testmodel.BeanWithAnInterfaceProperty;
 import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithJodaTime;
+import uk.co.buildergenerator.testmodel.BeanWithMapOfHousesProperty;
 import uk.co.buildergenerator.testmodel.BeanWithMapProperty;
 import uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives;
 import uk.co.buildergenerator.testmodel.BeanWithNestedEnum;
@@ -68,10 +75,15 @@ public class BuilderGeneratorIT {
 
     private String readFile(String filename) throws IOException {
         
-        BufferedReader r = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(filename)));
+        InputStream systemResourceAsStream = ClassLoader.getSystemResourceAsStream(filename);
+        if (systemResourceAsStream == null) {
+            fail(filename + " does not exist.");
+        }
+        BufferedReader r = new BufferedReader(new InputStreamReader(systemResourceAsStream));
         StringBuilder sb = new StringBuilder();
         String line = null;
         while ((line = r.readLine()) != null) {
+            line = line.trim();
             sb.append(line);
         }
         
@@ -582,6 +594,57 @@ public class BuilderGeneratorIT {
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
+    @Test
+    public void beanWithMapOfHouseProperties() throws Exception {
+
+        // Delete generated files, just in case the HouseBuilder is there already
+        deleteGeneratedFiles();
+
+        createBuilderGenerator(BeanWithMapOfHousesProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithMapOfHousesPropertyBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/BeanWithMapOfHousesPropertyBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+        String generatedBuilderFilename2 = "integrationtest/generatedbuilder/HouseBuilder.java";
+        String expectedBuilderFilename2 = "integrationtest/expectedbuilder/HouseBuilder.java";
+        assertFilesEqual(expectedBuilderFilename2, generatedBuilderFilename2);
+        
+    }
+
+    @Test
+    public void beanWithCollectionAlsoGeneratesBuilderForGenericType() throws Exception {
+        
+        // Delete generated files, just in case the HouseBuilder is there already
+        deleteGeneratedFiles();
+        
+        createBuilderGenerator(Address.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
+        String generatedBuilderFilename = "integrationtest/generatedbuilder/AddressBuilder.java";
+        String expectedBuilderFilename = "integrationtest/expectedbuilder/AddressBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+        String generatedBuilderFilename2 = "integrationtest/generatedbuilder/HouseBuilder.java";
+        String expectedBuilderFilename2 = "integrationtest/expectedbuilder/HouseBuilder.java";
+        assertFilesEqual(expectedBuilderFilename2, generatedBuilderFilename2);
+    }
+    
+    public static void deleteGeneratedFiles() {
+        URL url = ClassLoader.getSystemResource("integrationtest/generatedbuilder");
+        // https://weblogs.java.net/blog/kohsuke/archive/2007/04/how_to_convert.html
+        File directory;
+        try {
+            directory = new File(url.toURI());
+        } catch(URISyntaxException e) {
+            directory = new File(url.getPath());
+        }
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            if (null != files) {
+                for (int i = 0; i < files.length; i++) {
+                    files[i].delete();
+                }
+            }
+        }
+    }
+
+    
     @Test
 	public void configureSuperClassForBuilder() throws Exception {
 
