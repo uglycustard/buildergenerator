@@ -179,6 +179,14 @@ public class BuilderGeneratorUtilsTest {
     }
 
     @Test
+    public void mapPropertyWithGenericsOfTwoDifferentTypes() throws Exception {
+        
+        createPropertyDescriptor("mapOfHouse", BeanWithMapProperty.class);
+        assertEquals("java.util.Map<java.lang.String, uk.co.buildergenerator.testmodel.House>", testee.getParameterType(propertyDescriptor, null, classesToIgnore));
+    }
+
+    
+    @Test
     public void mapPropertyWithoutGenerics() throws Exception {
         
         createPropertyDescriptor("mapOfAnything", BeanWithMapProperty.class);

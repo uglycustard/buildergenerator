@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import org.junit.Test;
 
@@ -585,7 +587,7 @@ public class BuilderGeneratorIT {
     public void beanWithMapProperties() throws Exception {
 
         // Delete generated files, just in case the HouseBuilder is there already
-        FileUtils.deleteGeneratedFiles();
+        deleteGeneratedFiles();
 
         createBuilderGenerator(BeanWithMapProperty.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         String generatedBuilderFilename = "integrationtest/generatedbuilder/BeanWithMapPropertyBuilder.java";
@@ -604,7 +606,7 @@ public class BuilderGeneratorIT {
     public void beanWithCollectionAlsoGeneratesBuilderForGenericType() throws Exception {
         
         // Delete generated files, just in case the HouseBuilder is there already
-        FileUtils.deleteGeneratedFiles();
+        deleteGeneratedFiles();
         
         createBuilderGenerator(Address.class, BUILDER_PACKAGE, OUTPUT_DIRECTORY).generateBuilders();
         String generatedBuilderFilename = "integrationtest/generatedbuilder/AddressBuilder.java";
@@ -669,6 +671,29 @@ public class BuilderGeneratorIT {
         String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/AudiBuilder.java";
         String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/AudiBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+    }
+
+    private static void deleteGeneratedFiles() {
+        URL url = ClassLoader.getSystemResource("integrationtest/generatedbuilder");
+        if (url == null) {
+        	// if its null then directory doesn't exist yet in which case there is nothing to do 
+        	return;
+        }
+        // https://weblogs.java.net/blog/kohsuke/archive/2007/04/how_to_convert.html
+        File directory;
+        try {
+            directory = new File(url.toURI());
+        } catch(URISyntaxException e) {
+            directory = new File(url.getPath());
+        }
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            if (null != files) {
+                for (int i = 0; i < files.length; i++) {
+                    files[i].delete();
+                }
+            }
+        }
     }
 
 }
