@@ -170,7 +170,7 @@ class BuilderGeneratorUtils {
             Type genericType = propertyDescriptor.getReadMethod().getGenericReturnType();
             if (genericType instanceof ParameterizedType) {
                 Type[] actualTypeArguments = ((ParameterizedType)genericType).getActualTypeArguments();
-                parameterType += "<" + ((Class<?>) actualTypeArguments[0]).getCanonicalName() + ", " + ((Class<?>) actualTypeArguments[0]).getCanonicalName() + ">";
+                parameterType += "<" + ((Class<?>) actualTypeArguments[0]).getCanonicalName() + ", " + ((Class<?>) actualTypeArguments[1]).getCanonicalName() + ">";
             }
         } else {
             

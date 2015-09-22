@@ -7,7 +7,8 @@ import uk.co.buildergenerator.BuilderGenerator;
 public class BeanWithMapProperty {
 
     private Map<String, String> mapOfStrings;
-    private Map mapOfAnything;
+    private Map<String, House> mapOfHouse;
+	private Map mapOfAnything;
 
     public Map<String, String> getMapOfStrings() {
         return mapOfStrings;
@@ -24,6 +25,15 @@ public class BeanWithMapProperty {
     public void setMapOfAnything(Map mapOfAnything) {
         this.mapOfAnything = mapOfAnything;
     }
+    
+    public Map<String, House> getMapOfHouse() {
+		return mapOfHouse;
+	}
+
+	public void setMapOfHouse(Map<String, House> mapOfHouse) {
+		this.mapOfHouse = mapOfHouse;
+	}
+    
 
     public static void main(String[] args) {
         BuilderGenerator.generateBuilders(BeanWithMapProperty.class);
