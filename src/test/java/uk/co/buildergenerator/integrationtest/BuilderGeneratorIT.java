@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.buildergenerator.BuilderGenerator;
@@ -581,6 +582,25 @@ public class BuilderGeneratorIT {
         String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/base/StringPropertyBeanBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
 
+    }
+
+    @Ignore
+    @Test
+    public void generationGapWithDifferentOutputDirectoryForBaseBuilders() throws Exception {
+        
+        BuilderGenerator builderGenerator = createBuilderGenerator(StringPropertyBean.class, GENERATION_GAP_BUILDER_PACKAGE, OUTPUT_DIRECTORY);
+        builderGenerator.setGenerationGap(true);
+        builderGenerator.setGenerationGapBaseBuilderPackage(GENERATION_GAP_BUILDER_PACKAGE + ".base");
+        builderGenerator.setGenerationGapBaseBuilderOutputDirectory(OUTPUT_DIRECTORY + "/base");
+        builderGenerator.generateBuilders();
+        
+        String generatedBaseBuilderFilename = "base/integrationtest/generationgap/generatedbuilder/base/StringPropertyBeanBaseBuilder.java";
+        String expectedBaseBuilderFilename = "integrationtest/generationgap/expectedbuilder/base/StringPropertyBeanBaseBuilder.java";
+        assertFilesEqual(expectedBaseBuilderFilename, generatedBaseBuilderFilename);
+        
+        String generatedBuilderFilename = "integrationtest/generationgap/generatedbuilder/builder/StringPropertyBeanBuilder.java";
+        String expectedBuilderFilename = "integrationtest/generationgap/expectedbuilder/base/StringPropertyBeanBuilder.java";
+        assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
     }
 
     @Test

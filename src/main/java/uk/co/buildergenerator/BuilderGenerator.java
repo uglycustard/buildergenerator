@@ -123,6 +123,7 @@ public class BuilderGenerator {
 	private String outputDirectory;
     private boolean generationGap;
     private String generationGapBaseBuilderPackage;
+	private String generationGapBaseBuilderOutputDirectory;
 
 	/**
 	 * Construct a <code>BuilderGenerator</code> for an object graph whose graph
@@ -173,8 +174,9 @@ public class BuilderGenerator {
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
         	builderTemplateMap.setSuperClass(builderSuperClass.get(builderTemplateMap.getFullyQualifiedTargetClassName()));
             if (generationGap) {
-                String baseBuilderPackage = getGenerationGapBaseBuilderPackage() != null ? getGenerationGapBaseBuilderPackage() : getBuilderPackage();
-                builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile, baseBuilderPackage);
+                String generationGapBaseBuilderPackage = getGenerationGapBaseBuilderPackage() != null ? getGenerationGapBaseBuilderPackage() : getBuilderPackage();
+                File generationGapBaseBuilderOutputDirectoryFile = getGenerationGapBaseBuilderOutputDirectory() != null ? fileUtils.newFile(getGenerationGapBaseBuilderOutputDirectory()) : outputDirectoryFile;
+                builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile, generationGapBaseBuilderPackage, generationGapBaseBuilderOutputDirectoryFile);
             } else {
             	builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
             }
@@ -197,6 +199,10 @@ public class BuilderGenerator {
         return generationGapBaseBuilderPackage;
     }
 
+    String getGenerationGapBaseBuilderOutputDirectory() {
+    	return generationGapBaseBuilderOutputDirectory;
+    }
+    
 	/**
 	 * Override the default builder package by calling this method.
 	 * 
@@ -314,9 +320,26 @@ public class BuilderGenerator {
      * 
      * @param generationGapBaseBuilderPackage
      *            the package that generated base builders will be written to.
+     * @see #setGenerationGap(boolean)
+     * @see #setGenerationGapBaseBuilderOutputDirectory(String)
      */
     public void setGenerationGapBaseBuilderPackage(String generationGapBaseBuilderPackage) {
         this.generationGapBaseBuilderPackage = generationGapBaseBuilderPackage;
+    }
+
+    /**
+     * Set the output directory of the base builders when building using the Generation Gap pattern.
+     * If not specified, the base builders will be written to the same output directory as the builders
+     * which can be set using the <code>{@link #setOutputDirectory(String)}</code> method.
+     * 
+     * @param generationGapBaseBuilderOutputDirectory
+     *            the output directory that generated base builders will be written to.
+     * @see #setGenerationGap(boolean)
+     * @see #setGenerationGapBaseBuilderPackage(String)
+     * @see #setOutputDirectory(String)
+     */
+    public void setGenerationGapBaseBuilderOutputDirectory(String generationGapBaseBuilderOutputDirectory) {
+		this.generationGapBaseBuilderOutputDirectory = generationGapBaseBuilderOutputDirectory;
     }
 
     /**

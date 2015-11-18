@@ -17,10 +17,10 @@ class BuilderWriter {
         this.fileUtils = fileUtils;
     }
 
-    void generateBuilderWithGenerationGap(BuilderTemplateMap builderTemplateMap, File outputDirectory, String generationGapBaseBuilderPackage) {
+    void generateBuilderWithGenerationGap(BuilderTemplateMap builderTemplateMap, File outputDirectory, String generationGapBaseBuilderPackage, File generationGapBaseBuilderOutputDirectory) {
         builderTemplateMap.setAsGenerationGapBaseBuilder();
         builderTemplateMap.setGenerationGapBaseBuilderPackage(generationGapBaseBuilderPackage);
-        generateBuilder(builderTemplateMap, outputDirectory);
+        generateBuilder(builderTemplateMap, generationGapBaseBuilderOutputDirectory);
         builderTemplateMap.setAsGenerationGapBuilder();
         generateBuilder(builderTemplateMap, outputDirectory);
     }
