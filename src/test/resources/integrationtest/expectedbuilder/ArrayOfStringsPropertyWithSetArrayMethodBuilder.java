@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class ArrayOfStringsPropertyWithSetArrayMethodBuilder {
+public class ArrayOfStringsPropertyWithSetArrayMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.ArrayOfStringsPropertyWithSetArrayMethod> {
 
     public static ArrayOfStringsPropertyWithSetArrayMethodBuilder anArrayOfStringsPropertyWithSetArrayMethod() {
         return new ArrayOfStringsPropertyWithSetArrayMethodBuilder();

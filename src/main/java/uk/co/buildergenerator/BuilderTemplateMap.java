@@ -16,6 +16,7 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     static final String GENERATION_GAP_BASE_BUILDER = "generationGapBaseBuilder";
     static final String GENERATION_GAP_BUILDER = "generationGapBuilder";
     static final String GENERATION_GAP_BASE_BUILDER_PACKAGE = "generationGapBaseBuilderPackage";
+    static final String BUILDER_INTERFACE_MAP_KEY = "builderInterface";
     
     BuilderTemplateMap(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore) {
         
@@ -27,6 +28,11 @@ class BuilderTemplateMap extends HashMap<String, Object> {
         put(GENERATION_GAP_BASE_BUILDER, false);
         put(GENERATION_GAP_BUILDER, false);
         put(SUPER_CLASS_SPECIFIED_MAP_KEY, false);
+        setBuilderInterface(builderPackage);
+    }
+
+    private void setBuilderInterface(String builderPackage) {
+        put(BUILDER_INTERFACE_MAP_KEY, builderPackage + ".Builder");
     }
 
     private static boolean startsWithVowel(String s) {
@@ -69,11 +75,13 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     
     void setGenerationGapBaseBuilderPackage(String generationGapBaseBuilderPackage) {
         put(GENERATION_GAP_BASE_BUILDER_PACKAGE, generationGapBaseBuilderPackage);
+        setBuilderInterface(generationGapBaseBuilderPackage);
     }
 
     void setAsGenerationGapBuilder() {
         put(GENERATION_GAP_BASE_BUILDER, false);
         put(GENERATION_GAP_BUILDER, true);
+        setBuilderInterface(getBuilderPackage());
     }
 
 	boolean isSuperClassSpecified() {
@@ -91,5 +99,9 @@ class BuilderTemplateMap extends HashMap<String, Object> {
 	public String getSuperClass() {
 		return (String) get(SUPER_CLASS_MAP_KEY);
 	}
+
+    String getBuilderInterface() {
+        return (String) get(BUILDER_INTERFACE_MAP_KEY);
+    }
 
 }

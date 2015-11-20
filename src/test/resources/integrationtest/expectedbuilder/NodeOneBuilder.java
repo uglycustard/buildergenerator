@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NodeOneBuilder {
+public class NodeOneBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeOne> {
 
     public static NodeOneBuilder aNodeOne() {
         return new NodeOneBuilder();

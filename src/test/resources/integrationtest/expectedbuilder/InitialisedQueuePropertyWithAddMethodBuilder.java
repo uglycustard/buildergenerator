@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class InitialisedQueuePropertyWithAddMethodBuilder {
+public class InitialisedQueuePropertyWithAddMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.InitialisedQueuePropertyWithAddMethod> {
 
     public static InitialisedQueuePropertyWithAddMethodBuilder anInitialisedQueuePropertyWithAddMethod() {
         return new InitialisedQueuePropertyWithAddMethodBuilder();

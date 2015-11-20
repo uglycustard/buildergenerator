@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithPropertyToIgnoreBuilder {
+public class BeanWithPropertyToIgnoreBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore> {
 
     public static BeanWithPropertyToIgnoreBuilder aBeanWithPropertyToIgnore() {
         return new BeanWithPropertyToIgnoreBuilder();

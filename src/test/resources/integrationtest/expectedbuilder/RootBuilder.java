@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class RootBuilder {
+public class RootBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.Root> {
 
     public static RootBuilder aRoot() {
         return new RootBuilder();
@@ -10,7 +10,7 @@ public class RootBuilder {
     
     public RootBuilder() {}
     
-    public RootBuilder withNodeTwo(integrationtest.generatedbuilder.NodeTwoBuilder nodeTwo) {
+    public RootBuilder withNodeTwo(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeTwo> nodeTwo) {
         getTarget().setNodeTwo(nodeTwo.build());
         return this;
     }
@@ -20,7 +20,7 @@ public class RootBuilder {
         return this;
     }
     
-    public RootBuilder withNodeOne(integrationtest.generatedbuilder.NodeOneBuilder nodeOne) {
+    public RootBuilder withNodeOne(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeOne> nodeOne) {
         getTarget().setNodeOne(nodeOne.build());
         return this;
     }

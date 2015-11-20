@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder {
+public class ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.ArrayOfNonJavaTypesPropertyWithSetArrayMethod> {
 
     public static ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder anArrayOfNonJavaTypesPropertyWithSetArrayMethod() {
         return new ArrayOfNonJavaTypesPropertyWithSetArrayMethodBuilder();

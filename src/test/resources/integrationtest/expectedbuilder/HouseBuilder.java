@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class HouseBuilder {
+public class HouseBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.House> {
 
     public static HouseBuilder aHouse() {
         return new HouseBuilder();

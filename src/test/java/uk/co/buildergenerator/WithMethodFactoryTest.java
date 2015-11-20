@@ -38,7 +38,7 @@ public class WithMethodFactoryTest {
 
     private String constructExpectedBuilderType(Class<?> c) {
         String className = c.getName();
-        return BUILDER_PACKAGE + className.substring(className.lastIndexOf(".")) + "Builder";
+        return BUILDER_PACKAGE + ".Builder<" + className + ">";
     }
 
     private void assertWithMethodsEqual(WithMethod expected, WithMethod actual) {

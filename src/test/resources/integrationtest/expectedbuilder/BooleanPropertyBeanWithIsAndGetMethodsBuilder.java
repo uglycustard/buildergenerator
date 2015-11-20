@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BooleanPropertyBeanWithIsAndGetMethodsBuilder {
+public class BooleanPropertyBeanWithIsAndGetMethodsBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BooleanPropertyBeanWithIsAndGetMethods> {
 
     public static BooleanPropertyBeanWithIsAndGetMethodsBuilder aBooleanPropertyBeanWithIsAndGetMethods() {
         return new BooleanPropertyBeanWithIsAndGetMethodsBuilder();

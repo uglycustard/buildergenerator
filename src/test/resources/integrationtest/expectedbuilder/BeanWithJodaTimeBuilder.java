@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithJodaTimeBuilder {
+public class BeanWithJodaTimeBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithJodaTime> {
 
     public static BeanWithJodaTimeBuilder aBeanWithJodaTime() {
         return new BeanWithJodaTimeBuilder();

@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithNestedEnumBuilder {
+public class BeanWithNestedEnumBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithNestedEnum> {
 
     public static BeanWithNestedEnumBuilder aBeanWithNestedEnum() {
         return new BeanWithNestedEnumBuilder();

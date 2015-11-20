@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class InitialisedListPropertyWithAddMethodAndSetListMethodBuilder {
+public class InitialisedListPropertyWithAddMethodAndSetListMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.InitialisedListPropertyWithAddMethodAndSetListMethod> {
 
     public static InitialisedListPropertyWithAddMethodAndSetListMethodBuilder anInitialisedListPropertyWithAddMethodAndSetListMethod() {
         return new InitialisedListPropertyWithAddMethodAndSetListMethodBuilder();

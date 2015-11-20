@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class StringPropertyBeanBuilder {
+public class StringPropertyBeanBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.StringPropertyBean> {
 
     public static StringPropertyBeanBuilder aStringPropertyBean() {
         return new StringPropertyBeanBuilder();

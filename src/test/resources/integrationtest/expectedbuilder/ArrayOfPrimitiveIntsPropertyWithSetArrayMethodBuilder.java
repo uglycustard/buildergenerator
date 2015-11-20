@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder {
+public class ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.ArrayOfPrimitiveIntsPropertyWithSetArrayMethod> {
 
     public static ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder anArrayOfPrimitiveIntsPropertyWithSetArrayMethod() {
         return new ArrayOfPrimitiveIntsPropertyWithSetArrayMethodBuilder();

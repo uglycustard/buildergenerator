@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class InitialisedSetPropertyWithSetSetMethodBuilder {
+public class InitialisedSetPropertyWithSetSetMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.InitialisedSetPropertyWithSetSetMethod> {
 
     public static InitialisedSetPropertyWithSetSetMethodBuilder anInitialisedSetPropertyWithSetSetMethod() {
         return new InitialisedSetPropertyWithSetSetMethodBuilder();

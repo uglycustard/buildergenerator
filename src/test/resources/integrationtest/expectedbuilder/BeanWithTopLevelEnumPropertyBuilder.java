@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithTopLevelEnumPropertyBuilder {
+public class BeanWithTopLevelEnumPropertyBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithTopLevelEnumProperty> {
 
     public static BeanWithTopLevelEnumPropertyBuilder aBeanWithTopLevelEnumProperty() {
         return new BeanWithTopLevelEnumPropertyBuilder();

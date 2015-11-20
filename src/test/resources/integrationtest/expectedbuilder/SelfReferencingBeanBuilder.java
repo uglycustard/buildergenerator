@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class SelfReferencingBeanBuilder {
+public class SelfReferencingBeanBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.SelfReferencingBean> {
 
     public static SelfReferencingBeanBuilder aSelfReferencingBean() {
         return new SelfReferencingBeanBuilder();
@@ -10,7 +10,7 @@ public class SelfReferencingBeanBuilder {
     
     public SelfReferencingBeanBuilder() {}
     
-    public SelfReferencingBeanBuilder withSelfReferencingBean(integrationtest.generatedbuilder.SelfReferencingBeanBuilder selfReferencingBean) {
+    public SelfReferencingBeanBuilder withSelfReferencingBean(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.SelfReferencingBean> selfReferencingBean) {
         getTarget().setSelfReferencingBean(selfReferencingBean.build());
         return this;
     }

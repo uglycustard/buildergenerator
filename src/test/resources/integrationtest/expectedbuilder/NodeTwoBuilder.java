@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NodeTwoBuilder {
+public class NodeTwoBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeTwo> {
 
     public static NodeTwoBuilder aNodeTwo() {
         return new NodeTwoBuilder();
@@ -10,7 +10,7 @@ public class NodeTwoBuilder {
     
     public NodeTwoBuilder() {}
     
-    public NodeTwoBuilder withNodeThree(integrationtest.generatedbuilder.NodeThreeBuilder nodeThree) {
+    public NodeTwoBuilder withNodeThree(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeThree> nodeThree) {
         getTarget().setNodeThree(nodeThree.build());
         return this;
     }

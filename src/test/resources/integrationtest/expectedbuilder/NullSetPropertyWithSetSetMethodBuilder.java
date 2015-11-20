@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NullSetPropertyWithSetSetMethodBuilder {
+public class NullSetPropertyWithSetSetMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod> {
 
     public static NullSetPropertyWithSetSetMethodBuilder aNullSetPropertyWithSetSetMethod() {
         return new NullSetPropertyWithSetSetMethodBuilder();

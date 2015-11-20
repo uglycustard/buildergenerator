@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class FordBuilder extends uk.co.buildergenerator.testmodel.CustomerCarBuilder<FordBuilder> {
+public class FordBuilder extends uk.co.buildergenerator.testmodel.CustomerCarBuilder<FordBuilder> implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.Ford> {
 
     public static FordBuilder aFord() {
         return new FordBuilder();
