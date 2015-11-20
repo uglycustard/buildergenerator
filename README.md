@@ -1,6 +1,8 @@
 BuilderGenerator
 ================
 
+[![Build Status](https://travis-ci.org/uglycustard/buildergenerator.svg?branch=master)](https://travis-ci.org/uglycustard/buildergenerator)
+
 A tool to auto generate builders following the Builder pattern for an object graph of JavaBeans.
 
 Simply specify the object graph root class and BuilderGenerator will generate a builder following a 
