@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NullQueuePropertyWithSetQueueMethodBuilder {
+public class NullQueuePropertyWithSetQueueMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NullQueuePropertyWithSetQueueMethod> {
 
     public static NullQueuePropertyWithSetQueueMethodBuilder aNullQueuePropertyWithSetQueueMethod() {
         return new NullQueuePropertyWithSetQueueMethodBuilder();

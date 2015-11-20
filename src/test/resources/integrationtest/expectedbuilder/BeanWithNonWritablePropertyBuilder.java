@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithNonWritablePropertyBuilder {
+public class BeanWithNonWritablePropertyBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithNonWritableProperty> {
 
     public static BeanWithNonWritablePropertyBuilder aBeanWithNonWritableProperty() {
         return new BeanWithNonWritablePropertyBuilder();

@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithMapPropertyBuilder {
+public class BeanWithMapPropertyBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithMapProperty> {
     public static BeanWithMapPropertyBuilder aBeanWithMapProperty() {
         return new BeanWithMapPropertyBuilder();
     }

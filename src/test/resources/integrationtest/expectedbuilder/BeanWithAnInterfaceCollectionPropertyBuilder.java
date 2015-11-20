@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithAnInterfaceCollectionPropertyBuilder {
+public class BeanWithAnInterfaceCollectionPropertyBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithAnInterfaceCollectionProperty> {
 
     public static BeanWithAnInterfaceCollectionPropertyBuilder aBeanWithAnInterfaceCollectionProperty() {
         return new BeanWithAnInterfaceCollectionPropertyBuilder();

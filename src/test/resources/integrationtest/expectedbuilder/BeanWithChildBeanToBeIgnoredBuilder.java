@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithChildBeanToBeIgnoredBuilder {
+public class BeanWithChildBeanToBeIgnoredBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored> {
 
     public static BeanWithChildBeanToBeIgnoredBuilder aBeanWithChildBeanToBeIgnored() {
         return new BeanWithChildBeanToBeIgnoredBuilder();

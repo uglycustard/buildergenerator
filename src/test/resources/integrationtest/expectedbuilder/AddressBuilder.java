@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class AddressBuilder {
+public class AddressBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.Address> {
 
     public static AddressBuilder anAddress() {
 
@@ -13,7 +13,7 @@ public class AddressBuilder {
 
     }
 
-    public AddressBuilder withHouse(integrationtest.generatedbuilder.HouseBuilder house) {
+    public AddressBuilder withHouse(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.House> house) {
 
         getTarget().addHouse(house.build());
         return this;

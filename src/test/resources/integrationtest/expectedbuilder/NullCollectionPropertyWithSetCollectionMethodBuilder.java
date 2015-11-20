@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NullCollectionPropertyWithSetCollectionMethodBuilder {
+public class NullCollectionPropertyWithSetCollectionMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NullCollectionPropertyWithSetCollectionMethod> {
 
     public static NullCollectionPropertyWithSetCollectionMethodBuilder aNullCollectionPropertyWithSetCollectionMethod() {
         return new NullCollectionPropertyWithSetCollectionMethodBuilder();

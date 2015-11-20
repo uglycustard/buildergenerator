@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class CyclicDependencyBeanRightBuilder {
+public class CyclicDependencyBeanRightBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.CyclicDependencyBeanRight> {
 
     public static CyclicDependencyBeanRightBuilder aCyclicDependencyBeanRight() {
         return new CyclicDependencyBeanRightBuilder();
@@ -10,7 +10,7 @@ public class CyclicDependencyBeanRightBuilder {
     
     public CyclicDependencyBeanRightBuilder() {}
     
-    public CyclicDependencyBeanRightBuilder withCyclicDependencyBeanLeft(integrationtest.generatedbuilder.CyclicDependencyBeanLeftBuilder cyclicDependencyBeanLeft) {
+    public CyclicDependencyBeanRightBuilder withCyclicDependencyBeanLeft(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.CyclicDependencyBeanLeft> cyclicDependencyBeanLeft) {
         getTarget().setCyclicDependencyBeanLeft(cyclicDependencyBeanLeft.build());
         return this;
     }

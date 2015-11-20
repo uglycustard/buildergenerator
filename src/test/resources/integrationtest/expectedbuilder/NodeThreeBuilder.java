@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NodeThreeBuilder {
+public class NodeThreeBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeThree> {
 
     public static NodeThreeBuilder aNodeThree() {
         return new NodeThreeBuilder();

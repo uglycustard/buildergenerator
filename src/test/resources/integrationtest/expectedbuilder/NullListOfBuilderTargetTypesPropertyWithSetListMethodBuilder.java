@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder {
+public class NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NullListOfBuilderTargetTypesPropertyWithSetListMethod> {
 
     public static NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder aNullListOfBuilderTargetTypesPropertyWithSetListMethod() {
         return new NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder();
@@ -10,7 +10,7 @@ public class NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder {
     
     public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder() {}
     
-    public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder withHouse(integrationtest.generatedbuilder.HouseBuilder house) {
+    public NullListOfBuilderTargetTypesPropertyWithSetListMethodBuilder withHouse(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.House> house) {
         if (getTarget().getHouses() == null) {
             getTarget().setHouses(new java.util.ArrayList<uk.co.buildergenerator.testmodel.House>());
         }        

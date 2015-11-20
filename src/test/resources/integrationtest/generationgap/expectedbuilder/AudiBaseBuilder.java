@@ -1,6 +1,6 @@
 package integrationtest.generationgap.generatedbuilder;
 
-public class AudiBaseBuilder<T extends integrationtest.generationgap.generatedbuilder.AudiBaseBuilder<T>> extends uk.co.buildergenerator.testmodel.CustomerCarBuilder<T> {
+public class AudiBaseBuilder<T extends integrationtest.generationgap.generatedbuilder.AudiBaseBuilder<T>> extends uk.co.buildergenerator.testmodel.CustomerCarBuilder<T> implements integrationtest.generationgap.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.Audi> {
     
     private uk.co.buildergenerator.testmodel.Audi target = new uk.co.buildergenerator.testmodel.Audi();
     

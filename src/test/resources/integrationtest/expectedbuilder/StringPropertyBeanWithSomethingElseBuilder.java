@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class StringPropertyBeanWithSomethingElseBuilder extends integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseBuilder> {
+public class StringPropertyBeanWithSomethingElseBuilder extends integrationtest.generatedbuilder.Base<integrationtest.generatedbuilder.StringPropertyBeanWithSomethingElseBuilder> implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.StringPropertyBeanWithSomethingElse> {
     public static StringPropertyBeanWithSomethingElseBuilder aStringPropertyBeanWithSomethingElse() {
         return new StringPropertyBeanWithSomethingElseBuilder();
     }    

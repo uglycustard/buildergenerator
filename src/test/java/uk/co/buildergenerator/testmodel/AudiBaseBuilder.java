@@ -1,6 +1,6 @@
 package uk.co.buildergenerator.testmodel;
 
-public class AudiBaseBuilder<T extends uk.co.buildergenerator.testmodel.AudiBaseBuilder<T>> extends uk.co.buildergenerator.testmodel.CustomerCarBuilder<T> {
+public class AudiBaseBuilder<T extends uk.co.buildergenerator.testmodel.AudiBaseBuilder<T>> extends uk.co.buildergenerator.testmodel.CustomerCarBuilder<T> implements uk.co.buildergenerator.testmodel.Builder<uk.co.buildergenerator.testmodel.Audi> {
 
     private uk.co.buildergenerator.testmodel.Audi target = new uk.co.buildergenerator.testmodel.Audi();
     

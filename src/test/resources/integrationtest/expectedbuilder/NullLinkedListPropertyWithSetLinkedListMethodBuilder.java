@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class NullLinkedListPropertyWithSetLinkedListMethodBuilder {
+public class NullLinkedListPropertyWithSetLinkedListMethodBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NullLinkedListPropertyWithSetLinkedListMethod> {
 
     public static NullLinkedListPropertyWithSetLinkedListMethodBuilder aNullLinkedListPropertyWithSetLinkedListMethod() {
         return new NullLinkedListPropertyWithSetLinkedListMethodBuilder();

@@ -177,7 +177,7 @@ class BuilderGeneratorUtils {
             parameterType = getTargetTypeClass(propertyDescriptor).getCanonicalName();
             
             if (isBuilder(propertyDescriptor, classesToIgnore)) {
-                parameterType = builderPackage + parameterType.substring(parameterType.lastIndexOf(".")) + "Builder";
+                parameterType = builderPackage + ".Builder<" + parameterType + ">";
             }
         }
         

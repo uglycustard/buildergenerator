@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithNullSubListInterfacePropertyBuilder {
+public class BeanWithNullSubListInterfacePropertyBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithNullSubListInterfaceProperty> {
 
     public static BeanWithNullSubListInterfacePropertyBuilder aBeanWithNullSubListInterfaceProperty() {
         return new BeanWithNullSubListInterfacePropertyBuilder();

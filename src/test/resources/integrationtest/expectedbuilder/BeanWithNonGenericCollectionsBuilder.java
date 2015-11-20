@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithNonGenericCollectionsBuilder {
+public class BeanWithNonGenericCollectionsBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithNonGenericCollections> {
 
     public static BeanWithNonGenericCollectionsBuilder aBeanWithNonGenericCollections() {
         return new BeanWithNonGenericCollectionsBuilder();

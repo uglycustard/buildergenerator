@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWithMultiDimensionalArrayOfPrimitivesBuilder {
+public class BeanWithMultiDimensionalArrayOfPrimitivesBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWithMultiDimensionalArrayOfPrimitives> {
 
     public static BeanWithMultiDimensionalArrayOfPrimitivesBuilder aBeanWithMultiDimensionalArrayOfPrimitives() {
         return new BeanWithMultiDimensionalArrayOfPrimitivesBuilder();

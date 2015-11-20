@@ -1,6 +1,6 @@
 package integrationtest.generatedbuilder;
 
-public class BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder {
+public class BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder implements integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors> {
 
     public static BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder aBeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessors() {
         return new BeanWhereFieldNameDiffersFromBeanProperteyNameFromAccessorsBuilder();

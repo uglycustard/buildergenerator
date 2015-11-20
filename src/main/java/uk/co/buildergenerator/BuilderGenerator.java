@@ -171,16 +171,30 @@ public class BuilderGenerator {
         BuilderTemplateMapCollector builderTemplateMapCollector = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage(), propertiesToIgnore, classesToIgnore);
         List<BuilderTemplateMap> builderTemplateMapList = builderTemplateMapCollector.collectBuilderTemplateMaps();
         
+        if (generationGap) {
+            builderWriter.generateBuilderInteraface(getGenGapOutputDire(outputDirectoryFile), getGenGapBaseBuilerPackage());
+        } else {
+            builderWriter.generateBuilderInteraface(outputDirectoryFile, getBuilderPackage());
+        }
+        
         for (BuilderTemplateMap builderTemplateMap : builderTemplateMapList) {
         	builderTemplateMap.setSuperClass(builderSuperClass.get(builderTemplateMap.getFullyQualifiedTargetClassName()));
             if (generationGap) {
-                String generationGapBaseBuilderPackage = getGenerationGapBaseBuilderPackage() != null ? getGenerationGapBaseBuilderPackage() : getBuilderPackage();
-                File generationGapBaseBuilderOutputDirectoryFile = getGenerationGapBaseBuilderOutputDirectory() != null ? fileUtils.newFile(getGenerationGapBaseBuilderOutputDirectory()) : outputDirectoryFile;
+                String generationGapBaseBuilderPackage = getGenGapBaseBuilerPackage();
+                File generationGapBaseBuilderOutputDirectoryFile = getGenGapOutputDire(outputDirectoryFile);
                 builderWriter.generateBuilderWithGenerationGap(builderTemplateMap, outputDirectoryFile, generationGapBaseBuilderPackage, generationGapBaseBuilderOutputDirectoryFile);
             } else {
             	builderWriter.generateBuilder(builderTemplateMap, outputDirectoryFile);
             }
         }
+    }
+
+    private File getGenGapOutputDire(File defaultOutputDirectoryFileIfNotSet) {
+        return getGenerationGapBaseBuilderOutputDirectory() != null ? fileUtils.newFile(getGenerationGapBaseBuilderOutputDirectory()) : defaultOutputDirectoryFileIfNotSet;
+    }
+
+    private String getGenGapBaseBuilerPackage() {
+        return getGenerationGapBaseBuilderPackage() != null ? getGenerationGapBaseBuilderPackage() : getBuilderPackage();
     }
     
 	Class<?> getRootClass() {

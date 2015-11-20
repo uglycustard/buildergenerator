@@ -11,10 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static uk.co.buildergenerator.BuilderGenerator.DEFAULT_OUTPUT_DIRECTORY;
-
 import java.io.File;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +20,6 @@ import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-
 import uk.co.buildergenerator.testmodel.BeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithNestedClass;
@@ -50,6 +47,12 @@ public class BuilderGeneratorTest {
 	@Captor
 	private ArgumentCaptor<File> outputDirectoryCaptor;
 	
+	@Captor
+	private ArgumentCaptor<String> generationGapBaseBuilderPackageCaptor;
+
+	@Captor
+	private ArgumentCaptor<File> generationGapBaseBuilderOutputDirectoryCaptor;
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
 	
@@ -104,9 +107,10 @@ public class BuilderGeneratorTest {
         testee.generateBuilders();
         assertBuilderTemplateMapsCreatedForClasses(NodeThree.class);
         assertOutputDirectoryForAllBuilders(file);
+        assertBuilderInterfaceGenerated(file, testee.getBuilderPackage());
     }
 	
-	@Test
+    @Test
 	public void generateBuildersForSingleNodeGraphInSpecifiedOutputDirectory() throws Exception {
 
 	    String outputDir = "another" + File.separator + "directory";
@@ -117,6 +121,7 @@ public class BuilderGeneratorTest {
 	    testee.generateBuilders();
 	    assertBuilderTemplateMapsCreatedForClasses(NodeThree.class);
 	    assertOutputDirectoryForAllBuilders(file);
+	    assertBuilderInterfaceGenerated(file, testee.getBuilderPackage());
 	}
 
 	@Test
@@ -131,6 +136,7 @@ public class BuilderGeneratorTest {
 	    assertBuilderTemplateMapsCreatedForClasses(NodeThree.class);
 	    assertOutputDirectoryForAllBuilders(file);
 	    assertOutputDirectoyWasCreated(file);
+	    assertBuilderInterfaceGenerated(file, testee.getBuilderPackage());
 	}
 
 	@Test
@@ -157,6 +163,7 @@ public class BuilderGeneratorTest {
 	    testee.generateBuilders();
 	    assertBuilderTemplateMapsCreatedForClasses(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
 	    assertOutputDirectoryForAllBuilders(file);
+	    assertBuilderInterfaceGenerated(file, testee.getBuilderPackage());
 	}
 	
     @Test
@@ -170,6 +177,7 @@ public class BuilderGeneratorTest {
         testee.generateBuilders();
         assertBuilderTemplateMapsCreatedForClasses(Root.class, NodeOne.class, NodeTwo.class, NodeThree.class);
         assertOutputDirectoryForAllBuilders(file);
+        assertBuilderInterfaceGenerated(file, testee.getBuilderPackage());
     }
     
     @SuppressWarnings("deprecation")
@@ -226,6 +234,18 @@ public class BuilderGeneratorTest {
         assertEquals(superClassStatement, builderTemplateMap.getSuperClass());
 	}
 
+    @Test
+    public void generateBuildersForSingleNodeGraphInDefaultOutputDirectoryUsingGenerationGap() throws Exception {
+        
+        File file = mockExisitingOutputDirectoryFile(DEFAULT_OUTPUT_DIRECTORY);
+        
+        testee = new BuilderGenerator(NodeThree.class, builderWriter, fileUtils);
+        testee.setGenerationGap(true);
+        testee.generateBuilders();
+        assertBuilderTemplateMapsCreatedForClassesUsingGenerationGap(file, testee.getBuilderPackage(), NodeThree.class);
+        assertOutputDirectoryForAllBuilders(file);
+        assertBuilderInterfaceGenerated(file, testee.getBuilderPackage());
+    }
     
     @Test
 	public void superClassSpecifiedWithGenerationGap() throws Exception {
@@ -268,6 +288,17 @@ public class BuilderGeneratorTest {
         }
 	}
 
+    private void assertBuilderTemplateMapsCreatedForClassesUsingGenerationGap(File generationGapBaseBuilderOutputDirectory, String generationGapBaseBuilderPackage, Class<?>...expectedClasses) {
+        verify(builderWriter, times(expectedClasses.length)).generateBuilderWithGenerationGap(
+                builderTemplateMapCaptor.capture(), outputDirectoryCaptor.capture(), generationGapBaseBuilderPackageCaptor.capture(), generationGapBaseBuilderOutputDirectoryCaptor.capture());
+        List<BuilderTemplateMap> createdBuilderTemplateMaps = builderTemplateMapCaptor.getAllValues();
+        for (Class<?> expectedClass : expectedClasses) {
+            assertEquals(expectedClass.getCanonicalName(), findFrom(createdBuilderTemplateMaps, expectedClass).getFullyQualifiedTargetClassName());
+            assertEquals(generationGapBaseBuilderPackage, generationGapBaseBuilderPackageCaptor.getValue());
+            assertEquals(generationGapBaseBuilderOutputDirectory, generationGapBaseBuilderOutputDirectoryCaptor.getValue());
+        }
+    }
+
     private void assertOutputDirectoryForAllBuilders(File expectedOutputDirectory) {
         for (File file : outputDirectoryCaptor.getAllValues()) {
             assertSame(expectedOutputDirectory, file);
@@ -284,4 +315,7 @@ public class BuilderGeneratorTest {
 	    return null;
 	}
 	
+	private void assertBuilderInterfaceGenerated(File outputDirectory, String builderPackage) {
+	    verify(builderWriter).generateBuilderInteraface(outputDirectory, builderPackage);
+	}
 }

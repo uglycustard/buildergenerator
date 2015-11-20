@@ -3,7 +3,6 @@ package uk.co.buildergenerator.integrationtest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,9 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-
 import org.junit.Test;
-
 import uk.co.buildergenerator.BuilderGenerator;
 import uk.co.buildergenerator.FileUtils;
 import uk.co.buildergenerator.testmodel.Address;
@@ -117,7 +114,9 @@ public class BuilderGeneratorIT {
         String generatedBuilderFilename = "integrationtest/generatedbuilder/StringPropertyBeanBuilder.java";
         String expectedBuilderFilename = "integrationtest/expectedbuilder/StringPropertyBeanBuilder.java";
         assertFilesEqual(expectedBuilderFilename, generatedBuilderFilename);
+        assertFilesEqual("integrationtest/expectedbuilder/Builder.java", "integrationtest/generatedbuilder/Builder.java");
     }
+
 
     @Test
     public void primitiveBooleanProperty() throws Exception {
