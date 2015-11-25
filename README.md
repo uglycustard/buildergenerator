@@ -1,7 +1,7 @@
 BuilderGenerator
 ================
 
-[![Build Status](https://travis-ci.org/uglycustard/buildergenerator.svg?branch=master)](https://travis-ci.org/uglycustard/buildergenerator)
+[![Build Status](https://travis-ci.org/uglycustard/buildergenerator.svg?branch=master)](https://travis-ci.org/uglycustard/buildergenerator) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.co.buildergenerator/buildergenerator/badge.svg)](https://maven-badges.herokuapp.com/maven-central/uk.co.buildergenerator/buildergenerator)
 
 A tool to auto generate builders following the Builder pattern for an object graph of JavaBeans.
 
