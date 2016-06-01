@@ -1,6 +1,7 @@
 package uk.co.buildergenerator;
 
 import java.util.HashMap;
+import java.util.Map;
 
 class BuilderTemplateMap extends HashMap<String, Object> {
 
@@ -18,13 +19,13 @@ class BuilderTemplateMap extends HashMap<String, Object> {
     static final String GENERATION_GAP_BASE_BUILDER_PACKAGE = "generationGapBaseBuilderPackage";
     static final String BUILDER_INTERFACE_MAP_KEY = "builderInterface";
     
-    BuilderTemplateMap(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore) {
+    BuilderTemplateMap(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore, Map<Class<?>, String> collectionInitialisationTypes) {
         
         put(BUILDER_PACKAGE_MAP_KEY, builderPackage);
         put(TARGET_CLASS_NAME_MAP_KEY, targetClass.getSimpleName());
         put(FULLY_QUALIFIED_TARGET_CLASS_NAME_MAP_KEY, targetClass.getName());
         put(FACTORY_METHOD_PREFIX_MAP_KEY, startsWithVowel(targetClass.getSimpleName()) ? "an" : "a");
-        put(WITH_METHOD_LIST_MAP_KEY, new WithMethodList(targetClass, builderPackage, propertiesToIgnore, classesToIgnore));
+        put(WITH_METHOD_LIST_MAP_KEY, new WithMethodList(targetClass, builderPackage, propertiesToIgnore, classesToIgnore, collectionInitialisationTypes));
         put(GENERATION_GAP_BASE_BUILDER, false);
         put(GENERATION_GAP_BUILDER, false);
         put(SUPER_CLASS_SPECIFIED_MAP_KEY, false);

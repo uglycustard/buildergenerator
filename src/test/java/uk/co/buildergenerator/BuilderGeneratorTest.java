@@ -1,8 +1,10 @@
 package uk.co.buildergenerator;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -11,8 +13,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static uk.co.buildergenerator.BuilderGenerator.DEFAULT_OUTPUT_DIRECTORY;
+
 import java.io.File;
 import java.util.List;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +25,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+
 import uk.co.buildergenerator.testmodel.BeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithChildBeanToBeIgnored;
 import uk.co.buildergenerator.testmodel.BeanWithNestedClass;
@@ -28,6 +34,7 @@ import uk.co.buildergenerator.testmodel.BeanWithPropertyToIgnore;
 import uk.co.buildergenerator.testmodel.NodeOne;
 import uk.co.buildergenerator.testmodel.NodeThree;
 import uk.co.buildergenerator.testmodel.NodeTwo;
+import uk.co.buildergenerator.testmodel.NullSetPropertyWithSetSetMethod;
 import uk.co.buildergenerator.testmodel.Root;
 import uk.co.buildergenerator.testmodel.StringPropertyBeanWithSomethingElse;
 
@@ -203,6 +210,20 @@ public class BuilderGeneratorTest {
     }
 
     @Test
+    public void specifyingAConcreteCollectionTypeShouldOverrideTheDefault() throws Exception {
+        
+        String overridenConcreteCollectionType = "java.util.LinkedHashSet";
+    	
+        testee = new BuilderGenerator(NullSetPropertyWithSetSetMethod.class, builderWriter, fileUtils);
+		testee.addConcreteCollectionTypeForCollectionInterface(Set.class, overridenConcreteCollectionType);
+        testee.generateBuilders();
+        List<BuilderTemplateMap> builderTemplateMaps = assertBuilderTemplateMapsCreatedForClasses(NullSetPropertyWithSetSetMethod.class);
+        BuilderTemplateMap builderTemplateMap = builderTemplateMaps.get(0);
+	    assertThat(builderTemplateMap.getWithMethodList().get(0).getCollectionType(), equalTo(overridenConcreteCollectionType));
+    }
+
+    
+    @Test
     public void generateBuildersIgnoringNestedClasses() throws Exception {
         
         testee = new BuilderGenerator(BeanWithNestedClassProperty.class, builderWriter, fileUtils);
@@ -279,13 +300,14 @@ public class BuilderGeneratorTest {
 	    return file;
 	}
 
-    private void assertBuilderTemplateMapsCreatedForClasses(Class<?>...expectedClasses) {
+    private List<BuilderTemplateMap> assertBuilderTemplateMapsCreatedForClasses(Class<?>...expectedClasses) {
 	    verify(builderWriter, times(expectedClasses.length)).generateBuilder(builderTemplateMapCaptor.capture(), outputDirectoryCaptor.capture());
 	    List<BuilderTemplateMap> createdBuilderTemplateMaps = builderTemplateMapCaptor.getAllValues();
 	    for (Class<?> expectedClass : expectedClasses) {
 	        assertEquals(expectedClass.getCanonicalName(), findFrom(createdBuilderTemplateMaps, expectedClass).getFullyQualifiedTargetClassName());
             
         }
+	    return createdBuilderTemplateMaps;
 	}
 
     private void assertBuilderTemplateMapsCreatedForClassesUsingGenerationGap(File generationGapBaseBuilderOutputDirectory, String generationGapBaseBuilderPackage, Class<?>...expectedClasses) {
