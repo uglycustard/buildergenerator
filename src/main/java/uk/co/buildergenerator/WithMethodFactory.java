@@ -1,6 +1,7 @@
 package uk.co.buildergenerator;
 
 import java.beans.PropertyDescriptor;
+import java.util.Map;
 
 //TODO: Get rid of this class
 class WithMethodFactory {
@@ -13,8 +14,8 @@ class WithMethodFactory {
     
     private BuilderGeneratorUtils bgu = new BuilderGeneratorUtils();
     
-    WithMethod createWithMethod(PropertyDescriptor propertyDescriptor, Class<?> targetClass, String builderPackage, ClassesToIgnore classesToIgnore) {
-        
+    WithMethod createWithMethod(PropertyDescriptor propertyDescriptor, Class<?> targetClass, String builderPackage, ClassesToIgnore classesToIgnore, Map<Class<?>, String> collectionInitialisationTypes) {
+
         
         String propertyName = bgu.getPropertyName(propertyDescriptor);
         String parameterType = bgu.getParameterType(propertyDescriptor, builderPackage, classesToIgnore);
@@ -23,7 +24,7 @@ class WithMethodFactory {
         boolean collectionNeedsInitialising = bgu.isCollectionNeedsInitialising(targetClass, propertyDescriptor);
         String collectionGetterMethodName = bgu.getCollectionGetterMethodName(propertyDescriptor);
         String collectionSetterMethodName = bgu.getCollectionSetterMethodName(propertyDescriptor);
-        String collectionTypeWhenCollectionNeedsInitialising = bgu.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor);
+        String collectionTypeWhenCollectionNeedsInitialising = bgu.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes);
         String collectionMethodSettingInvocation = bgu.getCollectionMethodSettingInvocation(propertyDescriptor, targetClass);
         boolean builder = bgu.isBuilder(propertyDescriptor, classesToIgnore);
         String builderTargetType = bgu.getBuilderTargetType(propertyDescriptor, classesToIgnore);

@@ -23,7 +23,7 @@ public class WithMethodListTest {
     private ClassesToIgnore classesToIgnore = new ClassesToIgnore();
 
     private WithMethodList createTestee(Class<?> targetClass) {
-        return new WithMethodList(targetClass, BUILDER_PACKAGE, propertiesToIgnore, classesToIgnore);
+        return new WithMethodList(targetClass, BUILDER_PACKAGE, propertiesToIgnore, classesToIgnore, CollectionInitialisationTypes.getDefaultMappings());
     }
 
     private WithMethod find(List<WithMethod> withMethodList, String parameterName) {

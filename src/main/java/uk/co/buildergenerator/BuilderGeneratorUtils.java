@@ -5,11 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
 
 class BuilderGeneratorUtils {
 
@@ -52,15 +48,9 @@ class BuilderGeneratorUtils {
         return null;
     }
 
-    private static Map<Class<?>, String> collectionInitialisationTypes = new HashMap<Class<?>, String>();
-    static {
-        collectionInitialisationTypes.put(Collection.class, "java.util.ArrayList");
-        collectionInitialisationTypes.put(List.class, "java.util.ArrayList");
-        collectionInitialisationTypes.put(Set.class, "java.util.HashSet");
-        collectionInitialisationTypes.put(Queue.class, "java.util.PriorityQueue");
-    }
+
     
-    String getCollectionTypeWhenCollectionNeedsInitialising(PropertyDescriptor propertyDescriptor) {
+    String getCollectionTypeWhenCollectionNeedsInitialising(PropertyDescriptor propertyDescriptor, Map<Class<?>, String> collectionInitialisationTypes) {
         
         if (isCollection(propertyDescriptor)) {
             if (propertyDescriptor.getPropertyType().isInterface()) {
@@ -72,18 +62,6 @@ class BuilderGeneratorUtils {
         }
         
         return null;
-    }
-    
-    boolean isList(Class<?> type) {
-        return List.class.isAssignableFrom(type);
-    }
-
-    boolean isSet(Class<?> type) {
-        return Set.class.isAssignableFrom(type);
-    }
-
-    boolean isQueue(Class<?> type) {
-        return Queue.class.isAssignableFrom(type);
     }
     
     boolean isMap(Class<?> type) {

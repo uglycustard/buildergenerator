@@ -12,7 +12,7 @@ public class TestUtils {
         
         try {
             PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(targetClass.newInstance(), propertyName);
-            return getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage, classesToIgnore);
+            return getWithMethodFactory().createWithMethod(propertyDescriptor, targetClass, builderPackage, classesToIgnore, CollectionInitialisationTypes.getDefaultMappings());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

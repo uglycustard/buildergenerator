@@ -2,6 +2,7 @@ package uk.co.buildergenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 // TODO: TDD me
 class BuilderTemplateMapCollector {
@@ -10,12 +11,14 @@ class BuilderTemplateMapCollector {
     private final String builderPackage;
     private final PropertiesToIgnore propertiesToIgnore;
     private final ClassesToIgnore classesToIgnore;
+    private final Map<Class<?>, String> collectionInitialisationTypes;
 
-    BuilderTemplateMapCollector(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore) {
-        this.targetClass = targetClass;
+    BuilderTemplateMapCollector(Class<?> targetClass, String builderPackage, PropertiesToIgnore propertiesToIgnore, ClassesToIgnore classesToIgnore, Map<Class<?>, String> collectionInitialisationTypes) {
+		this.targetClass = targetClass;
         this.builderPackage = builderPackage;
         this.propertiesToIgnore = propertiesToIgnore;
         this.classesToIgnore = classesToIgnore;
+        this.collectionInitialisationTypes = collectionInitialisationTypes;
     }
     
     List<BuilderTemplateMap> collectBuilderTemplateMaps() {
@@ -33,7 +36,7 @@ class BuilderTemplateMapCollector {
             	return;
             }
 
-            BuilderTemplateMap builderTemplateMap = new BuilderTemplateMap(targetClass, builderPackage, propertiesToIgnore, classesToIgnore);
+            BuilderTemplateMap builderTemplateMap = new BuilderTemplateMap(targetClass, builderPackage, propertiesToIgnore, classesToIgnore, collectionInitialisationTypes);
             builderTemplateMapList.add(builderTemplateMap);
             for (WithMethod withMethod : builderTemplateMap.getWithMethodList()) {
                 if (withMethod.isBuilder()) {

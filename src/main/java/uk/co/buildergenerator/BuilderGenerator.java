@@ -124,6 +124,7 @@ public class BuilderGenerator {
     private boolean generationGap;
     private String generationGapBaseBuilderPackage;
 	private String generationGapBaseBuilderOutputDirectory;
+    private final Map<Class<?>, String> collectionInitialisationTypes = new HashMap<Class<?>, String>();
 
 	/**
 	 * Construct a <code>BuilderGenerator</code> for an object graph whose graph
@@ -152,6 +153,7 @@ public class BuilderGenerator {
 	    this.rootClass = rootClass;
         this.builderWriter = builderWriter;
         this.fileUtils = fileUtils;
+        this.collectionInitialisationTypes.putAll(CollectionInitialisationTypes.getDefaultMappings());
         setBuilderPackage(deriveDefaultBuilderPackage(rootClass));
         setOutputDirectory(DEFAULT_OUTPUT_DIRECTORY);
     }
@@ -168,7 +170,7 @@ public class BuilderGenerator {
 
         File outputDirectoryFile = fileUtils.newFile(getOutputDirectory());
         fileUtils.createDirectoriesIfNotExists(outputDirectoryFile);
-        BuilderTemplateMapCollector builderTemplateMapCollector = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage(), propertiesToIgnore, classesToIgnore);
+        BuilderTemplateMapCollector builderTemplateMapCollector = new BuilderTemplateMapCollector(getRootClass(), getBuilderPackage(), propertiesToIgnore, classesToIgnore, collectionInitialisationTypes);
         List<BuilderTemplateMap> builderTemplateMapList = builderTemplateMapCollector.collectBuilderTemplateMaps();
         
         if (generationGap) {
@@ -421,5 +423,27 @@ public class BuilderGenerator {
 	        addBuilderSuperClass(targetClass, superClass.getName() + "<" + targetClass.getSimpleName() +"Builder>");
 	    }
 	}
+	
+    /**
+	 * Specify the concrete class used to initialise a collection property if it is not initialised.
+	 * <p>
+	 * The defaults are: 
+	 * <br />
+	 * {@link java.util.ArrayList} for a property of type {@link java.util.Collection}
+	 * <br />
+	 * {@link java.util.ArrayList} for a property of type {@link java.util.List}
+	 * <br />
+	 * {@link java.util.HashSet} for a property of type {@link java.util.Set}
+	 * <br />
+	 * {@link java.util.PriorityQueue} for a property of type {@link java.util.Queue}
+	 * 
+	 * @param collectionInterface the collection interface class. For example <code>java.util.Set.class</code>
+	 * @param concreteCollectionClassName the fully qualified class name of the concrete collection class to be instantiated to initialise a property. 
+	 * For example <code>"java.util.LinkedHashSet"</code>
+	 */
+    public void addConcreteCollectionTypeForCollectionInterface(Class<?> collectionInterface, String concreteCollectionClassName) {
+        collectionInitialisationTypes.put(collectionInterface, concreteCollectionClassName);
+    }
+
 
 }

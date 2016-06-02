@@ -7,8 +7,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -65,42 +69,52 @@ public class BuilderGeneratorUtilsTest {
     public void nullCollectionTypeIsCollection() throws Exception {
         
 	    createPropertyDescriptor("strings", NullCollectionPropertyWithSetCollectionMethod.class);
-	    assertEquals("java.util.ArrayList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+	    collectionInitialisationTypes.put(Collection.class, "java.util.ArrayList");
+		assertEquals("java.util.ArrayList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes ));
     }
 
 	@Test
 	public void nullCollectionTypeIsList() throws Exception {
 
 	    createPropertyDescriptor("strings", NullListPropertyWithSetListMethod.class);
-	    assertEquals("java.util.ArrayList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+	    collectionInitialisationTypes.put(List.class, "java.util.ArrayList");
+	    assertEquals("java.util.ArrayList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
 	}
 
 	@Test
 	public void nullCollectionTypeIsSet() throws Exception {
 
 	    createPropertyDescriptor("strings", NullSetPropertyWithSetSetMethod.class);
-	    assertEquals("java.util.HashSet", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+	    collectionInitialisationTypes.put(Set.class, "java.util.LinkedHashSet");
+	    assertEquals("java.util.LinkedHashSet", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
 	}
 	
     @Test
     public void nullCollectionTypeIsTreeSet() throws Exception {
 
         createPropertyDescriptor("strings", NullTreeSetPropertyWithSetTreeSetMethod.class);
-        assertEquals("java.util.TreeSet", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+        assertEquals("java.util.TreeSet", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
     }
 
     @Test
     public void nullCollectionTypeIsQueue() throws Exception {
 
         createPropertyDescriptor("strings", NullQueuePropertyWithSetQueueMethod.class);
-        assertEquals("java.util.PriorityQueue", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+	    collectionInitialisationTypes.put(Queue.class, "java.util.PriorityQueue");
+        assertEquals("java.util.PriorityQueue", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
     }
     
     @Test
     public void nullCollectionTypeWhenPropertyIsNotACollection() throws Exception {
         
         createPropertyDescriptor("name", House.class);
-        assertEquals(null, testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+        assertEquals(null, testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
         
     }
 
@@ -108,14 +122,16 @@ public class BuilderGeneratorUtilsTest {
     public void nullCollectionTypeIsLinkedList() throws Exception {
 
         createPropertyDescriptor("strings", NullLinkedListPropertyWithSetLinkedListMethod.class);
-        assertEquals("java.util.LinkedList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+        assertEquals("java.util.LinkedList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
     }
 
     @Test
     public void nullCollectionTypeWhenUnrecognisedInterface() throws Exception {
 
         createPropertyDescriptor("strings", NullLinkedListPropertyWithSetLinkedListMethod.class);
-        assertEquals("java.util.LinkedList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+        assertEquals("java.util.LinkedList", testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
     }
 
     @Test
@@ -146,7 +162,8 @@ public class BuilderGeneratorUtilsTest {
         
         createPropertyDescriptor("subList", BeanWithNullSubListInterfaceProperty.class);
         assertFalse(testee.isCollectionNeedsInitialising(BeanWithNullSubListInterfaceProperty.class, propertyDescriptor));
-        assertNull(testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor));
+	    Map<Class<?>, String> collectionInitialisationTypes = new LinkedHashMap<Class<?>, String>();
+        assertNull(testee.getCollectionTypeWhenCollectionNeedsInitialising(propertyDescriptor, collectionInitialisationTypes));
         assertEquals("setSubList", testee.getCollectionMethodSettingInvocation(propertyDescriptor, BeanWithNullSubListInterfaceProperty.class));
     }
     
