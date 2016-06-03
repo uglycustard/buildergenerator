@@ -18,36 +18,36 @@ import java.util.Map;
  * output folder chosen by <code>BuilderGenerator</code> call one of the following static utility methods:
  * <p>
  * <code>
- * BuilderGenerator.generateBuilders(MyObjectGraphRoot.class);<br/>
+ * BuilderGenerator.generateBuilders(MyObjectGraphRoot.class);<br>
  * BuilderGenerator.generateBuilders("com.example.MyObjectGraphRoot");
  * </code>
  * <p>
  * To generate builders in either a package and/or output folder other than those chosen by <code>BuilderGenerator</code>:
  * <p>
  * <code>
- * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br/>
- * bg.setBuilderPackage("com.example.mypackage");<br/>    
- * bg.setOutputDirectory("/my/output/folder");<br/>    
+ * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br>
+ * bg.setBuilderPackage("com.example.mypackage");<br>    
+ * bg.setOutputDirectory("/my/output/folder");<br>    
  * bg.generateBuilders();
  * </code>
  * <p>
  * To ignore properties in a specified class:
  * <p>
  * <code>
- * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br/>
- * bg.addPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");<br/>    
+ * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br>
+ * bg.addPropertyToIgnore(MyObjectGraphRoot.class, "thePropertyToIgnore");<br>    
  * bg.generateBuilders();
  * </code>
  * <p>
  * To ignore classes in the object graph:
  * <p>
  * <code>
- * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br/>
- * bg.addClassToIgnore(MyObjectToIgnore.class);<br/>    
+ * BuilderGenerator bg = new BuilderGenerator(MyObjectGraphRoot.class);<br>
+ * bg.addClassToIgnore(MyObjectToIgnore.class);<br>    
  * bg.generateBuilders();
  * </code>
  * <p>
- * See: <br/>
+ * See: <br>
  * {@link #generateBuilders(Class) generateBuilders}
  * {@link #generateBuilders(String) generateBuilders}
  * {@link #setOutputDirectory(String) setOutputDirectory}
@@ -82,7 +82,7 @@ public class BuilderGenerator {
 	 * Use this utility method when the default builder package and default
 	 * output directory are sufficient.
 	 * </p>
-	 * See: <br/>
+	 * See: <br>
 	 * {@link #setOutputDirectory(String) setOutputDirectory}
 	 * {@link #setBuilderPackage(String) setBuilderPackage}
 	 * 
@@ -102,7 +102,7 @@ public class BuilderGenerator {
 	 * Use this utility method when the default builder package and default
 	 * output directory are sufficient.
 	 * </p>
-	 * See: <br/>
+	 * See: <br>
 	 * {@link #setOutputDirectory(String) setOutputDirectory}
 	 * {@link #setBuilderPackage(String) setBuilderPackage}
 	 * 
@@ -359,14 +359,14 @@ public class BuilderGenerator {
     /**
      * Specify a fully qualified type statement to follow the extends keyword of the generated builder for the target class.
      * 
-     * E.g. if you want the generated builder to be specified as extending "com.example.Foo<T extends com.example.Bar>" then pass that string
-     * as the <code>superClassStatement</code> parameter. 
+     * E.g. if you want the generated builder to be specified as extending "com.example.Foo&lt;T extends com.example.Bar&gt;" then pass that string
+     * as the <code>superClassStatement</code> parameter.
+     * <p>
+     * For more details on this feature see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a>
      * 
      * @param targetClass the target class whose generated builder should extend the given <code>superClassStatement</code>.
      * @param superClassStatement the statement to follow the extends keyword of the generated builder, e.g. com.example.SomeClass
-     * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a> for more details on this feature
-     * <br />
-     * {@link #addBuilderSuperClass(Class, Class)}
+     * @see #addBuilderSuperClass(Class, Class)
      */
 	public void addBuilderSuperClass(Class<?> targetClass, String superClassStatement) {
 		builderSuperClass.put(targetClass.getName(), superClassStatement);
@@ -408,11 +408,11 @@ public class BuilderGenerator {
 	 * If the base class you want to extend needs a different extends statement, see 
 	 * {@link #addBuilderSuperClass(Class, String)} which allows you to specify any string to follow the extends keyword.
 	 * <p>
+	 * For more details on this feature see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a>
+	 * <p>
      * @param targetClass the target class whose generated builder should extend the given <code>superClassStatement</code>.
-	 * @param superClass
-     * @see <a href="http://www.buildergenerator.co.uk">www.buildergenerator.co.uk</a> for more details on this feature
-     * <br />
-     * {@link #addBuilderSuperClass(Class, String)}
+	 * @param superClass the super class
+     * @see #addBuilderSuperClass(Class, String)
 	 */
 	public void addBuilderSuperClass(Class<?> targetClass, Class<?> superClass) {
 	    if (generationGap) {

@@ -3,6 +3,7 @@ package uk.co.buildergenerator.integrationtest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,7 +13,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+
 import uk.co.buildergenerator.BuilderGenerator;
 import uk.co.buildergenerator.FileUtils;
 import uk.co.buildergenerator.testmodel.Address;
@@ -79,8 +83,12 @@ public class BuilderGeneratorIT {
         StringBuilder sb = new StringBuilder();
         String line = null;
         while ((line = r.readLine()) != null) {
-            line = line.trim();
-            sb.append(line);
+        	// throw away trailing white space, but not leading for test failure readability
+            line = StringUtils.stripEnd(line, null);
+        	// throw away blank lines
+            if (line.length() > 0) {
+                sb.append(line + "\n");
+            }
         }
         
         return sb.toString();
@@ -91,6 +99,7 @@ public class BuilderGeneratorIT {
         String expected = readFile(expectedBuilderFilename);
         String actual = readFile(generatedBuilderFilename);
         assertEquals(expected, actual);
+        
     }
     
     private BuilderGenerator createBuilderGenerator(Class<?> root, String builderPackage, String outputDirectory) {

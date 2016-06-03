@@ -10,14 +10,6 @@ public class BeanWithAnInterfaceCollectionPropertyBuilder implements integration
     
     public BeanWithAnInterfaceCollectionPropertyBuilder() {}
     
-    public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesNullList(uk.co.buildergenerator.testmodel.AnInterface anInterfacesNullList) {
-        if (getTarget().getAnInterfacesNullList() == null) {
-            getTarget().setAnInterfacesNullList(new java.util.ArrayList<uk.co.buildergenerator.testmodel.AnInterface>());
-        }        
-        getTarget().getAnInterfacesNullList().add(anInterfacesNullList);
-        return this;
-    }
-    
     public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesArrayList(uk.co.buildergenerator.testmodel.AnInterface anInterfacesArrayList) {
         getTarget().getAnInterfacesArrayList().add(anInterfacesArrayList);
         return this;
@@ -25,6 +17,14 @@ public class BeanWithAnInterfaceCollectionPropertyBuilder implements integration
     
     public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesArrayListWithAddMethod(uk.co.buildergenerator.testmodel.AnInterface anInterfacesArrayListWithAddMethod) {
         getTarget().addAnInterfacesArrayListWithAddMethod(anInterfacesArrayListWithAddMethod);
+        return this;
+    }
+    
+    public BeanWithAnInterfaceCollectionPropertyBuilder withAnInterfacesNullList(uk.co.buildergenerator.testmodel.AnInterface anInterfacesNullList) {
+        if (getTarget().getAnInterfacesNullList() == null) {
+            getTarget().setAnInterfacesNullList(new java.util.ArrayList<uk.co.buildergenerator.testmodel.AnInterface>());
+        }        
+        getTarget().getAnInterfacesNullList().add(anInterfacesNullList);
         return this;
     }
     

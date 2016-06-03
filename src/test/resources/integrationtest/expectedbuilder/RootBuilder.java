@@ -10,6 +10,11 @@ public class RootBuilder implements integrationtest.generatedbuilder.Builder<uk.
     
     public RootBuilder() {}
     
+    public RootBuilder withNodeOne(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeOne> nodeOne) {
+        getTarget().setNodeOne(nodeOne.build());
+        return this;
+    }
+    
     public RootBuilder withNodeTwo(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeTwo> nodeTwo) {
         getTarget().setNodeTwo(nodeTwo.build());
         return this;
@@ -17,11 +22,6 @@ public class RootBuilder implements integrationtest.generatedbuilder.Builder<uk.
     
     public RootBuilder withRootString(java.lang.String rootString) {
         getTarget().setRootString(rootString);
-        return this;
-    }
-    
-    public RootBuilder withNodeOne(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.NodeOne> nodeOne) {
-        getTarget().setNodeOne(nodeOne.build());
         return this;
     }
     

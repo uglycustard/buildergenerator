@@ -9,9 +9,7 @@ public class AddressBuilder implements integrationtest.generatedbuilder.Builder<
 
     private uk.co.buildergenerator.testmodel.Address target = new uk.co.buildergenerator.testmodel.Address();
 
-    public AddressBuilder() {
-
-    }
+    public AddressBuilder() {}
 
     public AddressBuilder withHouse(integrationtest.generatedbuilder.Builder<uk.co.buildergenerator.testmodel.House> house) {
 

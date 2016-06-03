@@ -10,16 +10,16 @@ public class BeanWithNonGenericCollectionsBuilder implements integrationtest.gen
     
     public BeanWithNonGenericCollectionsBuilder() {}
     
+    public BeanWithNonGenericCollectionsBuilder withBean(java.lang.Object bean) {
+        getTarget().addBean(bean);
+        return this;
+    }
+
     public BeanWithNonGenericCollectionsBuilder withStuff(java.lang.Object stuff) {
         if (getTarget().getStuff() == null) {
             getTarget().setStuff(new java.util.HashSet<java.lang.Object>());
         }        
         getTarget().getStuff().add(stuff);
-        return this;
-    }
-    
-    public BeanWithNonGenericCollectionsBuilder withBean(java.lang.Object bean) {
-        getTarget().addBean(bean);
         return this;
     }
     

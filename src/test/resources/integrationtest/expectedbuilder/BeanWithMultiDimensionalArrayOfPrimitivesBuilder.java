@@ -10,6 +10,11 @@ public class BeanWithMultiDimensionalArrayOfPrimitivesBuilder implements integra
     
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder() {}
     
+    public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withFourDimensionalCharArray(char[][][][] fourDimensionalCharArray) {
+        getTarget().setFourDimensionalCharArray(fourDimensionalCharArray);
+        return this;
+    }
+    
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withThreeDimenstionalIntArray(int[][][] threeDimenstionalIntArray) {
         getTarget().setThreeDimenstionalIntArray(threeDimenstionalIntArray);
         return this;
@@ -17,11 +22,6 @@ public class BeanWithMultiDimensionalArrayOfPrimitivesBuilder implements integra
     
     public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withTwoDimensionalBooleanArray(boolean[][] twoDimensionalBooleanArray) {
         getTarget().setTwoDimensionalBooleanArray(twoDimensionalBooleanArray);
-        return this;
-    }
-    
-    public BeanWithMultiDimensionalArrayOfPrimitivesBuilder withFourDimensionalCharArray(char[][][][] fourDimensionalCharArray) {
-        getTarget().setFourDimensionalCharArray(fourDimensionalCharArray);
         return this;
     }
     
