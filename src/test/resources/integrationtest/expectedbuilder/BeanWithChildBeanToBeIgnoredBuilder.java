@@ -10,13 +10,13 @@ public class BeanWithChildBeanToBeIgnoredBuilder implements integrationtest.gene
     
     public BeanWithChildBeanToBeIgnoredBuilder() {}
     
-    public BeanWithChildBeanToBeIgnoredBuilder withSomeProperty(java.lang.String someProperty) {
-        getTarget().setSomeProperty(someProperty);
+    public BeanWithChildBeanToBeIgnoredBuilder withBeanToBeIgnored(uk.co.buildergenerator.testmodel.BeanToBeIgnored beanToBeIgnored) {
+        getTarget().setBeanToBeIgnored(beanToBeIgnored);
         return this;
     }
     
-    public BeanWithChildBeanToBeIgnoredBuilder withBeanToBeIgnored(uk.co.buildergenerator.testmodel.BeanToBeIgnored beanToBeIgnored) {
-        getTarget().setBeanToBeIgnored(beanToBeIgnored);
+    public BeanWithChildBeanToBeIgnoredBuilder withSomeProperty(java.lang.String someProperty) {
+        getTarget().setSomeProperty(someProperty);
         return this;
     }
     

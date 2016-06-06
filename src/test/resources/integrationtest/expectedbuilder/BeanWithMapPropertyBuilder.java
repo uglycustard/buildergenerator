@@ -7,11 +7,10 @@ public class BeanWithMapPropertyBuilder implements integrationtest.generatedbuil
 
     private uk.co.buildergenerator.testmodel.BeanWithMapProperty target = new uk.co.buildergenerator.testmodel.BeanWithMapProperty();
 
-    public BeanWithMapPropertyBuilder() {
-    }
+    public BeanWithMapPropertyBuilder() {}
 
-    public BeanWithMapPropertyBuilder withMapOfStrings(java.util.Map<java.lang.String, java.lang.String> mapOfStrings) {
-        getTarget().setMapOfStrings(mapOfStrings);
+    public BeanWithMapPropertyBuilder withMapOfAnything(java.util.Map mapOfAnything) {
+        getTarget().setMapOfAnything(mapOfAnything);
         return this;
     }
 
@@ -20,8 +19,8 @@ public class BeanWithMapPropertyBuilder implements integrationtest.generatedbuil
         return this;
     }
 
-    public BeanWithMapPropertyBuilder withMapOfAnything(java.util.Map mapOfAnything) {
-        getTarget().setMapOfAnything(mapOfAnything);
+    public BeanWithMapPropertyBuilder withMapOfStrings(java.util.Map<java.lang.String, java.lang.String> mapOfStrings) {
+        getTarget().setMapOfStrings(mapOfStrings);
         return this;
     }
 

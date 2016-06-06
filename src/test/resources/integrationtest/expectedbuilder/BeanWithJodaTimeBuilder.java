@@ -15,13 +15,13 @@ public class BeanWithJodaTimeBuilder implements integrationtest.generatedbuilder
         return this;
     }
     
-    public BeanWithJodaTimeBuilder withLocalTime(org.joda.time.LocalTime localTime) {
-        getTarget().setLocalTime(localTime);
-        return this;
-    }
-    
     public BeanWithJodaTimeBuilder withLocalDate(org.joda.time.LocalDate localDate) {
         getTarget().setLocalDate(localDate);
+        return this;
+    }
+
+    public BeanWithJodaTimeBuilder withLocalTime(org.joda.time.LocalTime localTime) {
+        getTarget().setLocalTime(localTime);
         return this;
     }
     
